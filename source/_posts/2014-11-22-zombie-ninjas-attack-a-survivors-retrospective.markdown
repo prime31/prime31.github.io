@@ -8,34 +8,26 @@ categories: [CSS3, Sass, Media Queries]
 
 
 
-
-
-{% titlecard %}
 This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. 
-{% endtitlecard %}
 
 <!-- more -->
 
 
-{% card %}
-Second paragraph. Testing an embed.
+
+### Second paragraph. Testing an embed.
 <iframe src="//www.youtube.com/embed/iWxIM9U5gHo" allowfullscreen></iframe>
-{% endcard %}
 
 
-{% card What the Fuck are You Doing %}
+What are You Doing?
 Hi. Im a card. This card happens to have a title. How does it look?
-{% endcard %}
 
 
 
-{% card %}
-This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the <b>fucking</b> post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. 
-{% endcard %}
+This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the <b>fracking</b> post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. 
 
 
 
-{% card %}
+
 {% codeblock lang:csharp %}
 public class Foliage : MonoBehaviour
 {
@@ -68,10 +60,8 @@ public class Foliage : MonoBehaviour
 	private float _colliderHalfWidth;
 }
 {% endcodeblock %}
-{% endcard %}
 
 
-{% card %}
-var t = "sthi";
-t.EndsWith( "st" );
-{% endcard %}
+
+    var t = "sthi";
+    t.EndsWith( "st" );
