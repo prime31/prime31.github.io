@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Css3 | My Octopress Blog]]></title>
   <link href="http://prime31.github.io/blog/categories/css3/atom.xml" rel="self"/>
   <link href="http://prime31.github.io/"/>
-  <updated>2014-11-23T11:22:25-08:00</updated>
+  <updated>2014-11-23T13:06:40-08:00</updated>
   <id>http://prime31.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -12,6 +12,17 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[A New Post]]></title>
+    <link href="http://prime31.github.io/your-filename/"/>
+    <updated>2014-11-23T17:12:03-08:00</updated>
+    <id>http://prime31.github.io/your-filename</id>
+    <content type="html"><![CDATA[<h2>A New Post</h2>
+
+<p>Enter text in <a href="http://daringfireball.net/projects/markdown/">Markdown</a>. Use the toolbar above, or click the <strong>?</strong> button for formatting help.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Zombie Ninjas Attack: A Survivor's Retrospective]]></title>
