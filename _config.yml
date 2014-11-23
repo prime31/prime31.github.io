@@ -111,7 +111,10 @@ prose:
   ignore:
     - index.md
     - _config.yml
+	- atom.xml
+	- robots.txt
     - /_layouts
+	- source/_layouts
     - /_includes
   metadata:
     "source/_posts":
