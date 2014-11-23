@@ -4,7 +4,7 @@
   <title><![CDATA[My Octopress Blog]]></title>
   <link href="http://prime31.github.io/atom.xml" rel="self"/>
   <link href="http://prime31.github.io/"/>
-  <updated>2014-11-23T13:06:40-08:00</updated>
+  <updated>2014-11-23T14:41:19-08:00</updated>
   <id>http://prime31.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -18,9 +18,84 @@
     <link href="http://prime31.github.io/your-filename/"/>
     <updated>2014-11-23T17:12:03-08:00</updated>
     <id>http://prime31.github.io/your-filename</id>
-    <content type="html"><![CDATA[<h2>A New Post</h2>
+    <content type="html"><![CDATA[<p>Enter text in Markdown. Use the toolbar above, or click the <strong>?</strong> button for formatting help.</p>
 
-<p>Enter text in <a href="http://daringfireball.net/projects/markdown/">Markdown</a>. Use the toolbar above, or click the <strong>?</strong> button for formatting help.</p>
+<!-- more -->
+
+
+<h2>Bigger Title</h2>
+
+<p>This is a link: <a href="http://daringfireball.net/projects/markdown/">Markdown</a>. We can do <em>italics</em> and <em>bold</em> among other things.</p>
+
+<iframe src="//www.youtube.com/embed/iWxIM9U5gHo" allowfullscreen></iframe>
+
+
+<h3>Smaller Title</h3>
+
+<p>This is a link: <a href="http://daringfireball.net/projects/markdown/">Markdown</a>. We can do <em>italics</em> and <em>bold</em> among other things.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">Foliage</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// the offset from the player when they entered the trigger</span>
+</span><span class='line'>  <span class="k">private</span> <span class="kt">float</span> <span class="n">_enterOffset</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">// the offset from the player when the exited the trigger</span>
+</span><span class='line'>  <span class="k">private</span> <span class="kt">float</span> <span class="n">_exitOffset</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">// bending is when the player is still in the trigger and has moved past the midway point</span>
+</span><span class='line'>  <span class="k">private</span> <span class="kt">bool</span> <span class="n">_isBending</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">// rebounding is when the player as existed the trigger</span>
+</span><span class='line'>  <span class="k">private</span> <span class="kt">bool</span> <span class="n">_isRebounding</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">public</span> <span class="kt">bool</span> <span class="n">isWindEnabled</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span><span class='line'><span class="na"> [Range( 0f, 3f )]</span>
+</span><span class='line'>  <span class="k">public</span> <span class="kt">float</span> <span class="n">windForceMultiplier</span> <span class="p">=</span> <span class="m">1f</span><span class="p">;</span>
+</span><span class='line'><span class="na"> [Tooltip( &quot;Higher numbers increase the period of the sin wave&quot; )]</span>
+</span><span class='line'>  <span class="k">public</span> <span class="kt">float</span> <span class="n">windPeriod</span> <span class="p">=</span> <span class="m">3f</span><span class="p">;</span>
+</span><span class='line'><span class="na"> [Tooltip( &quot;When the sin wave reaches a valley this will be the lowest point that it will reach&quot; )]</span>
+</span><span class='line'><span class="na"> [Range( 0f, 0.1f)]</span>
+</span><span class='line'>  <span class="k">public</span> <span class="kt">float</span> <span class="n">baseWindForce</span> <span class="p">=</span> <span class="m">0.05f</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">/// &lt;summary&gt;</span>
+</span><span class='line'>  <span class="c1">/// how far shall we bend the foliage</span>
+</span><span class='line'>  <span class="c1">/// &lt;/summary&gt;</span>
+</span><span class='line'>  <span class="k">const</span> <span class="kt">float</span> <span class="n">BEND_FACTOR</span> <span class="p">=</span> <span class="m">0.1f</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">const</span> <span class="kt">float</span> <span class="n">BEND_FORCE_ON_EXIT</span> <span class="p">=</span> <span class="m">0.2f</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">private</span> <span class="n">MeshFilter</span> <span class="n">_meshFilter</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">private</span> <span class="n">Spring</span> <span class="n">_spring</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Spring</span><span class="p">();</span>
+</span><span class='line'>  <span class="k">private</span> <span class="kt">float</span> <span class="n">_colliderHalfWidth</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 ]]></content>
   </entry>
   
@@ -29,36 +104,22 @@
     <link href="http://prime31.github.io/another-new-post/"/>
     <updated>2014-11-22T18:52:10-08:00</updated>
     <id>http://prime31.github.io/another-new-post</id>
-    <content type="html"><![CDATA[<div class="row top20 equal"><div class="col-md-2 bg-white"><h1 class="text-center">Nov 22</div><div class="col-lg-8 col-md-9 bg-primary bg-blue shadowed post-wrapper"><h1>Another New Post</h1>
-This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. 
-</div></div>
-
-
-
+    <content type="html"><![CDATA[<p>This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT.</p>
 
 <!-- more -->
 
 
+<p>This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post.</p>
 
+<h2>This is a Title Yo</h2>
 
-<div class="row top20"><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
-This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. 
-</div></div>
+<p>This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post.</p>
 
-
-
-
-<div class="row top20"><h2 class='floating'>This is a Title Yo </h2><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
-This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. 
-</div></div>
-
-
-
-
-<div class="row top20"><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
-    var t = &#8220;sthi&#8221;;
-    t.EndsWith( &#8220;st&#8221; );
-</div></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="kt">var</span> <span class="n">t</span> <span class="p">=</span> <span class="s">&quot;sthi&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="n">t</span><span class="p">.</span><span class="n">EndsWith</span><span class="p">(</span> <span class="s">&quot;st&quot;</span> <span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
   </entry>
