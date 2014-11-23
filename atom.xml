@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[prime[31] blog]]></title>
+  <title><![CDATA[My Octopress Blog]]></title>
   <link href="http://prime31.github.io/atom.xml" rel="self"/>
   <link href="http://prime31.github.io/"/>
-  <updated>2014-11-23T14:42:31-08:00</updated>
+  <updated>2014-11-23T14:49:49-08:00</updated>
   <id>http://prime31.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -109,11 +109,11 @@
 <!-- more -->
 
 
-<p>This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post.</p>
+<p>This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post.</p>
 
 <h2>This is a Title Yo</h2>
 
-<p>This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post.</p>
+<p>This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post.</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -129,41 +129,21 @@
     <link href="http://prime31.github.io/zombie-ninjas-attack-a-survivors-retrospective/"/>
     <updated>2014-11-22T17:12:03-08:00</updated>
     <id>http://prime31.github.io/zombie-ninjas-attack-a-survivors-retrospective</id>
-    <content type="html"><![CDATA[<div class="row top20 equal"><div class="col-md-2 bg-white"><h1 class="text-center">Nov 22</div><div class="col-lg-8 col-md-9 bg-primary bg-blue shadowed post-wrapper"><h1>Zombie Ninjas Attack: A survivor&#8217;s retrospective</h1>
-This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. 
-</div></div>
-
-
-
+    <content type="html"><![CDATA[<p>This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT.</p>
 
 <!-- more -->
 
 
+<h3>Second paragraph. Testing an embed.</h3>
 
-
-<div class="row top20"><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
-Second paragraph. Testing an embed.
 <iframe src="//www.youtube.com/embed/iWxIM9U5gHo" allowfullscreen></iframe>
-</div></div>
 
 
+<p>What are You Doing?
+Hi. Im a card. This card happens to have a title. How does it look?</p>
 
+<p>This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the <b>fracking</b> post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post.</p>
 
-<div class="row top20"><h2 class='floating'>What the Fuck are You Doing </h2><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
-Hi. Im a card. This card happens to have a title. How does it look?
-</div></div>
-
-
-
-
-<div class="row top20"><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
-This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the <b>fucking</b> post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. 
-</div></div>
-
-
-
-
-<div class="row top20"><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -225,16 +205,11 @@ This is the fucking post. This is the fucking post. This is the fucking post. Th
 </span><span class='line'>  <span class="k">private</span> <span class="kt">float</span> <span class="n">_colliderHalfWidth</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
-</div></div>
 
 
-
-
-<div class="row top20"><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
-var t = &#8220;sthi&#8221;;
-t.EndsWith( &#8220;st&#8221; );
-</div></div>
-
+<pre><code>var t = "sthi";
+t.EndsWith( "st" );
+</code></pre>
 ]]></content>
   </entry>
   
@@ -243,47 +218,20 @@ t.EndsWith( &#8220;st&#8221; );
     <link href="http://prime31.github.io/test-post/"/>
     <updated>2014-10-04T18:12:03-07:00</updated>
     <id>http://prime31.github.io/test-post</id>
-    <content type="html"><![CDATA[<div class="row top20 equal"><div class="col-md-2 bg-white"><h1 class="text-center">Oct 4</div><div class="col-lg-8 col-md-9 bg-primary bg-blue shadowed post-wrapper"><h1>Test Post</h1>
-This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. 
-</div></div>
-
-
-
+    <content type="html"><![CDATA[<p>This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT.</p>
 
 <!-- more -->
 
 
 
 
-<div class="row top20"><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
 <iframe src="//www.youtube.com/embed/iWxIM9U5gHo" allowfullscreen></iframe>
-</div></div>
 
 
+<p>Hi. Im a card. This card happens to have a title. How does it look?</p>
 
+<p>This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the <b>fracking</b> post. This is the fracking post. <img src="http://prime31.github.io/images/flappy.png"> This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post.</p>
 
-<div class="row top20"><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
-<iframe src="//www.youtube.com/embed/iWxIM9U5gHo" allowfullscreen></iframe>
-</div></div>
-
-
-
-
-<div class="row top20"><h2 class='floating'>What the Fuck are You Doing </h2><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
-Hi. Im a card. This card happens to have a title. How does it look?
-</div></div>
-
-
-
-
-<div class="row top20"><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
-This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the <b>fucking</b> post. This is the fucking post. <img src="http://prime31.github.io/images/flappy.png"> This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. 
-</div></div>
-
-
-
-
-<div class="row top20"><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -345,15 +293,15 @@ This is the fucking post. This is the fucking post. This is the fucking post. Th
 </span><span class='line'>  <span class="k">private</span> <span class="kt">float</span> <span class="n">_colliderHalfWidth</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
-</div></div>
 
 
 
 
-<div class="row top20"><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
-var t = &#8220;sthi&#8221;;
-t.EndsWith( &#8220;st&#8221; );
-</div></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="kt">var</span> <span class="n">t</span> <span class="p">=</span> <span class="s">&quot;sthi&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="n">t</span><span class="p">.</span><span class="n">EndsWith</span><span class="p">(</span> <span class="s">&quot;st&quot;</span> <span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
   </entry>

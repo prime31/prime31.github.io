@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Css3 | prime[31] blog]]></title>
+  <title><![CDATA[Category: Css3 | My Octopress Blog]]></title>
   <link href="http://prime31.github.io/blog/categories/css3/atom.xml" rel="self"/>
   <link href="http://prime31.github.io/"/>
-  <updated>2014-11-23T14:42:31-08:00</updated>
+  <updated>2014-11-23T14:49:49-08:00</updated>
   <id>http://prime31.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -107,31 +107,22 @@
     <link href="http://prime31.github.io/zombie-ninjas-attack-a-survivors-retrospective/"/>
     <updated>2014-11-22T17:12:03-08:00</updated>
     <id>http://prime31.github.io/zombie-ninjas-attack-a-survivors-retrospective</id>
-    <content type="html"><![CDATA[<p><div class="row top20 equal"><div class="col-md-2 bg-white"><h1 class="text-center"></div><div class="col-lg-8 col-md-9 bg-primary bg-blue shadowed post-wrapper"><h1>Category: css3</h1>
-This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT.
-</div></div></p>
+    <content type="html"><![CDATA[<p>This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT.</p>
 
 <!-- more -->
 
 
-<p><div class="row top20"><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
-Second paragraph. Testing an embed.</p>
+<h3>Second paragraph. Testing an embed.</h3>
 
 <iframe src="//www.youtube.com/embed/iWxIM9U5gHo" allowfullscreen></iframe>
 
 
-<p></div></div></p>
+<p>What are You Doing?
+Hi. Im a card. This card happens to have a title. How does it look?</p>
 
-<p><div class="row top20"><h2 class='floating'>What the Fuck are You Doing </h2><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
-Hi. Im a card. This card happens to have a title. How does it look?
-</div></div></p>
+<p>This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the <b>fracking</b> post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post.</p>
 
-<p><div class="row top20"><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
-This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the <b>fucking</b> post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post.
-</div></div></p>
-
-<p><div class="row top20"><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -195,13 +186,11 @@ This is the fucking post. This is the fucking post. This is the fucking post. Th
 </span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure>
-</div></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
-<p><div class="row top20"><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
-var t = &ldquo;sthi&rdquo;;
-t.EndsWith( &ldquo;st&rdquo; );
-</div></div></p>
+<pre><code>var t = "sthi";
+t.EndsWith( "st" );
+</code></pre>
 ]]></content>
   </entry>
   
@@ -210,37 +199,21 @@ t.EndsWith( &ldquo;st&rdquo; );
     <link href="http://prime31.github.io/test-post/"/>
     <updated>2014-10-04T18:12:03-07:00</updated>
     <id>http://prime31.github.io/test-post</id>
-    <content type="html"><![CDATA[<p><div class="row top20 equal"><div class="col-md-2 bg-white"><h1 class="text-center"></div><div class="col-lg-8 col-md-9 bg-primary bg-blue shadowed post-wrapper"><h1>Category: css3</h1>
-This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT.
-</div></div></p>
+    <content type="html"><![CDATA[<p>This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT.</p>
 
 <!-- more -->
 
 
-<p><div class="row top20"><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2"></p>
+
 
 <iframe src="//www.youtube.com/embed/iWxIM9U5gHo" allowfullscreen></iframe>
 
 
-<p></div></div></p>
+<p>Hi. Im a card. This card happens to have a title. How does it look?</p>
 
-<p><div class="row top20"><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2"></p>
+<p>This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the <b>fracking</b> post. This is the fracking post. <img src="http://prime31.github.io/images/flappy.png"> This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post.</p>
 
-<iframe src="//www.youtube.com/embed/iWxIM9U5gHo" allowfullscreen></iframe>
-
-
-<p></div></div></p>
-
-<p><div class="row top20"><h2 class='floating'>What the Fuck are You Doing </h2><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
-Hi. Im a card. This card happens to have a title. How does it look?
-</div></div></p>
-
-<p><div class="row top20"><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
-This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the <b>fucking</b> post. This is the fucking post. <img src="http://prime31.github.io/images/flappy.png"> This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post.
-</div></div></p>
-
-<p><div class="row top20"><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -304,13 +277,13 @@ This is the fucking post. This is the fucking post. This is the fucking post. Th
 </span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
-</span></code></pre></td></tr></table></div></figure>
-</div></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
-<p><div class="row top20"><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
-var t = &ldquo;sthi&rdquo;;
-t.EndsWith( &ldquo;st&rdquo; );
-</div></div></p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="kt">var</span> <span class="n">t</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">sthi</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+</span><span class='line'><span class="n">t</span><span class="p">.</span><span class="n">EndsWith</span><span class="p">(</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">st</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></p>
 ]]></content>
   </entry>
   
