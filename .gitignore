@@ -1,8 +1,8 @@
 .bundle
 .DS_Store
-.sass-cache
-.gist-cache
-.pygments-cache
+.sasscache
+.gistcache
+.pygmentscache
 _deploy
 public
 sass.old
@@ -12,3 +12,7 @@ source/stylesheets/screen.css
 vendor
 node_modules
 Gemfile.lock
+.sasscache
+.sass-cache
+.gist-cache
+.pygments-cache
