@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Css3 | My Octopress Blog]]></title>
-  <link href="http://blog.prime31.com/blog/categories/css3/atom.xml" rel="self"/>
-  <link href="http://blog.prime31.com/"/>
-  <updated>2014-11-22T23:23:33-08:00</updated>
-  <id>http://blog.prime31.com/</id>
+  <link href="http://prime31.github.io/blog/categories/css3/atom.xml" rel="self"/>
+  <link href="http://prime31.github.io/"/>
+  <updated>2014-11-23T10:41:25-08:00</updated>
+  <id>http://prime31.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Zombie Ninjas Attack: A Survivor's Retrospective]]></title>
-    <link href="http://blog.prime31.com/zombie-ninjas-attack-a-survivors-retrospective/"/>
+    <link href="http://prime31.github.io/zombie-ninjas-attack-a-survivors-retrospective/"/>
     <updated>2014-11-22T17:12:03-08:00</updated>
-    <id>http://blog.prime31.com/zombie-ninjas-attack-a-survivors-retrospective</id>
+    <id>http://prime31.github.io/zombie-ninjas-attack-a-survivors-retrospective</id>
     <content type="html"><![CDATA[<p><div class="row top20 equal"><div class="col-md-2 bg-white"><h1 class="text-center"></div><div class="col-lg-8 col-md-9 bg-primary bg-blue shadowed post-wrapper"><h1>Category: css3</h1>
 This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT.
 </div></div></p>
@@ -118,9 +118,9 @@ t.EndsWith( &ldquo;st&rdquo; );
   
   <entry>
     <title type="html"><![CDATA[Test Post]]></title>
-    <link href="http://blog.prime31.com/test-post/"/>
+    <link href="http://prime31.github.io/test-post/"/>
     <updated>2014-10-04T18:12:03-07:00</updated>
-    <id>http://blog.prime31.com/test-post</id>
+    <id>http://prime31.github.io/test-post</id>
     <content type="html"><![CDATA[<p><div class="row top20 equal"><div class="col-md-2 bg-white"><h1 class="text-center"></div><div class="col-lg-8 col-md-9 bg-primary bg-blue shadowed post-wrapper"><h1>Category: css3</h1>
 This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT.
 </div></div></p>
@@ -147,7 +147,7 @@ Hi. Im a card. This card happens to have a title. How does it look?
 </div></div></p>
 
 <p><div class="row top20"><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
-This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the <b>fucking</b> post. This is the fucking post. <img src="http://blog.prime31.com/images/flappy.png"> This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post.
+This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the <b>fucking</b> post. This is the fucking post. <img src="http://prime31.github.io/images/flappy.png"> This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post. This is the fucking post.
 </div></div></p>
 
 <p><div class="row top20"><div class="shadowed bg-white inline-headers col-lg-8 col-md-9 col-md-offset-2">
