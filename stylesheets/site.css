@@ -79,7 +79,7 @@ code {
 }
 
 
-.row img {
+.row img, .container img {
 	margin: 10px 20px 20px 0px;
 	float: left;
 }
@@ -224,10 +224,10 @@ a.article-link h1.text-center {
 	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 }
 
-.container p::after {
+.container p::after, .container p::before {
+	display: table;
 	 content: '';
 	 clear: both;
-	 margin-top: 40px;
 }
 
 .container p {
