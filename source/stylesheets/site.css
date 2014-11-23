@@ -79,7 +79,7 @@ code {
 }
 
 
-.row img, .container img {
+.row img, .container p img {
 	margin: 10px 20px 20px 0px;
 	float: left;
 }
