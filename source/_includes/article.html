@@ -1,17 +1,24 @@
 
 {% if index %}
 
-
-
-<div class="container">
+<div class="index-container">
 	<a class="article-link" rel="full-article" href="{{ root_url }}{{ post.url }}">
-	{{ content | excerpt }}
+		<div class="row top20 equal">
+			<div class="col-md-2 bg-white">
+				<h1 class="text-center">{{ post.date | date:"%h %-d" }}</h1>
+			</div>
+			<div class="col-md-10 bg-primary bg-blue shadowed post-wrapper">
+				<h1>{{ post.title }}</h1>
+				{{ content | excerpt }}
+			</div>
+		</div>
 	</a>
 </div>
 
 {% else %}
 
 <div class="container">
+	<h1>{{ page.title }}</h1>
 	{{ content }}
 </div>
 

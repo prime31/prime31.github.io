@@ -169,3 +169,129 @@ a.article-link h1.text-center {
 .top15 { margin-top: 15px; }
 .top20 { margin-top: 20px; }
 .top30 { margin-top: 30px; }
+
+
+
+
+
+
+
+
+
+
+
+/* TEST FOR SIMPLE SITE */
+@media (min-width: 1200px) {
+	.index-container { width: 1170px; }
+	.article-link { margin-left: 10%; }
+}
+@media (min-width: 992px) {
+	.index-container { width: 970px; }
+}
+@media (max-width: 992px) {
+	.index-container { width: 100%; }
+}
+.index-container {
+	padding-right: 15px;
+	padding-left: 15px;
+	margin: 0 auto;
+}
+
+.container h1, .container h2, .container h3 {
+	margin-top: 0px;
+	margin-left: 9%;
+	margin-bottom: -5px;
+	background-color: #fff;
+	display: inline-block;
+	padding: 5px 10px;
+	z-index: 10;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+.container p:first-of-type {
+	background-color: #2196F3;
+	color: #fff;
+}
+
+.container h1:first-of-type {
+	margin-top: 50px;
+	margin-bottom: -5px;
+	background-color: #2196F3;
+	color: #fff;
+	display: inline-block;
+	padding: 5px 10px;
+	z-index: 10;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+.container p::after {
+	 content: '';
+	 clear: both;
+	 margin-top: 40px;
+}
+
+.container p {
+	margin-bottom: 50px;
+	margin-left: 10%;
+	width: 85%;
+	background-color: #fff;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+	padding: 20px;
+	z-index: -5;
+}
+
+figure {
+	margin-bottom: 50px;
+	margin-left: 10% !important;
+	width: 85%;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+
+	z-index: -5;
+}
+
+figure.code, .gist-file, pre {
+	margin: inherit;
+}
+
+.video-container {
+	margin: 0 0 50px 10%;
+	width: 85%;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+	background-color: #fff;
+	z-index: -5;
+	height: 0;
+	padding-bottom: 50%; 
+}
+
+
+
+@media (max-width: 992px) {
+	.container h1, .container h1:first-of-type, .container h2, .container h3 {
+		margin-left: 0%;
+		margin-bottom: 0;
+		display: block;
+		margin-bottom: 5px;
+		text-align: center;
+	}
+	
+	.container p {
+		margin-left: 0%;
+		width: 100%;
+	}
+	
+	.video-container {
+		margin-left: 0%;
+		width: 100%;
+	}
+	
+	figure {
+		margin-left: 0% !important;
+		width: 100%;
+	}
+}
+
+@media (max-width: 1200px) {
+	.container h1:first-of-type {
+		margin-top: 10px;
+	}
+}
