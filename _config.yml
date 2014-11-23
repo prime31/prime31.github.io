@@ -105,38 +105,40 @@ facebook_like: false
 #   prose.io settings     #
 # ----------------------- #
 prose:
-  rooturl: "source"
-  site: "http://prime31.github.io/"
-  media: "source/assets"
-  ignore:
-    - index.md
-    - _config.yml
-	- atom.xml
-	- robots.txt
-    - /_layouts
-	- source/_layouts
-    - /_includes
+  rooturl: 'source/_posts'
+  siteurl: 'http://prime31.github.io/'
+  media: 'source/assets'
   metadata:
-    "source/_posts":
+    _posts:
+      - name: "category"
+        field:
+          element: "hidden"
+          value: "blog"
       - name: "layout"
         field:
           element: "hidden"
-          value: "post"
+          value: "blog"
       - name: "title"
         field:
           element: "text"
-          value: "Title"
-      - name: "comments"
-        field:
-          label: "Allow comments"
-          element: "checkbox"
-          value: true
-      - name: "categories"
+          label: "Title"
+          value: ""
+      - name: "splash"
         field:
           element: "text"
+          label: "Splash image"
           value: ""
-      - name: "published"
+      - name: "tags"
         field:
-          label: "Published"
-          element: "checkbox"
-          value: false
+          element: "multiselect"
+          label: "Add Tags"
+          placeholder: "Choose Tags"
+          options:
+            - name: "Apples"
+              value: "apples"
+            - name: "Bananas"
+              value: "bananas"
+            - name: "Pears"
+              value: "pears"
+            - name: "Mangos"
+              value: "mangos"
