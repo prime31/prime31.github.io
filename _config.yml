@@ -106,8 +106,13 @@ facebook_like: false
 # ----------------------- #
 prose:
   rooturl: "source"
-  site: "http://http://prime31.github.io/"
+  site: "http://prime31.github.io/"
   media: "source/assets"
+  ignore:
+    - index.md
+    - _config.yml
+    - /_layouts
+    - /_includes
   metadata:
     "source/_posts":
       - name: "layout"
