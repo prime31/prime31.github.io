@@ -20,7 +20,7 @@ Hi. Im a card. This card happens to have a title. How does it look?
 
 
 
-This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the <b>fracking</b> post. This is the fracking post. <img src="/images/flappy.png"> This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. 
+This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the <b>fracking</b> post. This is the fracking post. ![Alt text](/images/flappy.png) This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. 
 
 
 
