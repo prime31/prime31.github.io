@@ -2,7 +2,7 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://yoursite.com
+url: http://prime31.github.io
 title: My Octopress Blog
 subtitle: A blogging framework for hackers.
 author: Your Name
@@ -27,7 +27,7 @@ email:
 
 # If publishing to a subdirectory as in http://site.com/project set 'root: /project'
 root: /
-permalink: /blog/:year/:month/:day/:title/
+permalink: /:title/
 source: source
 destination: public
 plugins: plugins
@@ -51,7 +51,7 @@ titlecase: true       # Converts page and post titles to titlecase
 
 # list each of the sidebar modules you want to include, in the order you want them to appear.
 # To add custom asides, create files in /source/_includes/custom/asides/ and add them to the list like 'custom/asides/custom_aside_name.html'
-default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]
+default_asides: []
 
 # Each layout uses the default asides, but they can have their own asides instead. Simply uncomment the lines below
 # and add an array with the asides you want to use.
@@ -71,7 +71,7 @@ github_skip_forks: true
 
 # Twitter
 twitter_user:
-twitter_tweet_button: true
+twitter_tweet_button: false
 
 # Google +1
 google_plus_one: false
@@ -99,3 +99,36 @@ google_analytics_tracking_id:
 
 # Facebook Like
 facebook_like: false
+
+
+# ----------------------- #
+#   prose.io settings     #
+# ----------------------- #
+prose:
+  rooturl: "source"
+  site: "http://http://prime31.github.io/"
+  media: "source/assets"
+  metadata:
+    "source/_posts":
+      - name: "layout"
+        field:
+          element: "hidden"
+          value: "post"
+      - name: "title"
+        field:
+          element: "text"
+          value: "Title"
+      - name: "comments"
+        field:
+          label: "Allow comments"
+          element: "checkbox"
+          value: true
+      - name: "categories"
+        field:
+          element: "text"
+          value: ""
+      - name: "published"
+        field:
+          label: "Published"
+          element: "checkbox"
+          value: false
