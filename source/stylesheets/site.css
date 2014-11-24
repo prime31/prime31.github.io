@@ -244,7 +244,7 @@ figure {
 	margin-bottom: 50px !important;
 	margin-left: 10% !important;
 	width: 85%;
-	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26) !important;
 	z-index: -5;
 }
 
