@@ -44,14 +44,10 @@
 		  </a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <!--<ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-	        <form class="navbar-form navbar-right" method="get" action="/search">
-	            <input type="text" name="q" class="form-control col-lg-8" placeholder="Search Tags">
-	        </form>&#8211;>
-
+	        <form class="navbar-form navbar-right" method="get" action="https://www.google.com/search" target="_blank">
+				<input type="hidden" name="as_sitesearch" value="blog.prime31.com">
+	            <input type="text" name="q" class="form-control col-lg-8" placeholder="Search site via Google">
+	        </form>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
@@ -138,9 +134,14 @@ Hi. Im a card. This card happens to have a title. How does it look?</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<pre><code>var t = "sthi";
-t.EndsWith( "st" );
-</code></pre>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'>    <span class="kt">var</span> <span class="n">t</span> <span class="p">=</span> <span class="s">&quot;sthi&quot;</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">t</span><span class="p">.</span><span class="n">EndsWith</span><span class="p">(</span> <span class="s">&quot;st&quot;</span> <span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 </div>
 
@@ -155,7 +156,7 @@ t.EndsWith( "st" );
 <script>
 	$(document).ready( function()
 	{
-	  $.material.init();
+	  	$.material.init();
 	});
 
 	// handle YouTube embeds

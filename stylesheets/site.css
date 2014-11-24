@@ -1,6 +1,3 @@
-@media (max-width: 768px) {
-}
-
 @media (max-width: 992px) {
 	/* we need padding on the sides when we have a small device */
 	.shadowed { margin: 0 10px; }
@@ -52,7 +49,7 @@ h1.floating, h2.floating, h3.floating {
 
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  margin-bottom: 20px;
   background-color: #E5E5E5;
   font-size: 18px;
   font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
@@ -61,8 +58,14 @@ body {
 }
 
 
-nav {
+nav, .navbar, .navbar-default {
 	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+	background-color: #ff4900;
+}
+
+
+nav .navbar-brand {
+	background-color: rgba(255, 255, 255, 0.9);
 }
 
 
@@ -83,6 +86,7 @@ code {
 	margin: 10px 20px 20px 0px;
 	float: left;
 }
+
 
 .footer {
   position: fixed;
@@ -181,25 +185,29 @@ a.article-link h1.text-center {
 
 
 /* TEST FOR SIMPLE SITE */
+.index-container {
+	padding-right: 5px;
+	padding-left: 5px;
+	margin: 0 auto 45px auto;
+}
+
 @media (min-width: 1200px) {
 	.index-container { width: 1170px; }
-	.article-link { margin-left: 10%; }
 }
 @media (min-width: 992px) {
 	.index-container { width: 970px; }
 }
 @media (max-width: 992px) {
-	.index-container { width: 100%; }
+	.index-container { width: 100%;, padding-left: 10px; padding-right: 10px; margin-bottom: 20px; }
 }
-.index-container {
-	padding-right: 15px;
-	padding-left: 15px;
-	margin: 0 auto;
+
+.index-container:first-of-type {
+	margin-top: 30px;
 }
 
 .container h1, .container h2, .container h3 {
 	margin-top: 0px;
-	margin-left: 9%;
+	margin-left: 15%;
 	margin-bottom: -5px;
 	background-color: #fff;
 	display: inline-block;
@@ -214,7 +222,7 @@ a.article-link h1.text-center {
 }
 
 .container h1:first-of-type {
-	margin-top: 50px;
+	margin-top: 30px;
 	margin-bottom: -5px;
 	background-color: #2196F3;
 	color: #fff;
@@ -226,43 +234,43 @@ a.article-link h1.text-center {
 
 .container p::after, .container p::before {
 	display: table;
-	 content: '';
-	 clear: both;
+	content: '';
+	clear: both;
+}
+
+/* command base values for any cards */
+.container p, .video-container, figure {
+	margin-bottom: 30px;
+	margin-left: 16%;
+	width: 66%;
+	background-color: #fff;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+	z-index: -5;
 }
 
 .container p {
-	margin-bottom: 50px;
-	margin-left: 10%;
-	width: 85%;
-	background-color: #fff;
-	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 	padding: 20px;
-	z-index: -5;
 }
 
-figure {
-	margin-bottom: 50px !important;
-	margin-left: 10% !important;
-	width: 85%;
-	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26) !important;
-	z-index: -5;
-}
-
-figure.code, .gist-file, pre {
-	margin: inherit;
-}
 
 .video-container {
-	margin: 0 0 50px 10%;
-	width: 85%;
-	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-	background-color: #fff;
-	z-index: -5;
+	margin-top: 0;
 	height: 0;
 	padding-bottom: 50%; 
 }
 
 
+
+@media (min-width: 992px) {
+	.container p, .video-container, figure {
+		width: 75%;
+		margin-left: 12%;
+	}
+	
+	.container h1, .container h2, .container h3 {
+		margin-left: 11%;
+	}
+}
 
 @media (max-width: 992px) {
 	.container h1, .container h1:first-of-type, .container h2, .container h3 {
@@ -273,19 +281,16 @@ figure.code, .gist-file, pre {
 		text-align: center;
 	}
 	
-	.container p {
+	.container p, .video-container, figure {
 		margin-left: 0%;
 		width: 100%;
 	}
-	
-	.video-container {
-		margin-left: 0%;
+
+	.container p img {
 		width: 100%;
-	}
-	
-	figure {
-		margin-left: 0% !important;
-		width: 100%;
+		height: auto;
+		float: none;
+		margin: 10px 10px 20px 0px !important;
 	}
 }
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Css3 | prime[31] blog]]></title>
   <link href="http://prime31.github.io/blog/categories/css3/atom.xml" rel="self"/>
   <link href="http://prime31.github.io/"/>
-  <updated>2014-11-23T16:01:54-08:00</updated>
+  <updated>2014-11-23T20:09:31-08:00</updated>
   <id>http://prime31.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -18,6 +18,184 @@
     <link href="http://prime31.github.io/your-filename/"/>
     <updated>2014-11-23T17:12:03-08:00</updated>
     <id>http://prime31.github.io/your-filename</id>
+    <content type="html"><![CDATA[<p>Enter text in Markdown. Use the toolbar above, or click the <strong>?</strong> button for formatting help.</p>
+
+<!-- more -->
+
+
+<h2>Bigger Title</h2>
+
+<p>This is a link: <a href="http://daringfireball.net/projects/markdown/">Markdown</a>. We can do <em>italics</em> and <em>bold</em> among other things.</p>
+
+<iframe src="//www.youtube.com/embed/iWxIM9U5gHo" allowfullscreen></iframe>
+
+
+<h3>Smaller Title</h3>
+
+<p>This is a link: <a href="http://daringfireball.net/projects/markdown/">Markdown</a>. We can do <em>italics</em> and <em>bold</em> among other things.</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">Foliage</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// the offset from the player when they entered the trigger</span>
+</span><span class='line'>    <span class="k">private</span> <span class="kt">float</span> <span class="p">&lt;</span><span class="n">em</span><span class="p">&gt;</span><span class="n">enterOffset</span><span class="p">;</span>
+</span><span class='line'>    <span class="c1">// the offset from the player when the exited the trigger</span>
+</span><span class='line'>    <span class="k">private</span> <span class="kt">float</span> <span class="p">&lt;/</span><span class="n">em</span><span class="p">&gt;</span><span class="n">exitOffset</span><span class="p">;</span>
+</span><span class='line'>    <span class="c1">// bending is when the player is still in the trigger and has moved past the midway point</span>
+</span><span class='line'>    <span class="k">private</span> <span class="kt">bool</span> <span class="p">&lt;</span><span class="n">em</span><span class="p">&gt;</span><span class="n">isBending</span><span class="p">;</span>
+</span><span class='line'>    <span class="c1">// rebounding is when the player as existed the trigger</span>
+</span><span class='line'>    <span class="k">private</span> <span class="kt">bool</span> <span class="p">&lt;/</span><span class="n">em</span><span class="p">&gt;</span><span class="n">isRebounding</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">public</span> <span class="kt">bool</span> <span class="n">isWindEnabled</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span><span class='line'><span class="na">[Range( 0f, 3f )]</span>
+</span><span class='line'><span class="k">public</span> <span class="kt">float</span> <span class="n">windForceMultiplier</span> <span class="p">=</span> <span class="m">1f</span><span class="p">;</span>
+</span><span class='line'><span class="na">[Tooltip( &quot;Higher numbers increase the period of the sin wave&quot; )]</span>
+</span><span class='line'><span class="k">public</span> <span class="kt">float</span> <span class="n">windPeriod</span> <span class="p">=</span> <span class="m">3f</span><span class="p">;</span>
+</span><span class='line'><span class="na">[Tooltip( &quot;When the sin wave reaches a valley this will be the lowest point that it will reach&quot; )]</span>
+</span><span class='line'><span class="na">[Range( 0f, 0.1f)]</span>
+</span><span class='line'><span class="k">public</span> <span class="kt">float</span> <span class="n">baseWindForce</span> <span class="p">=</span> <span class="m">0.05f</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c1">/// &amp;lt;summary&amp;gt;</span>
+</span><span class='line'><span class="c1">/// how far shall we bend the foliage</span>
+</span><span class='line'><span class="c1">/// &amp;lt;/summary&amp;gt;</span>
+</span><span class='line'><span class="k">const</span> <span class="kt">float</span> <span class="n">BEND_FACTOR</span> <span class="p">=</span> <span class="m">0.1f</span><span class="p">;</span>
+</span><span class='line'><span class="k">const</span> <span class="kt">float</span> <span class="n">BEND_FORCE_ON_EXIT</span> <span class="p">=</span> <span class="m">0.2f</span><span class="p">;</span>
+</span><span class='line'><span class="k">private</span> <span class="n">MeshFilter</span> <span class="n">_meshFilter</span><span class="p">;</span>
+</span><span class='line'><span class="k">private</span> <span class="n">Spring</span> <span class="n">_spring</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Spring</span><span class="p">();</span>
+</span><span class='line'><span class="k">private</span> <span class="kt">float</span> <span class="n">_colliderHalfWidth</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Pooping Post]]></title>
+    <link href="http://prime31.github.io/pooping/"/>
+    <updated>2014-11-23T17:12:03-08:00</updated>
+    <id>http://prime31.github.io/pooping</id>
+    <content type="html"><![CDATA[<p>Enter text in Markdown. Use the toolbar above, or click the <strong>?</strong> button for formatting help.</p>
+
+<!-- more -->
+
+
+<h2>Bigger Title</h2>
+
+<p>This is a link: <a href="http://daringfireball.net/projects/markdown/">Markdown</a>. We can do <em>italics</em> and <em>bold</em> among other things.</p>
+
+<iframe src="//www.youtube.com/embed/iWxIM9U5gHo" allowfullscreen></iframe>
+
+
+<h3>Smaller Title</h3>
+
+<p>This is a link: <a href="http://daringfireball.net/projects/markdown/">Markdown</a>. We can do <em>italics</em> and <em>bold</em> among other things.</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">Foliage</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// the offset from the player when they entered the trigger</span>
+</span><span class='line'>    <span class="k">private</span> <span class="kt">float</span> <span class="p">&lt;</span><span class="n">em</span><span class="p">&gt;</span><span class="n">enterOffset</span><span class="p">;</span>
+</span><span class='line'>    <span class="c1">// the offset from the player when the exited the trigger</span>
+</span><span class='line'>    <span class="k">private</span> <span class="kt">float</span> <span class="p">&lt;/</span><span class="n">em</span><span class="p">&gt;</span><span class="n">exitOffset</span><span class="p">;</span>
+</span><span class='line'>    <span class="c1">// bending is when the player is still in the trigger and has moved past the midway point</span>
+</span><span class='line'>    <span class="k">private</span> <span class="kt">bool</span> <span class="p">&lt;</span><span class="n">em</span><span class="p">&gt;</span><span class="n">isBending</span><span class="p">;</span>
+</span><span class='line'>    <span class="c1">// rebounding is when the player as existed the trigger</span>
+</span><span class='line'>    <span class="k">private</span> <span class="kt">bool</span> <span class="p">&lt;/</span><span class="n">em</span><span class="p">&gt;</span><span class="n">isRebounding</span><span class="p">;&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">public</span> <span class="kt">bool</span> <span class="n">isWindEnabled</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span><span class='line'><span class="na">[Range( 0f, 3f )]</span>
+</span><span class='line'><span class="k">public</span> <span class="kt">float</span> <span class="n">windForceMultiplier</span> <span class="p">=</span> <span class="m">1f</span><span class="p">;</span>
+</span><span class='line'><span class="na">[Tooltip( &quot;Higher numbers increase the period of the sin wave&quot; )]</span>
+</span><span class='line'><span class="k">public</span> <span class="kt">float</span> <span class="n">windPeriod</span> <span class="p">=</span> <span class="m">3f</span><span class="p">;</span>
+</span><span class='line'><span class="na">[Tooltip( &quot;When the sin wave reaches a valley this will be the lowest point that it will reach&quot; )]</span>
+</span><span class='line'><span class="na">[Range( 0f, 0.1f)]</span>
+</span><span class='line'><span class="k">public</span> <span class="kt">float</span> <span class="n">baseWindForce</span> <span class="p">=</span> <span class="m">0.05f</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c1">/// &amp;lt;summary&amp;gt;</span>
+</span><span class='line'><span class="c1">/// how far shall we bend the foliage</span>
+</span><span class='line'><span class="c1">/// &amp;lt;/summary&amp;gt;</span>
+</span><span class='line'><span class="k">const</span> <span class="kt">float</span> <span class="n">BEND_FACTOR</span> <span class="p">=</span> <span class="m">0.1f</span><span class="p">;</span>
+</span><span class='line'><span class="k">const</span> <span class="kt">float</span> <span class="n">BEND_FORCE_ON_EXIT</span> <span class="p">=</span> <span class="m">0.2f</span><span class="p">;</span>
+</span><span class='line'><span class="k">private</span> <span class="n">MeshFilter</span> <span class="n">_meshFilter</span><span class="p">;</span>
+</span><span class='line'><span class="k">private</span> <span class="n">Spring</span> <span class="n">_spring</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Spring</span><span class="p">();</span>
+</span><span class='line'><span class="k">private</span> <span class="kt">float</span> <span class="n">_colliderHalfWidth</span><span class="p">;</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Peeing Post]]></title>
+    <link href="http://prime31.github.io/peeing/"/>
+    <updated>2014-11-23T17:12:03-08:00</updated>
+    <id>http://prime31.github.io/peeing</id>
     <content type="html"><![CDATA[<p>Enter text in Markdown. Use the toolbar above, or click the <strong>?</strong> button for formatting help.</p>
 
 <!-- more -->
@@ -188,9 +366,11 @@ Hi. Im a card. This card happens to have a title. How does it look?</p>
 </span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
 </span></code></pre></td></tr></table></div></figure></p>
 
-<pre><code>var t = "sthi";
-t.EndsWith( "st" );
-</code></pre>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'>    <span class="kt">var</span> <span class="n">t</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">sthi</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+</span><span class='line'>    <span class="n">t</span><span class="p">.</span><span class="n">EndsWith</span><span class="p">(</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">st</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></p>
 ]]></content>
   </entry>
   
@@ -199,7 +379,7 @@ t.EndsWith( "st" );
     <link href="http://prime31.github.io/test-post/"/>
     <updated>2014-10-04T18:12:03-07:00</updated>
     <id>http://prime31.github.io/test-post</id>
-    <content type="html"><![CDATA[<p>This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT.</p>
+    <content type="html"><![CDATA[<p>Duis lobortis quam in enim pulvinar viverra. Morbi sagittis volutpat tortor accumsan ornare. Nam blandit, augue a hendrerit tincidunt, lectus purus interdum mi, ac lacinia dui mauris in nulla. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed molestie varius enim sed vehicula. Nullam ut sem vel nisl dictum pharetra ut vitae nulla.</p>
 
 <!-- more -->
 
@@ -211,7 +391,7 @@ t.EndsWith( "st" );
 
 <p>Hi. Im a card. This card happens to have a title. How does it look?</p>
 
-<p>This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the <b>fracking</b> post. This is the fracking post. <img src="/images/flappy.png" alt="Alt text" /> This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post.</p>
+<p>This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the <b>fracking</b> post. This is the fracking post. <img src="/images/flappy.png" alt="Alt text" /> This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the <em>fracking</em> post. This is the fracking post. This is the fracking post.</p>
 
 <p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
