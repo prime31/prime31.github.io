@@ -1,6 +1,4 @@
 @media (max-width: 992px) {
-	/* we need padding on the sides when we have a small device */
-	.shadowed { margin: 0 10px; }
 	.row img {
 		width: 100%;
 		height: auto;
@@ -198,7 +196,9 @@ a.article-link h1.text-center {
 	.index-container { width: 970px; }
 }
 @media (max-width: 992px) {
-	.index-container { width: 100%;, padding-left: 10px; padding-right: 10px; margin-bottom: 20px; }
+	.index-container { width: 100%;margin-bottom: 20px; }
+	.index-page .shadowed { padding: 10px; }
+	.index-page h1 { line-height: 34px; }
 }
 
 .index-container:first-of-type {
@@ -284,6 +284,10 @@ a.article-link h1.text-center {
 	.container p, .video-container, figure {
 		margin-left: 0%;
 		width: 100%;
+	}
+	
+	.container p, figure {
+		padding: 10px;
 	}
 
 	.container p img {
