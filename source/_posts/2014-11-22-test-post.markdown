@@ -8,7 +8,7 @@ categories: [CSS3, Sass, Media Queries]
 
 
 
-This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. 
+Duis lobortis quam in enim pulvinar viverra. Morbi sagittis volutpat tortor accumsan ornare. Nam blandit, augue a hendrerit tincidunt, lectus purus interdum mi, ac lacinia dui mauris in nulla. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed molestie varius enim sed vehicula. Nullam ut sem vel nisl dictum pharetra ut vitae nulla.
 
 <!-- more -->
 
@@ -20,7 +20,7 @@ Hi. Im a card. This card happens to have a title. How does it look?
 
 
 
-This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the <b>fracking</b> post. This is the fracking post. ![Alt text](/images/flappy.png) This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. 
+This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the <b>fracking</b> post. This is the fracking post. ![Alt text](/images/flappy.png) This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the *fracking* post. This is the fracking post. This is the fracking post. 
 
 
 

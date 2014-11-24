@@ -13,12 +13,14 @@ index: true
 {% endfor %}
 
 
-<div class="pagination">
+<div class="index-container">
+	<div class="col-md-11">
 {% if paginator.next_page %}
-	<a class="prev" href="{{paginator.next_page_path}}">&larr; Older</a>
+	<a class="btn btn-warning pull-left" href="{{paginator.next_page_path}}">&larr; Older</a>
 {% endif %}
 
 {% if paginator.previous_page %}
-	<a class="next" href="{{paginator.previous_page_path}}">Newer &rarr;</a>
+	<a class="btn btn-warning pull-right" href="{{paginator.previous_page_path}}">Newer &rarr;</a>
 {% endif %}
+	</div>
 </div>
