@@ -177,11 +177,6 @@ a.article-link h1.text-center {
 
 
 
-
-
-
-
-
 /* TEST FOR SIMPLE SITE */
 .index-container {
 	padding-right: 5px;
@@ -196,13 +191,15 @@ a.article-link h1.text-center {
 	.index-container { width: 970px; }
 }
 @media (max-width: 992px) {
-	.index-container { width: 100%;margin-bottom: 20px; }
+	.index-container:first-of-type { margin-top: 0px; }
+	.index-container { width: 100%; margin-bottom: 20px; }
 	.index-page .shadowed { padding: 10px; }
 	.index-page h1 { line-height: 34px; }
+	.container::before, .container::after { display: none; }
 }
 
 .index-container:first-of-type {
-	margin-top: 30px;
+	margin-top: 50px;
 }
 
 .container h1, .container h2, .container h3 {
