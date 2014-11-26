@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Media Queries | prime[31] blog]]></title>
   <link href="http://prime31.github.io/blog/categories/media-queries/atom.xml" rel="self"/>
   <link href="http://prime31.github.io/"/>
-  <updated>2014-11-26T08:31:20-08:00</updated>
+  <updated>2014-11-26T09:10:50-08:00</updated>
   <id>http://prime31.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -366,7 +366,8 @@ Hi. Im a card. This card happens to have a title. How does it look?</p>
 </span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
 </span></code></pre></td></tr></table></div></figure></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><figcaption><span>linenos:false </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='csharp'><span class='line'>    <span class="kt">var</span> <span class="n">t</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">sthi</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
 </span><span class='line'>    <span class="n">t</span><span class="p">.</span><span class="n">EndsWith</span><span class="p">(</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">st</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">);</span>
@@ -459,7 +460,8 @@ Hi. Im a card. This card happens to have a title. How does it look?</p>
 </span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
 </span></code></pre></td></tr></table></div></figure></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><figcaption><span>linenos:false </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="kt">var</span> <span class="n">t</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">sthi</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
 </span><span class='line'><span class="n">t</span><span class="p">.</span><span class="n">EndsWith</span><span class="p">(</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">st</span><span class="p">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">);</span>
