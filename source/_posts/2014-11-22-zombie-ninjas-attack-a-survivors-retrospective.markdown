@@ -4,6 +4,7 @@ title: "Zombie Ninjas Attack: A survivor's retrospective"
 date: 2014-11-22 17:12:03 -0800
 comments: false
 categories: [CSS3, Sass, Media Queries]
+description:
 ---
 
 
@@ -19,15 +20,15 @@ This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCER
 
 
 What are You Doing?
-Hi. Im a card. This card happens to have a title. How does it look?
+Hi. Im a card. This card happens to have a title. How does it look? I don't know why this app doesn't scroll properly...
 
 
-
+### Small Title
 This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the <b>fracking</b> post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. This is the fracking post. 
 
 
 
-
+## Code Title
 {% codeblock lang:csharp %}
 public class Foliage : MonoBehaviour
 {
@@ -63,7 +64,7 @@ public class Foliage : MonoBehaviour
 
 
 
-{% codeblock lang:csharp linenos:false %}
+{% codeblock lang:csharp %}
     var t = "sthi";
     t.EndsWith( "st" );
 {% endcodeblock %}
