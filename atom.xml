@@ -4,7 +4,7 @@
   <title><![CDATA[prime[31] blog]]></title>
   <link href="http://prime31.github.io/atom.xml" rel="self"/>
   <link href="http://prime31.github.io/"/>
-  <updated>2014-11-27T00:32:24-08:00</updated>
+  <updated>2014-11-27T22:23:57-08:00</updated>
   <id>http://prime31.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -48,16 +48,6 @@
     <link href="http://prime31.github.io/another-new-post/"/>
     <updated>2014-11-22T18:52:10-08:00</updated>
     <id>http://prime31.github.io/another-new-post</id>
-    <content type="html"><![CDATA[<p>This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT.</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Zombie Ninjas Attack: A Survivor's Retrospective]]></title>
-    <link href="http://prime31.github.io/zombie-ninjas-attack-a-survivors-retrospective/"/>
-    <updated>2014-11-22T17:12:03-08:00</updated>
-    <id>http://prime31.github.io/zombie-ninjas-attack-a-survivors-retrospective</id>
     <content type="html"><![CDATA[<p>This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT. This is the EXCERPT.</p>
 
 ]]></content>
