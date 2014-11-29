@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[prime[31] blog]]></title>
-  <link href="http://prime31.github.io/atom.xml" rel="self"/>
-  <link href="http://prime31.github.io/"/>
-  <updated>2014-11-28T22:37:43-08:00</updated>
-  <id>http://prime31.github.io/</id>
+  <title><![CDATA[prime[31] blog - Unity tips, tricks and random thoughts]]></title>
+  <link href="http://blog.prime31.com/atom.xml" rel="self"/>
+  <link href="http://blog.prime31.com/"/>
+  <updated>2014-11-29T13:42:40-08:00</updated>
+  <id>http://blog.prime31.com/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Mike Desaro]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Modeling 2D Water With Springs: Part 1]]></title>
-    <link href="http://prime31.github.io/water2d-part1"/>
+    <link href="http://blog.prime31.com/water2d-part1"/>
     <updated>2014-11-28T17:16:05-08:00</updated>
-    <id>http://prime31.github.io/water2d-part1</id>
+    <id>http://blog.prime31.com/water2d-part1</id>
     <content type="html"><![CDATA[<p>Water is one of those things in the world of game development that can range anywhere from incredibly simple to insanely complex. Your first attempt at making water might not be anything more than a transparent quad. Compare a solution like that with something like the water as seen in <a href="https://www.google.com/search?q=Assassin%27s+Creed+IV:+Black+Flag+water&amp;tbm=isch">Assassin&rsquo;s Creed IV: Black Flag</a> or <a href="https://www.google.com/search?q=bioshock+water&amp;tbm=isch">Bioshock</a> to get an idea of how far it can be taken.</p>
 
 ]]></content>
