@@ -27,6 +27,11 @@
 }
 
 
+.clearfix {
+	clear: both;
+}
+
+
 .full-width {
 	width: 100%;
 }
@@ -38,6 +43,10 @@ a, a:visited {
 a:hover {
 	background-color: #fff;
 	text-decoration: none;
+}
+
+.index-page a:hover {
+	background-color: transparent;
 }
 
 
