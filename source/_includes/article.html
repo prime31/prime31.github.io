@@ -9,7 +9,7 @@
 			</div>
 			<div class="col-md-9 bg-primary bg-blue shadowed post-wrapper">
 				<h1>{{ post.title }}</h1>
-				{{ content | excerpt }}
+				{{ content | excerpt | strip_html }}
 			</div>
 		</div>
 	</a>

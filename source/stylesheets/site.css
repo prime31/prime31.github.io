@@ -27,6 +27,26 @@
 }
 
 
+.full-width {
+	width: 100%;
+}
+
+a, a:visited {
+	color: #000;
+}
+
+a:hover {
+	background-color: #fff;
+	text-decoration: none;
+}
+
+
+iframe[src^="//gfycat.com"], iframe[src^="http://gfycat.com"] {
+	display: block;
+	margin: 0 auto 30px auto;
+}
+
+
 /* prep for moving headers outside of the containers */
 h1.floating, h2.floating, h3.floating {
 	background-color: #fff;
