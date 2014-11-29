@@ -2,10 +2,10 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://prime31.github.io
-title: prime[31] blog
-subtitle: Unity tips and tricks
-author: Your Name
+url: http://blog.prime31.com
+title: prime[31] blog - Unity tips, tricks and random thoughts
+subtitle:
+author: Mike Desaro
 simple_search: https://www.google.com/search
 description: Unity tips, tricks and random thoughts
 
