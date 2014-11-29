@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Css3 | prime[31] blog]]></title>
   <link href="http://prime31.github.io/tags/css3/atom.xml" rel="self"/>
   <link href="http://prime31.github.io/"/>
-  <updated>2014-11-28T20:30:49-08:00</updated>
+  <updated>2014-11-28T20:34:53-08:00</updated>
   <id>http://prime31.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -20,7 +20,7 @@
     <id>http://prime31.github.io/water-2d</id>
     <content type="html"><![CDATA[<p>Water is one of those things in the world of game development that can range anywhere from incredibly simple to insanely complex. Your first attempt at making water might not be anything more than a transparent quad. Compare a solution like that with something like the water as seen in <a href="https://www.google.com/search?q=Assassin%27s+Creed+IV:+Black+Flag+water&amp;tbm=isch">Assassin&rsquo;s Creed IV: Black Flag</a> or <a href="https://www.google.com/search?q=bioshock+water&amp;tbm=isch">Bioshock</a> to get an idea of how far it can be taken.</p>
 
-<!--more-->
+<!-- more -->
 
 
 <p>Luckily, for this project, I only needed 2D water which makes things signficantly more simple and easy enough to explain with just one blog post. Even with something like 2D water there are lots of different ways to model it. For this particular project (which is for mobile and desktop) I chose to model the water with springs. This provides a fun looking water that is easy to configure at runtime keeping it performant on mobile and better looking on desktop. Before we get into any details lets have a look at what the water looks like for low end mobile devices.</p>
