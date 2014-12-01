@@ -1,3 +1,9 @@
+.row img, .container p img {
+	margin: 10px 20px 20px 0px;
+	float: left;
+}
+
+
 @media (max-width: 992px) {
 	.row img {
 		width: 100%;
@@ -23,6 +29,10 @@
 
 	.equal h1, .equal .h1 {
 		width: 100%;
+	}
+	
+	.row img, .container p img {
+		max-width: 665px;
 	}
 }
 
@@ -102,13 +112,6 @@ code {
 	white-space: pre !important;
 	overflow-x: scroll;
 }
-
-
-.row img, .container p img {
-	margin: 10px 20px 20px 0px;
-	float: left;
-}
-
 
 .footer {
   position: fixed;
@@ -230,6 +233,9 @@ iframe[src^="//gfycat.com"], iframe[src^="http://gfycat.com"] {
 
 @media (min-width: 1200px) {
 	.index-container { width: 1170px; }
+	.row img, .container p img {
+		max-width: 815px;
+	}
 }
 @media (min-width: 992px) {
 	.index-container { width: 970px; }
