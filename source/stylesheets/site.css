@@ -4,6 +4,12 @@
 }
 
 
+::selection {
+  background: #000;
+  font-color: #fff;
+}
+
+
 @media (max-width: 992px) {
 	.row img {
 		width: 100%;
@@ -30,7 +36,7 @@
 	.equal h1, .equal .h1 {
 		width: 100%;
 	}
-	
+
 	.row img, .container p img {
 		max-width: 665px;
 	}
@@ -47,12 +53,11 @@
 }
 
 a, a:visited {
-	color: #000;
+	color: #4285f4;
 }
 
 a:hover {
-	background-color: #fff;
-	text-decoration: none;
+	text-decoration: underline;
 }
 
 .index-page a:hover {
@@ -349,5 +354,17 @@ iframe[src^="//gfycat.com"], iframe[src^="http://gfycat.com"] {
 @media (max-width: 1200px) {
 	.container h1:first-of-type {
 		margin-top: 10px;
+	}
+}
+
+@media (min-width: 992px) {
+	.container h1:first-of-type {
+		margin-right: 160px;
+	}
+}
+
+@media (min-width: 1200px) {
+	.container h1:first-of-type {
+		margin-right: 200px;
 	}
 }
