@@ -31,7 +31,17 @@ html .gist .gist-file .gist-meta a[href*='#file']:hover{color:#1863a1 !important
 html .gist .gist-file .gist-meta a[href*=raw]{top:.4em}
 pre{background:#002b36 top left;-webkit-border-radius:0.4em;-moz-border-radius:0.4em;-ms-border-radius:0.4em;-o-border-radius:0.4em;border-radius:0.4em;border:1px solid #05232b;line-height:1.45em;font-size:13px;margin-bottom:2.1em;padding:.8em 1em;color:#93a1a1;overflow:auto}
 h3.filename+pre{-moz-border-radius-topleft:0px;-webkit-border-top-left-radius:0px;border-top-left-radius:0px;-moz-border-radius-topright:0px;-webkit-border-top-right-radius:0px;border-top-right-radius:0px}
-p code,li code{display:inline-block;white-space:no-wrap;background:#fff;font-size:.8em;line-height:1.5em;color:#555;border:1px solid #ddd;-webkit-border-radius:0.4em;-moz-border-radius:0.4em;-ms-border-radius:0.4em;-o-border-radius:0.4em;border-radius:0.4em;padding:0 .3em;margin:-1px 0}
+
+p code,li code {
+	white-space: no-wrap;
+	background: #fff;
+	font-size: 0.8em;
+	line-height: 1.5em;
+	color: #555;
+	margin: -1px 0;
+	border-radius: 0;
+}
+
 p pre code,li pre code{font-size:1em !important;background:none;border:none}
 .pre-code,html .gist .gist-file .gist-syntax .highlight pre,.highlight code{font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace !important;overflow:scroll;overflow-y:hidden;display:block;padding:.8em;overflow-x:auto;line-height:1.45em;background:#002b36 top left !important;color:#93a1a1 !important}
 .pre-code span,html .gist .gist-file .gist-syntax .highlight pre span,.highlight code span{color:#93a1a1 !important}

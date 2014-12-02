@@ -4,7 +4,7 @@
   <title><![CDATA[prime[31] blog - Unity tips, tricks and random thoughts]]></title>
   <link href="http://blog.prime31.com/atom.xml" rel="self"/>
   <link href="http://blog.prime31.com/"/>
-  <updated>2014-11-29T13:59:31-08:00</updated>
+  <updated>2014-12-01T21:42:58-08:00</updated>
   <id>http://blog.prime31.com/</id>
   <author>
     <name><![CDATA[Mike Desaro]]></name>
@@ -12,6 +12,16 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Modeling 2D Water With Springs: Part 2]]></title>
+    <link href="http://blog.prime31.com/water2d-part2"/>
+    <updated>2014-11-30T22:09:42-08:00</updated>
+    <id>http://blog.prime31.com/water2d-part2</id>
+    <content type="html"><![CDATA[<p>In part 1, all the groundwork for setting up the water simulation was laid. We have springs attached to the top verts of the water plane which always want to remain in their neutral position. Once a force is applied to the springs they will oscillate back and forth based on the dampening and tension constants that are passed in.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Modeling 2D Water With Springs: Part 1]]></title>

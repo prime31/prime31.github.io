@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="description" content="Modeling 2D Water with Springs: Part 2 In part 1, all the groundwork for setting up the water simulation was laid. We have springs attached to the &hellip;">
+	
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	
+	<link href="/stylesheets/code.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/stylesheets/ripples.min.css" rel="stylesheet">
+	<link href="/stylesheets/material.min.css" rel="stylesheet">
+	<link href="/stylesheets/site.css" rel="stylesheet">
+
+	
+	<title>Modeling 2D Water With Springs: Part 2 - prime[31] blog - Unity tips, tricks and random thoughts</title>
+	<link href="/favicon.ico" rel="icon">
+	<link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114-precomposed.png">
+	<link href="/atom.xml" rel="alternate" title="prime[31] blog - Unity tips, tricks and random thoughts" type="application/atom+xml">
+</head>
+
+<body >
+	    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">
+			  <img src="/images/prime31logo.png" width="120">
+		  </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+	        <form class="navbar-form navbar-right" method="get" action="https://www.google.com/search">
+				<input type="hidden" name="as_sitesearch" value="blog.prime31.com"/>
+	            <input type="text" name="q" class="form-control col-lg-8" placeholder="Search site via Google"/>
+	        </form>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+	
+
+
+<div class="container">
+	<h1>Modeling 2D Water with Springs: Part 2</h1>
+	<p>In part 1, all the groundwork for setting up the water simulation was laid. We have springs attached to the top verts of the water plane which always want to remain in their neutral position. Once a force is applied to the springs they will oscillate back and forth based on the dampening and tension constants that are passed in.</p>
+
+<!-- more -->
+
+
+<p>At this point we have a Mesh (with a handy BoxCollider2D making it super easy to position and shape the water plane in the editor) and our WaterColumn struct ready to go but nothing is happening yet. We need to implement an Update method and start applying some forces to the springs. There are different ways to get creative with this part so I&rsquo;ll just touch on this particular implementation. Right now the springs don&rsquo;t affect each other at all which would make the water look pretty silly if we applied a force to any of our springs. We need to take into account what our neighbor springs are doing. The way that was accomplished is see if the neighbor springs are above or below the current spring and if so apply a force in that direction based on how far it is from the current spring and a made up constant. Something like this (which shows only the spring to our right): <code>spring[i].velocity += konstant * ( spring[i].currentHeight - spring[i+1].currentHeight)</code>.</p>
+
+<p>The final piece of the simulation is detecting when something falls in the water and applying an appropriate force. This is where our BoxCollider2D (which is set as a trigger) comes in handy. We use OnTriggerEnter2D to detect anything hitting the water then use it&rsquo;s velocity and mass to affect our springs. <img src="/images/posts/water2d/splash.png" alt="" /> The easy way to do this is to just find the nearest spring and apply the force to that spring. We don&rsquo;t take the easy way out here though so we are going to do this the right way. What we will do is use the Bounds of the object that fell in the water to determine exactly which springs should be affected. Additionally, if the object falls between all of our springs (this happens with small objects on mobile sometimes) we just grab the 2 closest springs and apply the force to them. Once we&rsquo;ve found all the affected springs we just divide the force by the affected spring count to spread out the force and apply it to each spring by adding to it&rsquo;s velocity.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">void</span> <span class="nf">splash</span><span class="p">(</span> <span class="n">Bounds</span> <span class="n">bounds</span><span class="p">,</span> <span class="kt">float</span> <span class="n">velocity</span> <span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// snip: setup code...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// find all our springs within the bounds</span>
+</span><span class='line'>  <span class="kt">var</span> <span class="n">xMin</span> <span class="p">=</span> <span class="n">bounds</span><span class="p">.</span><span class="n">min</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+</span><span class='line'>  <span class="kt">var</span> <span class="n">xMax</span> <span class="p">=</span> <span class="n">bounds</span><span class="p">.</span><span class="n">max</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">for</span><span class="p">(</span> <span class="kt">var</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">_columns</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++</span> <span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span> <span class="n">_columns</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">xPosition</span> <span class="p">&gt;</span> <span class="n">xMin</span> <span class="p">&amp;&amp;</span> <span class="n">_columns</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">xPosition</span> <span class="p">&lt;</span> <span class="n">xMax</span> <span class="p">)</span>
+</span><span class='line'>          <span class="n">_touchedColumnIndices</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span> <span class="n">i</span> <span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// if we have no hits we should loop back through and find the 2 closest verts and use them</span>
+</span><span class='line'>  <span class="k">if</span><span class="p">(</span> <span class="n">_touchedColumnIndices</span><span class="p">.</span><span class="n">Count</span> <span class="p">==</span> <span class="m">0</span> <span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">for</span><span class="p">(</span> <span class="kt">var</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">_columns</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++</span> <span class="p">)</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="c1">// widen our search to included divisitionWidth padding on each side so we definitely get a couple hits</span>
+</span><span class='line'>          <span class="k">if</span><span class="p">(</span> <span class="n">_columns</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">xPosition</span> <span class="p">+</span> <span class="n">_divisionWidth</span> <span class="p">&gt;</span> <span class="n">xMin</span> <span class="p">&amp;&amp;</span> <span class="n">_columns</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">xPosition</span> <span class="p">-</span> <span class="n">_divisionWidth</span> <span class="p">&lt;</span> <span class="n">xMax</span> <span class="p">)</span>
+</span><span class='line'>              <span class="n">_touchedColumnIndices</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span> <span class="n">i</span> <span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// snip: updating velocity on affected WaterColumns and optionally spawning a splash prefab</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s all there is to the simulation. There is still more we can do to make it look better though for sure. The first gif showed what the water looks like with minimal springs/verts and only simple vertex colors. That is the low-end version of the water. Adding a refraction shader would give it a pretty neat look. You could also apply a blur shader that moves around and varies itself over time. The gif below uses a displacement map with a GrabPass to give provide a bit of life to the water. Unfortunately, the low quality gif doesn&rsquo;t let you see the true beauty of the effect.</p>
+
+<iframe src="http://gfycat.com/ifr/FreshGroundedAmericanmarten" frameborder="0" scrolling="no" width="846" height="478" style="-webkit-backface-visibility: hidden;-webkit-transform: scale(1);" ></iframe>
+
+
+<p>Here is a snippet showing what this simple displacement shader is doing. The first pass of the shader is a GrabPass into the <em>GrabTexture. </em>DispTex is just a Texture2D of some noise. Playing around with different displacement textures ends up producing a variety of different looks with relative ease.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">half4</span> <span class="nf">frag</span><span class="p">(</span> <span class="n">v2f</span> <span class="n">i</span> <span class="p">)</span> <span class="p">:</span> <span class="n">COLOR</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">float2</span> <span class="n">displacement</span> <span class="p">=</span> <span class="n">tex2D</span><span class="p">(</span> <span class="n">_DispTex</span><span class="p">,</span> <span class="n">i</span><span class="p">.</span><span class="n">grabUV</span> <span class="p">/</span> <span class="m">6.0</span> <span class="p">).</span><span class="n">xy</span><span class="p">;</span>
+</span><span class='line'>  <span class="kt">float</span> <span class="n">t</span> <span class="p">=</span> <span class="n">i</span><span class="p">.</span><span class="n">grabUV</span><span class="p">.</span><span class="n">y</span> <span class="p">+</span> <span class="n">displacement</span><span class="p">.</span><span class="n">y</span> <span class="p">*</span> <span class="m">0.1</span> <span class="p">-</span> <span class="m">0.07</span> <span class="p">+</span> <span class="p">(</span> <span class="n">sin</span><span class="p">(</span> <span class="n">i</span><span class="p">.</span><span class="n">grabUV</span><span class="p">.</span><span class="n">x</span> <span class="p">*</span> <span class="m">6.0</span> <span class="p">+</span> <span class="n">_Time</span><span class="p">.</span><span class="n">y</span> <span class="p">)</span> <span class="p">*</span> <span class="m">0.005</span> <span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="nf">tex2D</span><span class="p">(</span> <span class="n">_GrabTexture</span><span class="p">,</span> <span class="n">float2</span><span class="p">(</span> <span class="n">i</span><span class="p">.</span><span class="n">grabUV</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span> <span class="p">)</span> <span class="p">)</span> <span class="p">*</span> <span class="p">(</span> <span class="n">i</span><span class="p">.</span><span class="n">color</span> <span class="p">*</span> <span class="m">3.0</span> <span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+</div>
+
+
+
+	<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script src="/js/ripples.min.js"></script>
+<script src="/js/material.min.js"></script>
+
+
+<script>
+	$(document).ready( function()
+	{
+	  	$.material.init();
+	});
+
+	// handle YouTube embeds
+	$( 'iframe[src^="//www.youtube"]' ).wrap( '<div class="video-container"/>' ).addClass( 'video' );
+
+
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga( 'create', 'UA-2991216-11', 'auto' );
+    ga( 'send', 'pageview' );
+</script>
+</body>
+</html>
