@@ -6,7 +6,7 @@
 
 ::selection {
   background: #000;
-  font-color: #fff;
+  color: #fff;
 }
 
 
@@ -267,6 +267,10 @@ iframe[src^="//gfycat.com"], iframe[src^="http://gfycat.com"] {
 .container p:first-of-type {
 	background-color: #2196F3;
 	color: #fff;
+}
+
+.container p:first-of-type a, .container p:first-of-type a:visited {
+	color: #000;
 }
 
 .container h1:first-of-type {
