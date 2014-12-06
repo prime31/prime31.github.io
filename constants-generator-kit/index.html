@@ -63,11 +63,13 @@
 
 <h3>The Problem(s) Defined</h3>
 
-<p>For the purposes of this discussion we will define a <em>naked string</em> as any string that is not declared as a constant. That means anytime you start typing a quote (&ldquo;) in your code you are making a naked string and causing problems for future you or the rest of your team. Lets say, for example, you are doing GameObject.tag compares to naked strings like in the first paragraph. What happens if you want to change the tag from &#8220;Enemy&rdquo; to &ldquo;Tank&rdquo;? You then have</p>
+<p>For the purposes of this discussion we will define a <em>naked string</em> as any string that is not declared as a constant. That means anytime you start typing a quote (&ldquo;) in your code you are making a naked string and causing problems for future you or the rest of your team. Lets say, for example, you are doing GameObject.tag compares to naked strings like in the first paragraph. What happens if you want to change the tag from &#8220;Enemy&rdquo; to &ldquo;Tank&rdquo;? You then have to search your project and hope that you find all the places where you used the &ldquo;Enemy&rdquo; string. The worst part is that bugs like this are <strong>very</strong> hard to track down.</p>
 
 <h3>The (Dead Simple) Solution</h3>
 
-<p><a href="https://github.com/prime31/ConstantsGeneratorKit">available here</a></p>
+<p>There are various ways to solve this problem with the most common being const string properties in classes. As long as you are diligent and make sure that you always remember to update the strings when you change your tags then all will be well. We all know that isn&rsquo;t happening though. Either you or somebody else will change something and forget to update the string. Good luck tracking that bug down.</p>
+
+<p>Enter ConstantsGeneratorKit: the solution to naked strings. As an added benefit, it will also solve your naked layer ints, naked scene names and the worst offender of them all: naked resource paths. You can find ConstantsGeneratorKit on <a href="https://github.com/prime31/ConstantsGeneratorKit">GitHub</a>. It&rsquo;s a single script. Stick it in a folder named Editor somewhere in your project. That&rsquo;s it. ConstantsGeneratorKit will wait for changes in scenes, layers, tags and resources then generate classes with all the strings and ints setup as <em>const</em>. Yup. That means you get autocomplete for all of them. Just type <code>k.</code> and bask in the glory (by default ConstantsGeneratorKit stick everything in the &ldquo;k&rdquo; namespace for easy access but you can configure that and other options right in the file). Below are examples of the 4 classes that ConstantsGeneratorKit generates automatically.</p>
 
 <h3>Tags.cs</h3>
 
@@ -80,21 +82,13 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
 </pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">namespace</span> <span class="nn">k</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>  <span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">Tags</span>
 </span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">UNTAGGED</span> <span class="p">=</span> <span class="s">&quot;Untagged&quot;</span><span class="p">;</span>
-</span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">RESPAWN</span> <span class="p">=</span> <span class="s">&quot;Respawn&quot;</span><span class="p">;</span>
-</span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">FINISH</span> <span class="p">=</span> <span class="s">&quot;Finish&quot;</span><span class="p">;</span>
 </span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">EDITOR_ONLY</span> <span class="p">=</span> <span class="s">&quot;EditorOnly&quot;</span><span class="p">;</span>
 </span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">MAIN_CAMERA</span> <span class="p">=</span> <span class="s">&quot;MainCamera&quot;</span><span class="p">;</span>
 </span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">PLAYER</span> <span class="p">=</span> <span class="s">&quot;Player&quot;</span><span class="p">;</span>
-</span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">GAME_CONTROLLER</span> <span class="p">=</span> <span class="s">&quot;GameController&quot;</span><span class="p">;</span>
 </span><span class='line'>  <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -130,10 +124,6 @@
 <span class='line-number'>26</span>
 <span class='line-number'>27</span>
 <span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
 </pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">namespace</span> <span class="nn">k</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>  <span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">Layers</span>
@@ -144,10 +134,6 @@
 </span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">WATER</span> <span class="p">=</span> <span class="m">4</span><span class="p">;</span>
 </span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">UI</span> <span class="p">=</span> <span class="m">5</span><span class="p">;</span>
 </span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">PLAYER</span> <span class="p">=</span> <span class="m">8</span><span class="p">;</span>
-</span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">ENEMY</span> <span class="p">=</span> <span class="m">9</span><span class="p">;</span>
-</span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">BULLET</span> <span class="p">=</span> <span class="m">10</span><span class="p">;</span>
-</span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">BULLET_SHELL</span> <span class="p">=</span> <span class="m">11</span><span class="p">;</span>
-</span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">COVER</span> <span class="p">=</span> <span class="m">12</span><span class="p">;</span>
 </span><span class='line'>
 </span><span class='line'>
 </span><span class='line'>      <span class="k">public</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">onlyIncluding</span><span class="p">(</span> <span class="k">params</span> <span class="kt">int</span><span class="p">[]</span> <span class="n">layers</span> <span class="p">)</span>
@@ -178,11 +164,35 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
 </pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">namespace</span> <span class="nn">k</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>  <span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">Scenes</span>
 </span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">BOOTSTRAP_SCENE</span> <span class="p">=</span> <span class="s">&quot;bootstrapScene&quot;</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">LEVEL_ONE</span> <span class="p">=</span> <span class="s">&quot;LevelOne&quot;</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">LEVEL_TWO</span> <span class="p">=</span> <span class="s">&quot;LevelTwo&quot;</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">LEVEL_THREE</span> <span class="p">=</span> <span class="s">&quot;LevelThree&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">TOTAL_SCENES</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">public</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">nextSceneIndex</span><span class="p">()</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="k">if</span><span class="p">(</span> <span class="n">UnityEngine</span><span class="p">.</span><span class="n">Application</span><span class="p">.</span><span class="n">loadedLevel</span> <span class="p">+</span> <span class="m">1</span> <span class="p">==</span> <span class="n">TOTAL_SCENES</span> <span class="p">)</span>
+</span><span class='line'>              <span class="k">return</span> <span class="m">0</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">return</span> <span class="n">UnityEngine</span><span class="p">.</span><span class="n">Application</span><span class="p">.</span><span class="n">loadedLevel</span> <span class="p">+</span> <span class="m">1</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
 </span><span class='line'>  <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -199,23 +209,13 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
 </pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">namespace</span> <span class="nn">k</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>  <span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">Resources</span>
 </span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">BLOOD_PARTICLES</span> <span class="p">=</span> <span class="s">&quot;BloodParticles&quot;</span><span class="p">;</span>
-</span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">BULLET_LARGE</span> <span class="p">=</span> <span class="s">&quot;BulletLarge&quot;</span><span class="p">;</span>
-</span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">DECAPITATION_BLOOD_PARTICLES</span> <span class="p">=</span> <span class="s">&quot;DecapitationBloodParticles&quot;</span><span class="p">;</span>
-</span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">EXCLAMATION</span> <span class="p">=</span> <span class="s">&quot;Exclamation&quot;</span><span class="p">;</span>
-</span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">JUMP_POOF</span> <span class="p">=</span> <span class="s">&quot;JumpPoof&quot;</span><span class="p">;</span>
 </span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">LAND_POOF</span> <span class="p">=</span> <span class="s">&quot;LandPoof&quot;</span><span class="p">;</span>
-</span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">MACHINE_GUN_SHELL_LARGE</span> <span class="p">=</span> <span class="s">&quot;MachineGunShell Large&quot;</span><span class="p">;</span>
-</span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">MUZZLE_FLASH_MEDIUM</span> <span class="p">=</span> <span class="s">&quot;Muzzle Flash Medium&quot;</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">BLOOD_BIT</span> <span class="p">=</span> <span class="s">&quot;SubFolder/BloodBit&quot;</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">EXCLAMATION</span> <span class="p">=</span> <span class="s">&quot;SubFolder/Exclamation&quot;</span><span class="p">;</span>
 </span><span class='line'>  <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
