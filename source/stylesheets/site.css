@@ -30,11 +30,12 @@
 /* this gets the date column the same height as the paragraph adjacent to it */
 @media (min-width: 992px) {
 	.equal, .equal > div[class*='col-md-2'] {
-		display: flex;
+		padding-bottom: 10px;
 	}
 
 	.equal h1, .equal .h1 {
 		width: 100%;
+		font-size: 32px;
 	}
 
 	.row img, .container p img {
