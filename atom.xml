@@ -4,7 +4,7 @@
   <title><![CDATA[prime[31] blog - Unity tips, tricks and random thoughts]]></title>
   <link href="http://blog.prime31.com/atom.xml" rel="self"/>
   <link href="http://blog.prime31.com/"/>
-  <updated>2014-12-06T20:16:56-08:00</updated>
+  <updated>2014-12-19T21:45:49-08:00</updated>
   <id>http://blog.prime31.com/</id>
   <author>
     <name><![CDATA[Mike Desaro]]></name>
@@ -12,6 +12,16 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Interactive 2D Foliage]]></title>
+    <link href="http://blog.prime31.com/grass2d"/>
+    <updated>2014-12-19T14:45:21-08:00</updated>
+    <id>http://blog.prime31.com/grass2d</id>
+    <content type="html"><![CDATA[<p>Having interactive foliage in your game helps bring some life to your environment. It makes everything feel more alive. There are lots of different ways to handle interactive foliage. The easiest way is to stick a trigger collider on your GameObject. When the player hits the trigger just move it back and forth on the x-axis. In this post we will go over how to kick that up a notch.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ConstantsGeneratorKit: Killing Naked Strings So You Don't Have To]]></title>
