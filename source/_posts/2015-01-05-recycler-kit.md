@@ -26,4 +26,21 @@ What this boils down to for a Unity game is that we do all of our Instantiate ca
 
 ## RecyclerKit
 
-[RecyclerKit](https://github.com/prime31/RecyclerKit) aims to take the pain out of using a object pool. INSERT_IMAGE_HERE It includes a simple inspector that lets you simply drag-and-drop any prefab or GameObject in your scene to create an object pool. From there, you just replace your Instantiate calls with `TrashMan.spawn` and replace your Destroy calls with `TrashMan.despawn/despawnAfterDelay`
+[RecyclerKit](https://github.com/prime31/RecyclerKit) aims to take the pain out of using a object pool. INSERT_IMAGE_HERE It includes a simple inspector that lets you simply drag-and-drop any prefab or GameObject in your scene to create an object pool. From there, you just replace your Instantiate calls with `TrashMan.spawn` and replace your Destroy calls with `TrashMan.despawn/despawnAfterDelay`. Of course, not everyone wants to use the inspector and sometimes you don't know what you want to stick in an object pool until runtime so you can create your recycle bins anytime. Here is a snipping showing how to create and use a recycle bin at runtime:
+
+{% codeblock lang:csharp %}
+// create a new recycle bin
+var recycleBin = new TrashManRecycleBin()
+{
+    prefab = somePrefabOrGameObjectReference
+    // any other options can be placed here
+};
+TrashMan.manageRecycleBin( recycleBin );
+
+// usage is the same as with a recycle bin created with the inspector
+var newObj = TrashMan.spawn( somePrefabOrGameObjectReference );
+TrashMan.despawnAfterDelay( newObj, 5f );
+{% endcodeblock %}
+
+
+All the options we have ever needed over the last couple years have been added so RecyclerKit should cover just about all cases. Options include the total number of objects to preallocate, total objects to create if we hit the recycle bin limit, automatically recycle ParticleSystems (based on system.duration + system.startLifetime), use a hard limit (do not allocate any objects once the recycle bin is empty) and automatic culling (destroy instances above a certain amount).
