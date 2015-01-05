@@ -43,4 +43,4 @@ TrashMan.despawnAfterDelay( newObj, 5f );
 {% endcodeblock %}
 
 
-All the options we have ever needed over the last couple years have been added so RecyclerKit should cover just about all cases. Options include the total number of objects to preallocate, total objects to create if we hit the recycle bin limit, automatically recycle ParticleSystems (based on system.duration + system.startLifetime), use a hard limit (do not allocate any objects once the recycle bin is empty) and automatic culling (destroy instances above a certain amount).
+All the options we have ever needed over the last couple years have been added so RecyclerKit should cover just about all use cases. Options include the total number of objects to preallocate, total objects to create if we hit the recycle bin limit, automatically recycle ParticleSystems (based on system.duration + system.startLifetime), use a hard limit (do not allocate any objects once the recycle bin is empty) and automatic culling (destroy instances above a certain amount). Go grab a copy and avoid the GC monster in your games!
