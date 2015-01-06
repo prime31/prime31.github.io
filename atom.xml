@@ -4,7 +4,7 @@
   <title><![CDATA[prime[31] blog - Unity tips, tricks and random thoughts]]></title>
   <link href="http://blog.prime31.com/atom.xml" rel="self"/>
   <link href="http://blog.prime31.com/"/>
-  <updated>2015-01-05T21:44:18-08:00</updated>
+  <updated>2015-01-05T21:44:41-08:00</updated>
   <id>http://blog.prime31.com/</id>
   <author>
     <name><![CDATA[Mike Desaro]]></name>
@@ -12,6 +12,16 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Garbage Collection and How to Avoid It]]></title>
+    <link href="http://blog.prime31.com/recyclerkit"/>
+    <updated>2015-01-05T17:16:05-08:00</updated>
+    <id>http://blog.prime31.com/recycler-kit</id>
+    <content type="html"><![CDATA[<p>Managed languages (like C#) have often been touted as the panacea of programming. We no longer need to be concerned with memory management. Memory leaks are a thing of the past. Retain/release/delete is banashed to the bowels of hell. The garbage collector (GC from here on out) will take care of all the ugly details of memory management for us.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Interactive 2D Foliage]]></title>
