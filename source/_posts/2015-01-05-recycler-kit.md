@@ -4,7 +4,7 @@ title: "Garbage Collection and How to Avoid It"
 date: 2015-01-05 17:16:05 -0800
 categories:
 permalink: recyclerkit
-published: false
+published: true
 ---
 
 
@@ -12,12 +12,12 @@ Managed languages (like C#) have often been touted as the panacea of programming
 
 <!-- more -->
 
-The reality of the situtation is that we almost need to be _even more careful_ in a managed environment. All control of memory management is now out of our hands and we have no choice but to deal with the GC and it's madness. To make matters even worse, Unity ships with an **absolutely ancient** GC. If you are making a mobile game it will undoubtedly end up being a battle with the GC.
+The reality of the situtation is that we almost need to be _even more careful_ in a managed environment. All control of memory management is now out of our hands and we have no choice but to deal with the GC and its madness. To make matters even worse, Unity ships with an **absolutely ancient** GC. If you are making a mobile game it will undoubtedly end up being a battle with the GC.
 
 
 ## So, What Actually Happens at Runtime?
 
-In simplified terms, as you allocate more and more memory eventually the GC gets to it's limit and it kicks in a collection. While the GC is collecting everything freezes until it is complete. On desktop platforms it isn't terrible as long as you have a couple milliseconds per frame to spare. On mobile and most consoles it is a guaranteed frame rate stutter. If you continue to allocate every frame you end up with endless stutters.
+In simplified terms, as you allocate more and more memory eventually the GC gets to its limit and it kicks in a collection. While the GC is collecting everything freezes until it is complete. On desktop platforms it isn't terrible as long as you have a couple milliseconds per frame to spare. On mobile and most consoles it is a guaranteed frame rate stutter. If you continue to allocate every frame you end up with endless stutters.
 
 
 ## What Causes Allocations?
@@ -29,12 +29,13 @@ From all of the code I have seen, the main culprits are calling Instantiate at r
 
 What is an object pool (as defined by [duffymo](http://stackoverflow.com/users/37213/duffymo))?
 > "An object pool is a collection of a particular object that an application will create and keep on hand for those situations where creating each instance is expensive."
+
 What this boils down to for a Unity game is that we do all of our Instantiate calls at level load time. Object pools are the tool that we use to do this. There are plenty of tutorials and sample code including a great video right on the [Unity Learn website](http://unity3d.com/learn/tutorials/modules/beginner/live-training-archive/object-pooling). As is the case with all of the core feature tools we also have an open source object pool available in our *Kit family.
 
 
 ## RecyclerKit
 
-[RecyclerKit](https://github.com/prime31/RecyclerKit) aims to take the pain out of using a object pool. INSERT_IMAGE_HERE It includes a simple inspector that lets you simply drag-and-drop any prefab or GameObject in your scene to create an object pool. From there, you just replace your Instantiate calls with `TrashMan.spawn` and replace your Destroy calls with `TrashMan.despawn/despawnAfterDelay`. Of course, not everyone wants to use the inspector and sometimes you don't know what you want to stick in an object pool until runtime so you can create your recycle bins anytime. Here is a snipping showing how to create and use a recycle bin at runtime:
+![](/images/posts/garbageCollector/RecyclerKitInspector.png) [RecyclerKit](https://github.com/prime31/RecyclerKit) aims to take the pain out of using a object pool. It includes a simple inspector that lets you drag-and-drop any prefab or GameObject in your scene to create an object pool. From there, you just replace your Instantiate calls with `TrashMan.spawn` and replace your Destroy calls with `TrashMan.despawn/despawnAfterDelay`. Of course, not everyone wants to use the inspector and sometimes you don't know what you want to stick in an object pool until runtime so you can create your recycle bins anytime. Below is a snippet showing how to create and use a recycle bin at runtime:
 
 {% codeblock lang:csharp %}
 // create a new recycle bin
