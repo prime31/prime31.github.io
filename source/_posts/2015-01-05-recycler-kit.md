@@ -35,7 +35,7 @@ What this boils down to for a Unity game is that we do all of our Instantiate ca
 
 ## RecyclerKit
 
-![](/images/posts/garbageCollector/RecyclerKitInspector.png) [RecyclerKit](https://github.com/prime31/RecyclerKit) aims to take the pain out of using a object pool. It includes a simple inspector that lets you drag-and-drop any prefab or GameObject in your scene to create an object pool. From there, you just replace your Instantiate calls with `TrashMan.spawn` and replace your Destroy calls with `TrashMan.despawn/despawnAfterDelay`. Of course, not everyone wants to use the inspector and sometimes you don't know what you want to stick in an object pool until runtime so you can create your recycle bins anytime. Below is a snippet showing how to create and use a recycle bin at runtime:
+![](/images/posts/garbageCollector/RecyclerKitInspector.png) [RecyclerKit](https://github.com/prime31/RecyclerKit) aims to take the pain out of using an object pool. It includes a simple inspector that lets you drag-and-drop any prefab or GameObject in your scene to create an object pool. From there, you just replace your Instantiate calls with `TrashMan.spawn` and replace your Destroy calls with `TrashMan.despawn/despawnAfterDelay`. Of course, not everyone wants to use the inspector and sometimes you don't know what you want to stick in an object pool until runtime so you can create your recycle bins anytime. Below is a snippet showing how to create and use a recycle bin at runtime:
 
 {% codeblock lang:csharp %}
 // create a new recycle bin
