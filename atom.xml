@@ -4,7 +4,7 @@
   <title><![CDATA[prime[31] blog - Unity tips, tricks and random thoughts]]></title>
   <link href="http://blog.prime31.com/atom.xml" rel="self"/>
   <link href="http://blog.prime31.com/"/>
-  <updated>2015-02-02T13:55:48-08:00</updated>
+  <updated>2015-02-02T13:56:26-08:00</updated>
   <id>http://blog.prime31.com/</id>
   <author>
     <name><![CDATA[Mike Desaro]]></name>
@@ -12,6 +12,16 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Persisting Strongly Typed Data With JSON]]></title>
+    <link href="http://blog.prime31.com/persisting-data-with-json"/>
+    <updated>2015-02-02T10:24:30-08:00</updated>
+    <id>http://blog.prime31.com/persisting-data-with-json</id>
+    <content type="html"><![CDATA[<p>JSON is often thought of as a data transport format for hipsters who use Node.js or Ruby or whatever the new language/platform for cool kids is this week. JSON also happens to be a fantastic way for us nerds to store data in a human-readable format that is well suited for game dev.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Simple Value Mapping]]></title>
