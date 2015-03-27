@@ -4,7 +4,7 @@
   <title><![CDATA[prime[31] blog - Unity tips, tricks and random thoughts]]></title>
   <link href="http://blog.prime31.com/atom.xml" rel="self"/>
   <link href="http://blog.prime31.com/"/>
-  <updated>2015-02-11T15:43:13-08:00</updated>
+  <updated>2015-03-27T14:42:14-07:00</updated>
   <id>http://blog.prime31.com/</id>
   <author>
     <name><![CDATA[Mike Desaro]]></name>
@@ -12,6 +12,16 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[PropEnumEvents (Wtf?)]]></title>
+    <link href="http://blog.prime31.com/prop-enum-events"/>
+    <updated>2015-03-27T21:05:54-07:00</updated>
+    <id>http://blog.prime31.com/enum-property-events</id>
+    <content type="html"><![CDATA[<p>I often use <a href="https://github.com/prime31/StateKit">StateKit</a> (a simple, object-based finite state machine implementation) for all kinds of state management. It gets used for enemy AI, player controllers, menus and just about everywhere else. In a recent project that was not very well defined (to be honest, it was made almsot completely on the fly) I needed a super flexible way to deal with a hierarchial state machine. The solution presented in this post is what I ended up using and it has been dubbed the PropEnumEvent system.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Making PlayerPrefs Sane]]></title>
