@@ -4,7 +4,7 @@
   <title><![CDATA[prime[31] blog - Unity tips, tricks and random thoughts]]></title>
   <link href="http://blog.prime31.com/atom.xml" rel="self"/>
   <link href="http://blog.prime31.com/"/>
-  <updated>2015-03-27T14:42:14-07:00</updated>
+  <updated>2015-04-17T20:50:09-07:00</updated>
   <id>http://blog.prime31.com/</id>
   <author>
     <name><![CDATA[Mike Desaro]]></name>
@@ -12,6 +12,16 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Anatomy of a Tween Library]]></title>
+    <link href="http://blog.prime31.com/anatomy-of-a-tween-lib"/>
+    <updated>2015-04-17T18:29:33-07:00</updated>
+    <id>http://blog.prime31.com/anatomy-of-a-tween-lib</id>
+    <content type="html"><![CDATA[<p>Every game engine seems to have dozens of tween libs available. In this post we will dive head first into what a tween lib really is and eventually end up with the design decisions that went into GoKit, GoKitLite and the soon to be released ZestKit (yes, that will be the <em>third</em> open source tween lib that I release for Unity. Shoot me).</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[PropEnumEvents (Wtf?)]]></title>
