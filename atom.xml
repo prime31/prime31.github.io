@@ -4,7 +4,7 @@
   <title><![CDATA[prime[31] blog - Unity tips, tricks and random thoughts]]></title>
   <link href="http://blog.prime31.com/atom.xml" rel="self"/>
   <link href="http://blog.prime31.com/"/>
-  <updated>2015-04-19T16:05:23-07:00</updated>
+  <updated>2015-04-19T16:06:00-07:00</updated>
   <id>http://blog.prime31.com/</id>
   <author>
     <name><![CDATA[Mike Desaro]]></name>
@@ -12,6 +12,16 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Making a Sprite Blink]]></title>
+    <link href="http://blog.prime31.com/sprite-blink-shader"/>
+    <updated>2015-04-19T14:48:41-07:00</updated>
+    <id>http://blog.prime31.com/sprite-blink-shader</id>
+    <content type="html"><![CDATA[<p>This is the first post in response to a reader-suggested topic and probably not the last. If there is a specific topic that you would like to see covered feel free to send over a question/request. Quite often when dealing with sprites you may want to have the sprite blink in a solid color to indicate various different states such as taking damage, build up before attack, etc. Unity&rsquo;s default sprite shader has only a tint color property so out of the box it isn&rsquo;t possible to do.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Anatomy of a Tween Library]]></title>
