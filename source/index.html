@@ -17,11 +17,11 @@ description: Unity tips, tricks and random thoughts
 <div class="index-container">
 	<div class="col-md-11">
 {% if paginator.next_page %}
-	<a class="btn btn-warning pull-left" href="{{paginator.next_page_path}}">&larr; Older</a>
+	<a class="btn btn-warning pull-left paginator-link" href="{{paginator.next_page_path}}">&larr; Older</a>
 {% endif %}
 
 {% if paginator.previous_page %}
-	<a class="btn btn-warning pull-right" href="{{paginator.previous_page_path}}">Newer &rarr;</a>
+	<a class="btn btn-warning pull-right paginator-link" href="{{paginator.previous_page_path}}">Newer &rarr;</a>
 {% endif %}
 	</div>
 </div>
