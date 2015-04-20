@@ -390,3 +390,7 @@ iframe[src^="//gfycat.com"], iframe[src^="http://gfycat.com"] {
 		margin-right: 200px;
 	}
 }
+
+.paginator-link {
+	color: #fff !important;
+}
