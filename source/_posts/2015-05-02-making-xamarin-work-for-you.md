@@ -79,7 +79,7 @@ Let's take a quick look at just a couple of the things we can do with Xamarin an
 <iframe src="http://gfycat.com/UnconsciousMaleKakapo" frameborder="0" scrolling="no" width="1092" height="630" style="-webkit-backface-visibility: hidden;-webkit-transform: scale(1);" ></iframe>
 
 
-This next one we will do a safe method rename. When you rename a method like this it changes every single reference to the method in your codebase so it won't need to be changed anywhere else. After we rename the method "///" (three slashes) are typed above the method which automatically creates an XML comment with all the method paramters that we can fill in. Xamarin will show that information automatically whenever you call the method from another script.
+This next one we will do a safe method rename. When you rename a method like this it changes every single reference to the method in your codebase so it won't need to be changed anywhere else. After we rename the method "///" (three slashes) are typed above the method which automatically creates an XML comment with all the method parameters that we can fill in. Xamarin will show that information automatically whenever you call the method from another script.
 
 <iframe src="http://gfycat.com/AcclaimedReadyAtlanticsharpnosepuffer" frameborder="0" scrolling="no" width="610" height="396" style="-webkit-backface-visibility: hidden;-webkit-transform: scale(1.0);" ></iframe>
 
