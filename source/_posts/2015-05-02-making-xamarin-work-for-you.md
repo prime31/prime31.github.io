@@ -19,7 +19,7 @@ Let's just get this out of the way now: if you are on Windows you can stop readi
 
 ## Why Not Visual Studio Code?
 
-The release of Visual Studio Code has got people thinking that anything has to be better than MonoDevelop. In my opinion, Visual Studio Code has a long way to go before it can compete with the latest Xamarin version. It's worth keeping an eye on as it develops over time but in reality it's not a great choice for working with Unity at the moment. There are just too mamy compromises and missing features.
+The release of Visual Studio Code has got people thinking that anything has to be better than MonoDevelop. In my opinion, Visual Studio Code has a long way to go before it can compete with the latest Xamarin version. It's worth keeping an eye on as it develops over time but in reality it's not a great choice for working with Unity at the moment. There are just too many compromises and missing features.
 
 
 ## Addressing an Old Unity Bug
