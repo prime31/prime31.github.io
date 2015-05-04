@@ -84,6 +84,18 @@ This next one we will do a safe method rename. When you rename a method like thi
 <iframe src="http://gfycat.com/AcclaimedReadyAtlanticsharpnosepuffer" frameborder="0" scrolling="no" width="610" height="396" style="-webkit-backface-visibility: hidden;-webkit-transform: scale(1.0);" ></iframe>
 
 
+## Two Really, Really Handy Shortcuts
+
+Xamarin brings a great productivity boost with it's many features. I couldn't end this post without leaving my two most used shortcuts. First up is a full symbol search. (`Cmd + .`). Just start typing and Xamarin will display all the matching symbols and files with a handy preview when you press the up/down arrows to highlight a result.
+
+<iframe src="http://gfycat.com/FickleTerribleHoneycreeper" frameborder="0" scrolling="no" width="862" height="530" style="-webkit-backface-visibility: hidden;-webkit-transform: scale(1.0);" ></iframe>
+
+
+Next up is file search. Pressing `Cmd + shift + D` will again jump focus up to the search box but it prefils the prefix "file:" for you. This limits the search to just file names. Full fuzzy matching is included so for a file called **C**amera**M**anager for example, you can find it by just typing "CM".
+
+<iframe src="http://gfycat.com/ValuableBigEeve" frameborder="0" scrolling="no" width="862" height="530" style="-webkit-backface-visibility: hidden;-webkit-transform: scale(1.0);" ></iframe>
+
+
 ## Conclusion
 
 Taking a few minutes to setup your coding environment will save you tons of time (and frustration) later. Better still, once you take the time to get Xamarin setup the way you like it you never have to go through the setup again. Ditch the terrible version of MonoDevelop that ships with Unity and enjoy an IDE that actually works. As an added benefit, as soon as Unity finishes work on the Xamarin add-on we will have full debugging at some point in the future.
