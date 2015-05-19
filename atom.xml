@@ -4,7 +4,7 @@
   <title><![CDATA[prime[31] blog - Unity tips, tricks and random thoughts]]></title>
   <link href="http://blog.prime31.com/atom.xml" rel="self"/>
   <link href="http://blog.prime31.com/"/>
-  <updated>2015-05-19T13:34:15-07:00</updated>
+  <updated>2015-05-19T13:34:58-07:00</updated>
   <id>http://blog.prime31.com/</id>
   <author>
     <name><![CDATA[Mike Desaro]]></name>
@@ -12,6 +12,16 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[A Method for Working With Shared Code With Unity and Git]]></title>
+    <link href="http://blog.prime31.com/A-Method-for-Working-with-Shared-Code-with-Unity-and-Git"/>
+    <updated>2015-05-19T12:45:51-07:00</updated>
+    <id>http://blog.prime31.com/a-method-for-working-with-shared-code-with-unity-and-git</id>
+    <content type="html"><![CDATA[<p>Out of the box Unity doesn&rsquo;t provide any good way to have a shared codebase that is used amongst multiple Unity projects. Any code that you drag into a Unity project is automatically copied into it. If you make changes to your shared code you have to remember to change it in every project that uses it. This is obviously not a sustainable approach.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Making Xamarin/MonoDevelop Work for You]]></title>
