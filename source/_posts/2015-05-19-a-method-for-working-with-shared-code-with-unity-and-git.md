@@ -90,3 +90,8 @@ Luckily, we know what we are doing here so clear the console and ignore it just 
 ### Wrapping Up
 
 We now have a workable solution to share code between multiple Unity projects. By doing things this way, when we change the shared code it will be propogated to every project that uses it. We even still retain the ability to open up and modify any Unity projects in the submodules. In this particular example we can still open the `submodules/StateKit` Unity project and go to town making changes. Those changes can then be pushed to the Git remote repo and shared throughout all of your projects easily.
+
+
+### One More Thing
+
+If you are an Alfred user you can find a handy workflow that automates everything in this post [here](https://mega.co.nz/#!5cNSGKDb!TnyfErq75axxEbODNccOfLDQIxQQnDRrISnsthv4S8k). Usage is simple and works in two different ways: 1. using the `unitysubmoduleadder` keyword which will then provide a folder filter for you to choose your Unity project. 2. Place a single folder in the folder buffer (option + up) then use the Unity Git Submodule Adder action (option + right arrow).
