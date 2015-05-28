@@ -94,4 +94,4 @@ We now have a workable solution to share code between multiple Unity projects. B
 
 ### One More Thing
 
-If you are an Alfred user you can find a handy workflow that automates everything in this post [here](https://mega.co.nz/#!5cNSGKDb!TnyfErq75axxEbODNccOfLDQIxQQnDRrISnsthv4S8k). Usage is simple and works in two different ways: 1. using the `unitysubmoduleadder` keyword which will then provide a folder filter for you to choose your Unity project. 2. Place a single folder in the folder buffer (option + up) then use the Unity Git Submodule Adder action (option + right arrow).
+If you are an Alfred user you can find a handy workflow that automates everything in this post [here](https://mega.co.nz/#!JV1QWKbJ!HmLBN7efh_5_bd4TXC7hx2QNgL3DzHO0QEvInBzYUDo). Usage is simple and works in two different ways: 1. using the `unitysubmoduleadder` keyword which will then provide a folder filter for you to choose your Unity project. 2. Place a single folder in the folder buffer (option + up) then use the Unity Git Submodule Adder action (option + right arrow).
