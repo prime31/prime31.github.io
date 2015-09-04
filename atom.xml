@@ -4,7 +4,7 @@
   <title><![CDATA[prime[31] blog - Unity tips, tricks and random thoughts]]></title>
   <link href="http://blog.prime31.com/atom.xml" rel="self"/>
   <link href="http://blog.prime31.com/"/>
-  <updated>2015-05-22T18:27:05-07:00</updated>
+  <updated>2015-09-04T15:52:08-07:00</updated>
   <id>http://blog.prime31.com/</id>
   <author>
     <name><![CDATA[Mike Desaro]]></name>
@@ -12,6 +12,16 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[SpriteLightKit and Stencil Buffer Introduction]]></title>
+    <link href="http://blog.prime31.com/SpriteLightKit"/>
+    <updated>2015-09-02T12:43:25-07:00</updated>
+    <id>http://blog.prime31.com/spritelightkit</id>
+    <content type="html"><![CDATA[<p>SpriteLightKit brings back the old two buffered blend trick to get pseudo lighting with just sprites. It handles the setup process of getting that second buffer blended with your normal scene. This post will delve into how it works and along the way it will explain the shader techniques used to pull it off.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[A Method for Working With Shared Code With Unity and Git]]></title>
