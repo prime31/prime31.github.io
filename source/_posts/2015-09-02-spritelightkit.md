@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "SpriteLightKit and Stencil Buffer Introduction"
-date: 2015-09-02 12:43:25 -0700
+date: 2015-09-04 12:43:25 -0700
 categories:
 permalink: "SpriteLightKit"
 published: true
