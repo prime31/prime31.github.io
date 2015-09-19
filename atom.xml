@@ -4,7 +4,7 @@
   <title><![CDATA[prime[31] blog - Unity tips, tricks and random thoughts]]></title>
   <link href="http://blog.prime31.com/atom.xml" rel="self"/>
   <link href="http://blog.prime31.com/"/>
-  <updated>2015-09-04T15:53:03-07:00</updated>
+  <updated>2015-09-18T17:20:19-07:00</updated>
   <id>http://blog.prime31.com/</id>
   <author>
     <name><![CDATA[Mike Desaro]]></name>
@@ -12,6 +12,16 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Pixel Perfect Camera]]></title>
+    <link href="http://blog.prime31.com/pixel-perfect-camera"/>
+    <updated>2015-09-18T16:57:31-07:00</updated>
+    <id>http://blog.prime31.com/pixel-perfect-camera</id>
+    <content type="html"><![CDATA[<p>This post is going to be a little bit different. It will mainly consist of a video with a small amount of accompanying text. Hit me up on Twitter (<a href="https://twitter.com/prime_31">@prime_31</a>) to let me know if you prefer text or video posts. This particular post is very visual seeing as how it is demonstrating a pixel perfect camera.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[SpriteLightKit and Stencil Buffer Introduction]]></title>

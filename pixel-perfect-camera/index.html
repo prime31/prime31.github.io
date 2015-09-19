@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<meta name="description" content=" Blog Archive 2015 2014 ">
+	<meta name="description" content="Pixel Perfect Camera This post is going to be a little bit different. It will mainly consist of a video with a small amount of accompanying text. &hellip;">
 	
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
@@ -21,7 +21,7 @@
 	<link href="/stylesheets/site.css" rel="stylesheet">
 
 
-	<title>Blog Archive - prime[31] blog - Unity tips, tricks and random thoughts</title>
+	<title>Pixel Perfect Camera - prime[31] blog - Unity tips, tricks and random thoughts</title>
 	<link href="/favicon.ico" rel="icon">
 	<link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114-precomposed.png">
 	<link href="/atom.xml" rel="alternate" title="prime[31] blog - Unity tips, tricks and random thoughts" type="application/atom+xml">
@@ -51,94 +51,27 @@
       </div>
     </nav>
 
-	<div>
-<article role="article">
-  
-  <header>
-    <h1 class="entry-title">Blog Archive</h1>
-    
-  </header>
-  
-  <div id="blog-archives">
+	
 
 
+<div class="container">
+	<h1>Pixel Perfect Camera</h1>
+	<p>This post is going to be a little bit different. It will mainly consist of a video with a small amount of accompanying text. Hit me up on Twitter (<a href="https://twitter.com/prime_31">@prime_31</a>) to let me know if you prefer text or video posts. This particular post is very visual seeing as how it is demonstrating a pixel perfect camera.</p>
 
-  
-  <h2>2015</h2>
-
-
-
-
+<!-- more -->
 
 
+<h2>The Technique</h2>
+
+<p>Getting things setup is pretty simple. The main camera is setup like any other orthographic camera. The output of the main camera is then rendered to a RenderTexture that has a fixed height (your pixel art design-time height). The width of the RenderTexture is just set to the screen&rsquo;s width. We only concern ourself with the height using this technique. The output of the RenderTexture is placed on an offscreen quad. The scale of the quad is set to keep everything pixel perfect. Whenver the screen size changes the RenderTexture width is updated and the quad scale is set to match.</p>
+
+<div class="embed-video-container"><iframe src="//www.youtube.com/embed/yI8JrBNTwkc" allowfullscreen></iframe></div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  <h2>2014</h2>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<p>A couple extra enhanced features are also present in the video. The main one being 3 different behaviors for when the screen size changes: None, DisableCrop and SetNearestPerfectFitResolution. DisableCrop just ensures the entire contents of the RenderTexture are always visible no matter what. SetNearestPerfectFitResolution will update the height of the camera to be a multiple of the design-time height mentioned previously.</p>
 
 </div>
 
-  
-</article>
-
-</div>
-
-<aside class="sidebar">
-  
-    
-  
-</aside>
 
 
 	<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
