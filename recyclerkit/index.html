@@ -1,62 +1,88 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	
-	<meta name="description" content="Garbage Collection and How to Avoid It Managed languages (like C#) have often been touted as the panacea of programming. We no longer need to be &hellip;">
-	
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!--[if lt IE 9]>
-		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-	<![endif]-->
+  <meta charset="utf-8">
+  <title>Garbage Collection and How to Avoid It - prime[31] blog - Unity tips, tricks and random thoughts</title>
+  <meta name="author" content="Mike Desaro">
 
-	<link href="/stylesheets/code.css" rel="stylesheet">
-	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
-	<link href="/stylesheets/ripples.min.css" rel="stylesheet">
-	<link href="/stylesheets/material.min.css" rel="stylesheet">
-	<link href="/stylesheets/site.css" rel="stylesheet">
+  
+  <meta name="description" content="Managed languages (like C#) have often been touted as the panacea of programming. We no longer need to be concerned with memory management. Memory &hellip;">
+  
 
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>Garbage Collection and How to Avoid It - prime[31] blog - Unity tips, tricks and random thoughts</title>
-	<link href="/favicon.ico" rel="icon">
-	<link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114-precomposed.png">
-	<link href="/atom.xml" rel="alternate" title="prime[31] blog - Unity tips, tricks and random thoughts" type="application/atom+xml">
+  
+  <link rel="canonical" href="http://blog.prime31.com/recyclerkit">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="prime[31] blog - Unity tips, tricks and random thoughts" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
 </head>
 
-<body >
-	    <!-- Fixed navbar -->
-    <nav class="navbar navbar-default" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/">
-			  <img src="/images/prime31logo.png" width="120">
-		  </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-	        <form class="navbar-form navbar-right" method="get" action="https://www.google.com/search">
-				<input type="hidden" name="as_sitesearch" value="blog.prime31.com"/>
-	            <input type="text" name="q" class="form-control col-lg-8" placeholder="Search site via Google"/>
-	        </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">prime[31] blog - Unity tips, tricks and random thoughts</a></h1>
+  
+</hgroup>
 
-	
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.prime31.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Garbage Collection and How to Avoid It</h1>
+    
+    
+      <p class="meta">
+        
 
 
-<div class="container">
-	<h1>Garbage Collection and How to Avoid It</h1>
-	<p>Managed languages (like C#) have often been touted as the panacea of programming. We no longer need to be concerned with memory management. Memory leaks are a thing of the past. Retain/release/delete is banashed to the bowels of hell. The garbage collector (GC from here on out) will take care of all the ugly details of memory management for us.</p>
+
+
+<time class='entry-date' datetime='2015-01-05T17:16:05-08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:16 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Managed languages (like C#) have often been touted as the panacea of programming. We no longer need to be concerned with memory management. Memory leaks are a thing of the past. Retain/release/delete is banashed to the bowels of hell. The garbage collector (GC from here on out) will take care of all the ugly details of memory management for us.</p>
 
 <!-- more -->
 
@@ -109,34 +135,73 @@
 
 
 <p>All the options we have ever needed over the last couple years have been added so RecyclerKit should cover just about all use cases. Options include the total number of objects to preallocate, total objects to create if we hit the recycle bin limit, automatically recycle ParticleSystems (based on system.duration + system.startLifetime), use a hard limit (do not allocate any objects once the recycle bin is empty) and automatic culling (destroy instances above a certain amount). Go grab a copy and avoid the GC monster in your games!</p>
-
 </div>
 
 
+  <footer>
+    <p class="meta">
+      
+  
 
-	<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-<script src="/js/ripples.min.js"></script>
-<script src="/js/material.min.js"></script>
+<span class="byline author vcard">Posted by <span class="fn">Mike Desaro</span></span>
 
-
-<script>
-	$(document).ready( function()
-	{
-	  	$.material.init();
-	});
-
-	// handle YouTube embeds
-	$( 'iframe[src^="//www.youtube"]' ).wrap( '<div class="video-container"/>' ).addClass( 'video' );
+      
 
 
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-    ga( 'create', 'UA-2991216-11', 'auto' );
-    ga( 'send', 'pageview' );
-</script>
+
+<time class='entry-date' datetime='2015-01-05T17:16:05-08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:16 pm</span></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/grass2d" title="Previous Post: Interactive 2D Foliage">&laquo; Interactive 2D Foliage</a>
+      
+      
+        <a class="basic-alignment right" href="/simple-value-mapping" title="Next Post: Simple Value Mapping">Simple Value Mapping &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Mike Desaro -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

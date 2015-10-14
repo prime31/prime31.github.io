@@ -1,0 +1,643 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Using the Stencil Buffer for Sprite Occlusion - prime[31] blog - Unity tips, tricks and random thoughts</title>
+  <meta name="author" content="Mike Desaro">
+
+  
+  <meta name="description" content="Back in the post on SpriteLightKit, we talked about the stencil buffer and we left things off with a homework assignment. I also did the homework &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.prime31.com/stencil-buffer-occlusion">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="prime[31] blog - Unity tips, tricks and random thoughts" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">prime[31] blog - Unity tips, tricks and random thoughts</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.prime31.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Using the Stencil Buffer for Sprite Occlusion</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-13T00:19:16-07:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:19 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Back in <a href="/SpriteLightKit/">the post</a> on SpriteLightKit, we talked about the stencil buffer and we left things off with a homework assignment. I also did the homework assignment and will be sharing the result that I came up with.</p>
+
+<!-- more -->
+
+
+<p>First, let&rsquo;s have a look at what the resulting shaders look like in action. We have one shader for the trees (occluders) and one for the player (occluded).</p>
+
+<iframe src="http://gfycat.com/ifr/AdoredIndolentAmphiuma" frameborder="0" scrolling="no" width="790" height="405" style="-webkit-backface-visibility: hidden;-webkit-transform: scale(1);" ></iframe>
+
+
+<p>The full shaders are available below. At first glance they might seem really daunting but in reality they are super, duper simple. For some reason, Unity makes us use shaders for accessing the stencil buffer so because of that we have a lot more code than is really required. Basically, all there is in these shaders below is the exact same sprite shader once for the occluder and twice for the occluded sprites and then our tiny stencil section on each. Lets ignore the sprite shader poration (since its just a plain old Unity default sprite shader for the most part) and have a look at the actual stencil portions.</p>
+
+<p>First, the occluder sprites. Below is all of the code that actually matters for the stencil buffer. All it is doing is saying for every pixel we write to the color buffer lets replace the stencil buffer value with 4. So, in essence, anywhere there is an occluder pixel it will write 4 to the stencil buffer.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">Stencil</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">Ref</span> <span class="m">4</span>
+</span><span class='line'>  <span class="n">Comp</span> <span class="n">Always</span>
+</span><span class='line'>  <span class="n">Pass</span> <span class="n">Replace</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Occluded sprites need two passes (once for rendering the silhouette and one for rendering the non-occluded portation) so we will have two different stencil sections here. The first pass is going to render wherever the stencil buffer value is <em>not equal</em> to 4. So, anywhere that there is not an occluder the first pass will render. The second pass is exactly the opposite: wherever the stencil buffer value <em>is equal</em> to 4 it will render. When it renders it multiplies the output by a dark color to make a silhouette. That&rsquo;s all there is to it.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="c1">// first pass</span>
+</span><span class='line'><span class="n">Stencil</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">Ref</span> <span class="m">4</span>
+</span><span class='line'>  <span class="n">Comp</span> <span class="n">NotEqual</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// second pass</span>
+</span><span class='line'><span class="n">Stencil</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">Ref</span> <span class="m">4</span>
+</span><span class='line'>  <span class="n">Comp</span> <span class="n">Equal</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Below is the full shader to be used for any occluder sprites.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">Shader</span> <span class="s">&quot;Sprites/Occluder&quot;</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">Properties</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'><span class="na">     [PerRendererData]</span> <span class="n">_MainTex</span> <span class="p">(</span> <span class="s">&quot;Sprite Texture&quot;</span><span class="p">,</span> <span class="m">2D</span> <span class="p">)</span> <span class="p">=</span> <span class="s">&quot;white&quot;</span> <span class="p">{}</span>
+</span><span class='line'>      <span class="n">_Color</span> <span class="p">(</span> <span class="s">&quot;Tint&quot;</span><span class="p">,</span> <span class="n">Color</span> <span class="p">)</span> <span class="p">=</span> <span class="p">(</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span> <span class="p">)</span>
+</span><span class='line'><span class="na">     [MaterialToggle]</span> <span class="n">PixelSnap</span> <span class="p">(</span> <span class="s">&quot;Pixel snap&quot;</span><span class="p">,</span> <span class="n">Float</span> <span class="p">)</span> <span class="p">=</span> <span class="m">0</span>
+</span><span class='line'>      <span class="n">_AlphaCutoff</span> <span class="p">(</span> <span class="s">&quot;Alpha Cutoff&quot;</span><span class="p">,</span> <span class="n">Range</span><span class="p">(</span> <span class="m">0.01</span><span class="p">,</span> <span class="m">1.0</span> <span class="p">)</span> <span class="p">)</span> <span class="p">=</span> <span class="m">0.1</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">SubShader</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="n">Tags</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="s">&quot;Queue&quot;</span> <span class="p">=</span> <span class="s">&quot;Transparent&quot;</span>
+</span><span class='line'>          <span class="s">&quot;IgnoreProjector&quot;</span> <span class="p">=</span> <span class="s">&quot;True&quot;</span>
+</span><span class='line'>          <span class="s">&quot;RenderType&quot;</span> <span class="p">=</span> <span class="s">&quot;TransparentCutout&quot;</span>
+</span><span class='line'>          <span class="s">&quot;PreviewType&quot;</span> <span class="p">=</span> <span class="s">&quot;Plane&quot;</span>
+</span><span class='line'>          <span class="s">&quot;CanUseSpriteAtlas&quot;</span> <span class="p">=</span> <span class="s">&quot;True&quot;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">Cull</span> <span class="n">Off</span>
+</span><span class='line'>      <span class="n">Lighting</span> <span class="n">Off</span>
+</span><span class='line'>      <span class="n">ZWrite</span> <span class="n">Off</span>
+</span><span class='line'>      <span class="n">Blend</span> <span class="n">One</span> <span class="n">OneMinusSrcAlpha</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">Pass</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="n">Stencil</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>              <span class="n">Ref</span> <span class="m">4</span>
+</span><span class='line'>              <span class="n">Comp</span> <span class="n">Always</span>
+</span><span class='line'>              <span class="n">Pass</span> <span class="n">Replace</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">CGPROGRAM</span>
+</span><span class='line'>          <span class="cp">#pragma vertex vert</span>
+</span><span class='line'>          <span class="cp">#pragma fragment frag</span>
+</span><span class='line'>          <span class="cp">#pragma multi_compile _ PIXELSNAP_ON</span>
+</span><span class='line'>          <span class="err">#</span><span class="n">include</span> <span class="s">&quot;UnityCG.cginc&quot;</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">struct</span> <span class="nc">appdata_t</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>              <span class="n">float4</span> <span class="n">vertex</span>   <span class="p">:</span> <span class="n">POSITION</span><span class="p">;</span>
+</span><span class='line'>              <span class="n">float4</span> <span class="n">color</span>    <span class="p">:</span> <span class="n">COLOR</span><span class="p">;</span>
+</span><span class='line'>              <span class="n">float2</span> <span class="n">texcoord</span> <span class="p">:</span> <span class="n">TEXCOORD0</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">struct</span> <span class="nc">v2f</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>              <span class="n">float4</span> <span class="n">vertex</span>   <span class="p">:</span> <span class="n">SV_POSITION</span><span class="p">;</span>
+</span><span class='line'>              <span class="n">fixed4</span> <span class="n">color</span>    <span class="p">:</span> <span class="n">COLOR</span><span class="p">;</span>
+</span><span class='line'>              <span class="n">half2</span> <span class="n">texcoord</span>  <span class="p">:</span> <span class="n">TEXCOORD0</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="n">fixed4</span> <span class="n">_Color</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">fixed</span> <span class="n">_AlphaCutoff</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="n">v2f</span> <span class="nf">vert</span><span class="p">(</span> <span class="n">appdata_t</span> <span class="n">IN</span> <span class="p">)</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>              <span class="n">v2f</span> <span class="n">OUT</span><span class="p">;</span>
+</span><span class='line'>              <span class="n">OUT</span><span class="p">.</span><span class="n">vertex</span> <span class="p">=</span> <span class="n">mul</span><span class="p">(</span> <span class="n">UNITY_MATRIX_MVP</span><span class="p">,</span> <span class="n">IN</span><span class="p">.</span><span class="n">vertex</span> <span class="p">);</span>
+</span><span class='line'>              <span class="n">OUT</span><span class="p">.</span><span class="n">texcoord</span> <span class="p">=</span> <span class="n">IN</span><span class="p">.</span><span class="n">texcoord</span><span class="p">;</span>
+</span><span class='line'>              <span class="n">OUT</span><span class="p">.</span><span class="n">color</span> <span class="p">=</span> <span class="n">IN</span><span class="p">.</span><span class="n">color</span> <span class="p">*</span> <span class="n">_Color</span><span class="p">;</span>
+</span><span class='line'>              <span class="err">#</span><span class="n">ifdef</span> <span class="n">PIXELSNAP_ON</span>
+</span><span class='line'>              <span class="n">OUT</span><span class="p">.</span><span class="n">vertex</span> <span class="p">=</span> <span class="n">UnityPixelSnap</span><span class="p">(</span> <span class="n">OUT</span><span class="p">.</span><span class="n">vertex</span> <span class="p">);</span>
+</span><span class='line'>              <span class="cp">#endif</span>
+</span><span class='line'>
+</span><span class='line'>              <span class="k">return</span> <span class="n">OUT</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="n">sampler2D</span> <span class="n">_MainTex</span><span class="p">;</span>
+</span><span class='line'>          <span class="n">sampler2D</span> <span class="n">_AlphaTex</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>          <span class="n">fixed4</span> <span class="nf">frag</span><span class="p">(</span> <span class="n">v2f</span> <span class="n">IN</span> <span class="p">)</span> <span class="p">:</span> <span class="n">SV_Target</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>              <span class="n">fixed4</span> <span class="n">c</span> <span class="p">=</span> <span class="n">tex2D</span><span class="p">(</span> <span class="n">_MainTex</span><span class="p">,</span> <span class="n">IN</span><span class="p">.</span><span class="n">texcoord</span> <span class="p">)</span> <span class="p">*</span> <span class="n">IN</span><span class="p">.</span><span class="n">color</span><span class="p">;</span>
+</span><span class='line'>              <span class="n">c</span><span class="p">.</span><span class="n">rgb</span> <span class="p">*=</span> <span class="n">c</span><span class="p">.</span><span class="n">a</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>              <span class="c1">// here we discard pixels below our _AlphaCutoff so the stencil buffer only gets written to</span>
+</span><span class='line'>              <span class="c1">// where there are actual pixels returned. If the occluders are all tight meshes (such as solid rectangles)</span>
+</span><span class='line'>              <span class="c1">// this is not necessary and a non-transparent shader would be a better fit.</span>
+</span><span class='line'>              <span class="n">clip</span><span class="p">(</span> <span class="n">c</span><span class="p">.</span><span class="n">a</span> <span class="p">-</span> <span class="n">_AlphaCutoff</span> <span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>              <span class="k">return</span> <span class="n">c</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>      <span class="n">ENDCG</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Below is the full shader to be used for any occluded sprites.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">Shader</span> <span class="s">&quot;Sprites/Occluded&quot;</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">Properties</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'><span class="na">     [PerRendererData]</span> <span class="n">_MainTex</span> <span class="p">(</span> <span class="s">&quot;Sprite Texture&quot;</span><span class="p">,</span> <span class="m">2D</span> <span class="p">)</span> <span class="p">=</span> <span class="s">&quot;white&quot;</span> <span class="p">{}</span>
+</span><span class='line'>      <span class="n">_Color</span> <span class="p">(</span> <span class="s">&quot;Tint&quot;</span><span class="p">,</span> <span class="n">Color</span> <span class="p">)</span> <span class="p">=</span> <span class="p">(</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span> <span class="p">)</span>
+</span><span class='line'><span class="na">     [MaterialToggle]</span> <span class="n">PixelSnap</span> <span class="p">(</span> <span class="s">&quot;Pixel snap&quot;</span><span class="p">,</span> <span class="n">Float</span> <span class="p">)</span> <span class="p">=</span> <span class="m">0</span>
+</span><span class='line'>      <span class="n">_OccludedColor</span> <span class="p">(</span> <span class="s">&quot;Occluded Tint&quot;</span><span class="p">,</span> <span class="n">Color</span> <span class="p">)</span> <span class="p">=</span> <span class="p">(</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0.5</span> <span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">CGINCLUDE</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// shared structs and vert program used in both the vert and frag programs</span>
+</span><span class='line'><span class="k">struct</span> <span class="nc">appdata_t</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">float4</span> <span class="n">vertex</span>   <span class="p">:</span> <span class="n">POSITION</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">float4</span> <span class="n">color</span>    <span class="p">:</span> <span class="n">COLOR</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">float2</span> <span class="n">texcoord</span> <span class="p">:</span> <span class="n">TEXCOORD0</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="nc">v2f</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">float4</span> <span class="n">vertex</span>   <span class="p">:</span> <span class="n">SV_POSITION</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">fixed4</span> <span class="n">color</span>    <span class="p">:</span> <span class="n">COLOR</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">half2</span> <span class="n">texcoord</span>  <span class="p">:</span> <span class="n">TEXCOORD0</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">fixed4</span> <span class="n">_Color</span><span class="p">;</span>
+</span><span class='line'><span class="n">sampler2D</span> <span class="n">_MainTex</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">v2f</span> <span class="nf">vert</span><span class="p">(</span> <span class="n">appdata_t</span> <span class="n">IN</span> <span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">v2f</span> <span class="n">OUT</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">OUT</span><span class="p">.</span><span class="n">vertex</span> <span class="p">=</span> <span class="n">mul</span><span class="p">(</span> <span class="n">UNITY_MATRIX_MVP</span><span class="p">,</span> <span class="n">IN</span><span class="p">.</span><span class="n">vertex</span> <span class="p">);</span>
+</span><span class='line'>  <span class="n">OUT</span><span class="p">.</span><span class="n">texcoord</span> <span class="p">=</span> <span class="n">IN</span><span class="p">.</span><span class="n">texcoord</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">OUT</span><span class="p">.</span><span class="n">color</span> <span class="p">=</span> <span class="n">IN</span><span class="p">.</span><span class="n">color</span> <span class="p">*</span> <span class="n">_Color</span><span class="p">;</span>
+</span><span class='line'>  <span class="err">#</span><span class="n">ifdef</span> <span class="n">PIXELSNAP_ON</span>
+</span><span class='line'>  <span class="n">OUT</span><span class="p">.</span><span class="n">vertex</span> <span class="p">=</span> <span class="n">UnityPixelSnap</span><span class="p">(</span> <span class="n">OUT</span><span class="p">.</span><span class="n">vertex</span> <span class="p">);</span>
+</span><span class='line'>  <span class="cp">#endif</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="n">OUT</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">ENDCG</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">SubShader</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="n">Tags</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="s">&quot;Queue&quot;</span> <span class="p">=</span> <span class="s">&quot;Transparent&quot;</span>
+</span><span class='line'>          <span class="s">&quot;IgnoreProjector&quot;</span> <span class="p">=</span> <span class="s">&quot;True&quot;</span>
+</span><span class='line'>          <span class="s">&quot;RenderType&quot;</span> <span class="p">=</span> <span class="s">&quot;Transparent&quot;</span>
+</span><span class='line'>          <span class="s">&quot;PreviewType&quot;</span> <span class="p">=</span> <span class="s">&quot;Plane&quot;</span>
+</span><span class='line'>          <span class="s">&quot;CanUseSpriteAtlas&quot;</span> <span class="p">=</span> <span class="s">&quot;True&quot;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">Cull</span> <span class="n">Off</span>
+</span><span class='line'>      <span class="n">Lighting</span> <span class="n">Off</span>
+</span><span class='line'>      <span class="n">ZWrite</span> <span class="n">Off</span>
+</span><span class='line'>      <span class="n">Blend</span> <span class="n">One</span> <span class="n">OneMinusSrcAlpha</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">Pass</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="n">Stencil</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>              <span class="n">Ref</span> <span class="m">4</span>
+</span><span class='line'>              <span class="n">Comp</span> <span class="n">NotEqual</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">CGPROGRAM</span>
+</span><span class='line'>          <span class="cp">#pragma vertex vert</span>
+</span><span class='line'>          <span class="cp">#pragma fragment frag</span>
+</span><span class='line'>          <span class="cp">#pragma multi_compile _ PIXELSNAP_ON</span>
+</span><span class='line'>          <span class="err">#</span><span class="n">include</span> <span class="s">&quot;UnityCG.cginc&quot;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>          <span class="n">fixed4</span> <span class="nf">frag</span><span class="p">(</span> <span class="n">v2f</span> <span class="n">IN</span> <span class="p">)</span> <span class="p">:</span> <span class="n">SV_Target</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>              <span class="n">fixed4</span> <span class="n">c</span> <span class="p">=</span> <span class="n">tex2D</span><span class="p">(</span> <span class="n">_MainTex</span><span class="p">,</span> <span class="n">IN</span><span class="p">.</span><span class="n">texcoord</span> <span class="p">)</span> <span class="p">*</span> <span class="n">IN</span><span class="p">.</span><span class="n">color</span><span class="p">;</span>
+</span><span class='line'>              <span class="n">c</span><span class="p">.</span><span class="n">rgb</span> <span class="p">*=</span> <span class="n">c</span><span class="p">.</span><span class="n">a</span><span class="p">;</span>
+</span><span class='line'>              <span class="k">return</span> <span class="n">c</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>      <span class="n">ENDCG</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// occluded pixel pass. Anything rendered here is behind an occluder</span>
+</span><span class='line'>      <span class="n">Pass</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="n">Stencil</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>              <span class="n">Ref</span> <span class="m">4</span>
+</span><span class='line'>              <span class="n">Comp</span> <span class="n">Equal</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">CGPROGRAM</span>
+</span><span class='line'>          <span class="cp">#pragma vertex vert</span>
+</span><span class='line'>          <span class="cp">#pragma fragment frag</span>
+</span><span class='line'>          <span class="cp">#pragma multi_compile _ PIXELSNAP_ON</span>
+</span><span class='line'>          <span class="err">#</span><span class="n">include</span> <span class="s">&quot;UnityCG.cginc&quot;</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="n">fixed4</span> <span class="n">_OccludedColor</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>          <span class="n">fixed4</span> <span class="nf">frag</span><span class="p">(</span> <span class="n">v2f</span> <span class="n">IN</span> <span class="p">)</span> <span class="p">:</span> <span class="n">SV_Target</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>              <span class="n">fixed4</span> <span class="n">c</span> <span class="p">=</span> <span class="n">tex2D</span><span class="p">(</span> <span class="n">_MainTex</span><span class="p">,</span> <span class="n">IN</span><span class="p">.</span><span class="n">texcoord</span> <span class="p">);</span>
+</span><span class='line'>              <span class="k">return</span> <span class="n">_OccludedColor</span> <span class="p">*</span> <span class="n">c</span><span class="p">.</span><span class="n">a</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>      <span class="n">ENDCG</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Mike Desaro</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-10-13T00:19:16-07:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:19 am</span></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/pixel-perfect-camera" title="Previous Post: Pixel Perfect Camera">&laquo; Pixel Perfect Camera</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Mike Desaro -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
