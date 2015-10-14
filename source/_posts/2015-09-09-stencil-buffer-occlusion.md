@@ -17,9 +17,9 @@ First, let's have a look at what the resulting shaders look like in action. We h
 <iframe src="http://gfycat.com/ifr/AdoredIndolentAmphiuma" frameborder="0" scrolling="no" width="790" height="405" style="-webkit-backface-visibility: hidden;-webkit-transform: scale(1);" ></iframe>
 
 
-The full shaders are available below. At first glance they might seem really daunting but in reality they are super, duper simple. For some reason, Unity makes us use shaders for accessing the stencil buffer so because of that we have a lot more code than is really required. Basically, all there is in these shaders below is the exact same sprite shader once for the occluder and twice for the occluded sprites and then our tiny stencil section on each. Lets ignore the sprite shader poration (since its just a plain old Unity default sprite shader for the most part) and have a look at the actual stencil portions.
+The full shaders are available below. At first glance they might seem really daunting but in reality they are super, duper simple. For some reason, Unity makes us use shaders for accessing the stencil buffer so because of that we have a lot more code than is really required (in "real life" stencil buffer access has nothing to do with a shader). Basically, all there is in these shaders below is a near copy of the standard sprite shader once for the occluder and twice for the occluded sprites and then our tiny stencil section on each. Lets ignore the sprite shader portion (since its so similar to the Unity default sprite shader) and have a look at the actual stencil portions.
 
-First, the occluder sprites. Below is all of the code that actually matters for the stencil buffer. All it is doing is saying for every pixel we write to the color buffer lets replace the stencil buffer value with 4. So, in essence, anywhere there is an occluder pixel it will write 4 to the stencil buffer.
+First, the occluder sprites. Below is all of the code that actually matters for the stencil buffer. All it is doing is saying for every pixel we write to the color buffer lets replace the stencil buffer value with 4. So, in essence, anywhere there is an occluder pixel it will write 4 to the stencil buffer. Important side note: in the example the tree is not a solid sprite. It has lots of alpha = 0 portions (like most non-rectangle/square sprites) so in the shader we discard any pixels that are less than alpha 0.1. If you have a solid sprite that is not necessary.
 
 {% codeblock lang:csharp %}
 Stencil
@@ -31,7 +31,7 @@ Stencil
 {% endcodeblock %}
 
 
-Occluded sprites need two passes (once for rendering the silhouette and one for rendering the non-occluded portation) so we will have two different stencil sections here. The first pass is going to render wherever the stencil buffer value is *not equal* to 4. So, anywhere that there is not an occluder the first pass will render. The second pass is exactly the opposite: wherever the stencil buffer value *is equal* to 4 it will render. When it renders it multiplies the output by a dark color to make a silhouette. That's all there is to it.
+Occluded sprites need two passes (once for rendering the silhouette and one for rendering the non-occluded portation) so we will have two different stencil sections for them. The first pass is going to render wherever the stencil buffer value is *not equal* to 4. So, anywhere that there is not an occluder the first pass will render. The second pass is exactly the opposite: wherever the stencil buffer value *is equal* to 4 it will render. When it renders it multiplies the output by a dark color to make a silhouette. That's all there is to it.
 
 {% codeblock lang:csharp %}
 // first pass
