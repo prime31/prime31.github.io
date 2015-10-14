@@ -1,374 +1,316 @@
 
 <!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>prime[31] blog - Unity tips, tricks and random thoughts</title>
-  <meta name="author" content="Mike Desaro">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="description" content="Unity tips, tricks and random thoughts">
+	
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
 
-  
-  <meta name="description" content="In past posts (mainly this one), we talked about reducing or removing all &ldquo;naked strings&rdquo;. We do this to reduce coding errors and &hellip;">
-  
+	<link href="/stylesheets/code.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/stylesheets/ripples.min.css" rel="stylesheet">
+	<link href="/stylesheets/material.min.css" rel="stylesheet">
+	<link href="/stylesheets/site.css" rel="stylesheet">
 
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  
-  <link rel="canonical" href="http://blog.prime31.com/posts/2">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="prime[31] blog - Unity tips, tricks and random thoughts" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-
+	<title>prime[31] blog - Unity tips, tricks and random thoughts</title>
+	<link href="/favicon.ico" rel="icon">
+	<link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114-precomposed.png">
+	<link href="/atom.xml" rel="alternate" title="prime[31] blog - Unity tips, tricks and random thoughts" type="application/atom+xml">
 </head>
 
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">prime[31] blog - Unity tips, tricks and random thoughts</a></h1>
-  
-</hgroup>
+<body  class="index-page" >
+	    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">
+			  <img src="/images/prime31logo.png" width="120">
+		  </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+	        <form class="navbar-form navbar-right" method="get" action="https://www.google.com/search">
+				<input type="hidden" name="as_sitesearch" value="blog.prime31.com"/>
+	            <input type="text" name="q" class="form-control col-lg-8" placeholder="Search site via Google"/>
+	        </form>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
 
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="https://www.google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:blog.prime31.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/making-playerprefs-sane">Making PlayerPrefs Sane</a></h1>
-    
-    
-      <p class="meta">
-        
+	
 
 
 
 
-<time class='entry-date' datetime='2015-02-11T10:24:30-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:24 am</span></time>
-        
-      </p>
-    
-  </header>
 
 
-  <div class="entry-content"><p>In past posts (mainly <a href="/constants-generator-kit">this one</a>), we talked about reducing or removing all &ldquo;naked strings&rdquo;. We do this to reduce coding errors and maintain sanity as projects grow in size. The post provided a solution for tags, layers, scenes and resources. It did not, however, help clean up the much used-and-abused PlayerPrefs.</p>
+<div class="index-container">
+	<div class="row top20 equal">
+		<div class="col-md-2 bg-white">
+			<h1 class="text-center">Feb 11</h1>
+		</div>
+		<div class="col-md-9 bg-primary bg-blue shadowed post-wrapper">
+			<a class="article-link" rel="full-article" href="/making-playerprefs-sane">
+				<h1>Making PlayerPrefs Sane</h1>
+				In past posts (mainly this one), we talked about reducing or removing all &ldquo;naked strings&rdquo;. We do this to reduce coding errors and maintain sanity as projects grow in size. The post provided a solution for tags, layers, scenes and resources. It did not, however, help clean up the much used-and-abused PlayerPrefs.
 
+
+			</a>
+			
+			<div>
+			
+			</div>
+		</div>
+	</div>
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/making-playerprefs-sane">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/persisting-data-with-json">Persisting Strongly Typed Data With JSON</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
 
-<time class='entry-date' datetime='2015-02-02T10:24:30-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:24 am</span></time>
-        
-      </p>
-    
-  </header>
 
 
-  <div class="entry-content"><p>JSON is often thought of as a data transport format for hipsters who use Node.js or Ruby or whatever the new language/platform for cool kids is this week. JSON also happens to be a fantastic way for us nerds to store data in a human-readable format that is well suited for game dev.</p>
 
+
+
+<div class="index-container">
+	<div class="row top20 equal">
+		<div class="col-md-2 bg-white">
+			<h1 class="text-center">Feb 2</h1>
+		</div>
+		<div class="col-md-9 bg-primary bg-blue shadowed post-wrapper">
+			<a class="article-link" rel="full-article" href="/persisting-data-with-json">
+				<h1>Persisting Strongly Typed Data With JSON</h1>
+				JSON is often thought of as a data transport format for hipsters who use Node.js or Ruby or whatever the new language/platform for cool kids is this week. JSON also happens to be a fantastic way for us nerds to store data in a human-readable format that is well suited for game dev.
+
+
+			</a>
+			
+			<div>
+			
+			</div>
+		</div>
+	</div>
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/persisting-data-with-json">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/simple-value-mapping">Simple Value Mapping</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
 
-<time class='entry-date' datetime='2015-01-16T11:53:46-08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:53 am</span></time>
-        
-      </p>
-    
-  </header>
 
 
-  <div class="entry-content"><p>This post is a quick one that covers a technique that I use all over the place: mapping a value from one range to a completely different range. Uses include everything from a simple health bar to mesh deformation to UI layout to shader vertex mods and tons more.</p>
 
+
+
+<div class="index-container">
+	<div class="row top20 equal">
+		<div class="col-md-2 bg-white">
+			<h1 class="text-center">Jan 16</h1>
+		</div>
+		<div class="col-md-9 bg-primary bg-blue shadowed post-wrapper">
+			<a class="article-link" rel="full-article" href="/simple-value-mapping">
+				<h1>Simple Value Mapping</h1>
+				This post is a quick one that covers a technique that I use all over the place: mapping a value from one range to a completely different range. Uses include everything from a simple health bar to mesh deformation to UI layout to shader vertex mods and tons more.
+
+
+			</a>
+			
+			<div>
+			
+			</div>
+		</div>
+	</div>
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/simple-value-mapping">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/recyclerkit">Garbage Collection and How to Avoid It</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
 
-<time class='entry-date' datetime='2015-01-05T17:16:05-08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:16 pm</span></time>
-        
-      </p>
-    
-  </header>
 
 
-  <div class="entry-content"><p>Managed languages (like C#) have often been touted as the panacea of programming. We no longer need to be concerned with memory management. Memory leaks are a thing of the past. Retain/release/delete is banashed to the bowels of hell. The garbage collector (GC from here on out) will take care of all the ugly details of memory management for us.</p>
 
+
+
+<div class="index-container">
+	<div class="row top20 equal">
+		<div class="col-md-2 bg-white">
+			<h1 class="text-center">Jan 5</h1>
+		</div>
+		<div class="col-md-9 bg-primary bg-blue shadowed post-wrapper">
+			<a class="article-link" rel="full-article" href="/recyclerkit">
+				<h1>Garbage Collection and How to Avoid It</h1>
+				Managed languages (like C#) have often been touted as the panacea of programming. We no longer need to be concerned with memory management. Memory leaks are a thing of the past. Retain/release/delete is banashed to the bowels of hell. The garbage collector (GC from here on out) will take care of all the ugly details of memory management for us.
+
+
+			</a>
+			
+			<div>
+			
+			</div>
+		</div>
+	</div>
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/recyclerkit">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/grass2d">Interactive 2D Foliage</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
 
-<time class='entry-date' datetime='2014-12-19T14:45:21-08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>2:45 pm</span></time>
-        
-      </p>
-    
-  </header>
 
 
-  <div class="entry-content"><p>Having interactive foliage in your game helps bring some life to your environment. It makes everything feel more alive. There are lots of different ways to handle interactive foliage. The easiest way is to stick a trigger collider on your GameObject. When the player hits the trigger just move it back and forth on the x-axis. In this post we will go over how to kick that up a notch.</p>
 
+
+
+<div class="index-container">
+	<div class="row top20 equal">
+		<div class="col-md-2 bg-white">
+			<h1 class="text-center">Dec 19</h1>
+		</div>
+		<div class="col-md-9 bg-primary bg-blue shadowed post-wrapper">
+			<a class="article-link" rel="full-article" href="/grass2d">
+				<h1>Interactive 2D Foliage</h1>
+				Having interactive foliage in your game helps bring some life to your environment. It makes everything feel more alive. There are lots of different ways to handle interactive foliage. The easiest way is to stick a trigger collider on your GameObject. When the player hits the trigger just move it back and forth on the x-axis. In this post we will go over how to kick that up a notch.
+
+
+			</a>
+			
+			<div>
+			
+			</div>
+		</div>
+	</div>
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/grass2d">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/constants-generator-kit">ConstantsGeneratorKit: Killing Naked Strings So You Don&#8217;t Have To</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
 
-<time class='entry-date' datetime='2014-12-05T19:12:12-08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>7:12 pm</span></time>
-        
-      </p>
-    
-  </header>
 
 
-  <div class="entry-content"><p>Killing naked strings? What the heck does that even mean? If you have ever worked on a large project with a medium-to-large sized team you will know exactly what I am talking about. How many times have you seen brittle code like this <code>GameObject.FindWithTag( "SpawnPoint" )</code> or this <code>someGameObject.tag == "Enemy"</code>? Those strings are naked and afraid and they will come back to haunt you later.</p>
 
+
+
+<div class="index-container">
+	<div class="row top20 equal">
+		<div class="col-md-2 bg-white">
+			<h1 class="text-center">Dec 5</h1>
+		</div>
+		<div class="col-md-9 bg-primary bg-blue shadowed post-wrapper">
+			<a class="article-link" rel="full-article" href="/constants-generator-kit">
+				<h1>ConstantsGeneratorKit: Killing Naked Strings so You Don&#8217;t Have To</h1>
+				Killing naked strings? What the heck does that even mean? If you have ever worked on a large project with a medium-to-large sized team you will know exactly what I am talking about. How many times have you seen brittle code like this GameObject.FindWithTag( &#8220;SpawnPoint&#8221; ) or this someGameObject.tag == &#8220;Enemy&#8221;? Those strings are naked and afraid and they will come back to haunt you later.
+
+
+			</a>
+			
+			<div>
+			
+			</div>
+		</div>
+	</div>
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/constants-generator-kit">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/water2d-part2">Modeling 2D Water With Springs: Part 2</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
 
-<time class='entry-date' datetime='2014-12-01T22:09:42-08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2014</span></span> <span class='time'>10:09 pm</span></time>
-        
-      </p>
-    
-  </header>
 
 
-  <div class="entry-content"><p>In part 1, all the groundwork for setting up the water simulation was laid. We have springs attached to the top verts of the water plane, which always want to remain in their neutral position. Once a force is applied to the springs they will oscillate back and forth based on the dampening and tension constants that are passed in.</p>
 
+
+
+<div class="index-container">
+	<div class="row top20 equal">
+		<div class="col-md-2 bg-white">
+			<h1 class="text-center">Dec 1</h1>
+		</div>
+		<div class="col-md-9 bg-primary bg-blue shadowed post-wrapper">
+			<a class="article-link" rel="full-article" href="/water2d-part2">
+				<h1>Modeling 2D Water with Springs: Part 2</h1>
+				In part 1, all the groundwork for setting up the water simulation was laid. We have springs attached to the top verts of the water plane, which always want to remain in their neutral position. Once a force is applied to the springs they will oscillate back and forth based on the dampening and tension constants that are passed in.
+
+
+			</a>
+			
+			<div>
+			
+			</div>
+		</div>
+	</div>
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/water2d-part2">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/water2d-part1">Modeling 2D Water With Springs: Part 1</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
 
-<time class='entry-date' datetime='2014-11-28T17:16:05-08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>5:16 pm</span></time>
-        
-      </p>
-    
-  </header>
 
 
-  <div class="entry-content"><p>Water is one of those things in the world of game development that can range anywhere from incredibly simple to insanely complex. Your first attempt at making water might not be anything more than a transparent quad. Compare a solution like that with something like the water as seen in <a href="https://www.google.com/search?q=Assassin%27s+Creed+IV:+Black+Flag+water&amp;tbm=isch">Assassin&rsquo;s Creed IV: Black Flag</a> or <a href="https://www.google.com/search?q=bioshock+water&amp;tbm=isch">Bioshock</a> to get an idea of how far it can be taken.</p>
 
+
+
+<div class="index-container">
+	<div class="row top20 equal">
+		<div class="col-md-2 bg-white">
+			<h1 class="text-center">Nov 28</h1>
+		</div>
+		<div class="col-md-9 bg-primary bg-blue shadowed post-wrapper">
+			<a class="article-link" rel="full-article" href="/water2d-part1">
+				<h1>Modeling 2D Water with Springs: Part 1</h1>
+				Water is one of those things in the world of game development that can range anywhere from incredibly simple to insanely complex. Your first attempt at making water might not be anything more than a transparent quad. Compare a solution like that with something like the water as seen in Assassin&rsquo;s Creed IV: Black Flag or Bioshock to get an idea of how far it can be taken.
+
+
+			</a>
+			
+			<div>
+			
+			</div>
+		</div>
+	</div>
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/water2d-part1">Read on &rarr;</a>
-    </footer>
-  
 
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-    <a class="next" href="/index.html">Newer &rarr;</a>
-    
-  </div>
+
+
+
+
+<div class="index-container">
+	<div class="col-md-11">
+
+
+
+	<a class="btn btn-warning pull-right paginator-link" href="/index.html">Newer &rarr;</a>
+
+	</div>
 </div>
-<aside class="sidebar">
-  
-    
-  
-</aside>
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - Mike Desaro -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
+	<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script src="/js/ripples.min.js"></script>
+<script src="/js/material.min.js"></script>
 
 
+<script>
+	$(document).ready( function()
+	{
+	  	$.material.init();
+	});
+
+	// handle YouTube embeds
+	$( 'iframe[src^="//www.youtube"]' ).wrap( '<div class="video-container"/>' ).addClass( 'video' );
 
 
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-
-
-
-
-
-
+    ga( 'create', 'UA-2991216-11', 'auto' );
+    ga( 'send', 'pageview' );
+</script>
 </body>
 </html>

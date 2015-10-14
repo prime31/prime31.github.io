@@ -1,374 +1,320 @@
 
 <!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>prime[31] blog - Unity tips, tricks and random thoughts</title>
-  <meta name="author" content="Mike Desaro">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="description" content="Unity tips, tricks and random thoughts">
+	
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
 
-  
-  <meta name="description" content="Back in the post on SpriteLightKit, we talked about the stencil buffer and we left things off with a homework assignment. I also did the homework &hellip;">
-  
+	<link href="/stylesheets/code.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/stylesheets/ripples.min.css" rel="stylesheet">
+	<link href="/stylesheets/material.min.css" rel="stylesheet">
+	<link href="/stylesheets/site.css" rel="stylesheet">
 
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  
-  <link rel="canonical" href="http://blog.prime31.com">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="prime[31] blog - Unity tips, tricks and random thoughts" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-
+	<title>prime[31] blog - Unity tips, tricks and random thoughts</title>
+	<link href="/favicon.ico" rel="icon">
+	<link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114-precomposed.png">
+	<link href="/atom.xml" rel="alternate" title="prime[31] blog - Unity tips, tricks and random thoughts" type="application/atom+xml">
 </head>
 
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">prime[31] blog - Unity tips, tricks and random thoughts</a></h1>
-  
-</hgroup>
+<body  class="index-page" >
+	    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">
+			  <img src="/images/prime31logo.png" width="120">
+		  </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+	        <form class="navbar-form navbar-right" method="get" action="https://www.google.com/search">
+				<input type="hidden" name="as_sitesearch" value="blog.prime31.com"/>
+	            <input type="text" name="q" class="form-control col-lg-8" placeholder="Search site via Google"/>
+	        </form>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
 
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="https://www.google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:blog.prime31.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/stencil-buffer-occlusion">Using the Stencil Buffer for Sprite Occlusion</a></h1>
-    
-    
-      <p class="meta">
-        
+	
 
 
 
 
-<time class='entry-date' datetime='2015-10-13T00:19:16-07:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:19 am</span></time>
-        
-      </p>
-    
-  </header>
 
 
-  <div class="entry-content"><p>Back in <a href="/SpriteLightKit/">the post</a> on SpriteLightKit, we talked about the stencil buffer and we left things off with a homework assignment. I also did the homework assignment and will be sharing the result that I came up with.</p>
+<div class="index-container">
+	<div class="row top20 equal">
+		<div class="col-md-2 bg-white">
+			<h1 class="text-center">Oct 13</h1>
+		</div>
+		<div class="col-md-9 bg-primary bg-blue shadowed post-wrapper">
+			<a class="article-link" rel="full-article" href="/stencil-buffer-occlusion">
+				<h1>Using the Stencil Buffer for Sprite Occlusion</h1>
+				Back in the post on SpriteLightKit, we talked about the stencil buffer and we left things off with a homework assignment. I also did the homework assignment and will be sharing the result that I came up with.
 
+
+			</a>
+			
+			<div>
+			
+			</div>
+		</div>
+	</div>
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/stencil-buffer-occlusion">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/pixel-perfect-camera">Pixel Perfect Camera</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
 
-<time class='entry-date' datetime='2015-09-18T16:57:31-07:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:57 pm</span></time>
-        
-      </p>
-    
-  </header>
 
 
-  <div class="entry-content"><p>This post is going to be a little bit different. It will mainly consist of a video with a small amount of accompanying text. Hit me up on Twitter (<a href="https://twitter.com/prime_31">@prime_31</a>) to let me know if you prefer text or video posts. This particular post is very visual seeing as how it is demonstrating a pixel perfect camera.</p>
 
+
+
+<div class="index-container">
+	<div class="row top20 equal">
+		<div class="col-md-2 bg-white">
+			<h1 class="text-center">Sep 18</h1>
+		</div>
+		<div class="col-md-9 bg-primary bg-blue shadowed post-wrapper">
+			<a class="article-link" rel="full-article" href="/pixel-perfect-camera">
+				<h1>Pixel Perfect Camera</h1>
+				This post is going to be a little bit different. It will mainly consist of a video with a small amount of accompanying text. Hit me up on Twitter (@prime_31) to let me know if you prefer text or video posts. This particular post is very visual seeing as how it is demonstrating a pixel perfect camera.
+
+
+			</a>
+			
+			<div>
+			
+			</div>
+		</div>
+	</div>
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/pixel-perfect-camera">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/SpriteLightKit">SpriteLightKit and Stencil Buffer Introduction</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
 
-<time class='entry-date' datetime='2015-09-04T12:43:25-07:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:43 pm</span></time>
-        
-      </p>
-    
-  </header>
 
 
-  <div class="entry-content"><p>SpriteLightKit brings back the old two buffered blend trick to get pseudo lighting with just sprites. It handles the setup process of getting that second buffer blended with your normal scene. This post will delve into how it works and along the way it will explain the shader techniques used to pull it off.</p>
 
+
+
+<div class="index-container">
+	<div class="row top20 equal">
+		<div class="col-md-2 bg-white">
+			<h1 class="text-center">Sep 4</h1>
+		</div>
+		<div class="col-md-9 bg-primary bg-blue shadowed post-wrapper">
+			<a class="article-link" rel="full-article" href="/SpriteLightKit">
+				<h1>SpriteLightKit and Stencil Buffer Introduction</h1>
+				SpriteLightKit brings back the old two buffered blend trick to get pseudo lighting with just sprites. It handles the setup process of getting that second buffer blended with your normal scene. This post will delve into how it works and along the way it will explain the shader techniques used to pull it off.
+
+
+			</a>
+			
+			<div>
+			
+			</div>
+		</div>
+	</div>
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/SpriteLightKit">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/A-Method-for-Working-with-Shared-Code-with-Unity-and-Git">A Method for Working With Shared Code With Unity and Git</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
 
-<time class='entry-date' datetime='2015-05-19T12:45:51-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:45 pm</span></time>
-        
-      </p>
-    
-  </header>
 
 
-  <div class="entry-content"><p>Out of the box Unity doesn&rsquo;t provide any good way to have a shared codebase that is used amongst multiple Unity projects. Any code that you drag into a Unity project is automatically copied into it. If you make changes to your shared code you have to remember to change it in every project that uses it. This is obviously not a sustainable approach.</p>
 
+
+
+<div class="index-container">
+	<div class="row top20 equal">
+		<div class="col-md-2 bg-white">
+			<h1 class="text-center">May 19</h1>
+		</div>
+		<div class="col-md-9 bg-primary bg-blue shadowed post-wrapper">
+			<a class="article-link" rel="full-article" href="/A-Method-for-Working-with-Shared-Code-with-Unity-and-Git">
+				<h1>A Method for Working with Shared Code with Unity and Git</h1>
+				Out of the box Unity doesn&rsquo;t provide any good way to have a shared codebase that is used amongst multiple Unity projects. Any code that you drag into a Unity project is automatically copied into it. If you make changes to your shared code you have to remember to change it in every project that uses it. This is obviously not a sustainable approach.
+
+
+			</a>
+			
+			<div>
+			
+			</div>
+		</div>
+	</div>
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/A-Method-for-Working-with-Shared-Code-with-Unity-and-Git">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/making-xamarin-work-for-you">Making Xamarin/MonoDevelop Work for You</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
 
-<time class='entry-date' datetime='2015-05-04T11:42:29-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:42 am</span></time>
-        
-      </p>
-    
-  </header>
 
 
-  <div class="entry-content"><p>One of the biggest pain points with using Unity for game development is the absolutely <em>ancient</em> version of MonoDevelop that ships with it. Anyone who writes code for Unity will spend a vast majority of their time in MonoDevelop as opposed to in Unity itself. This post aims to make that time more enjoyable and less angst filled. As of Unity 5 MonoDevelop 4.0.1 is included with the installer. MonoDevelop 4.0.1 was released on March 5th, <em>2013</em>. Yes, you read that correctly. Over 2 years ago. MonoDevelop is currenctly on version 5.9 which has 2+ years of development time, 2+ years of improvements, 2+ years of bug fixes compared to the Unity fork.</p>
 
+
+
+<div class="index-container">
+	<div class="row top20 equal">
+		<div class="col-md-2 bg-white">
+			<h1 class="text-center">May 4</h1>
+		</div>
+		<div class="col-md-9 bg-primary bg-blue shadowed post-wrapper">
+			<a class="article-link" rel="full-article" href="/making-xamarin-work-for-you">
+				<h1>Making Xamarin/MonoDevelop Work for You</h1>
+				One of the biggest pain points with using Unity for game development is the absolutely ancient version of MonoDevelop that ships with it. Anyone who writes code for Unity will spend a vast majority of their time in MonoDevelop as opposed to in Unity itself. This post aims to make that time more enjoyable and less angst filled. As of Unity 5 MonoDevelop 4.0.1 is included with the installer. MonoDevelop 4.0.1 was released on March 5th, 2013. Yes, you read that correctly. Over 2 years ago. MonoDevelop is currenctly on version 5.9 which has 2+ years of development time, 2+ years of improvements, 2+ years of bug fixes compared to the Unity fork.
+
+
+			</a>
+			
+			<div>
+			
+			</div>
+		</div>
+	</div>
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/making-xamarin-work-for-you">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/sprite-blink-shader">Making a Sprite Blink</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
 
-<time class='entry-date' datetime='2015-04-19T14:48:41-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:48 pm</span></time>
-        
-      </p>
-    
-  </header>
 
 
-  <div class="entry-content"><p>This is the first post in response to a reader-suggested topic and probably not the last. If there is a specific topic that you would like to see covered feel free to send over a question/request. Quite often when dealing with sprites you may want to have the sprite blink in a solid color to indicate various different states such as taking damage, build up before attack, etc. Unity&rsquo;s default sprite shader has only a tint color property so out of the box it isn&rsquo;t possible to do.</p>
 
+
+
+<div class="index-container">
+	<div class="row top20 equal">
+		<div class="col-md-2 bg-white">
+			<h1 class="text-center">Apr 19</h1>
+		</div>
+		<div class="col-md-9 bg-primary bg-blue shadowed post-wrapper">
+			<a class="article-link" rel="full-article" href="/sprite-blink-shader">
+				<h1>Making a Sprite Blink</h1>
+				This is the first post in response to a reader-suggested topic and probably not the last. If there is a specific topic that you would like to see covered feel free to send over a question/request. Quite often when dealing with sprites you may want to have the sprite blink in a solid color to indicate various different states such as taking damage, build up before attack, etc. Unity&rsquo;s default sprite shader has only a tint color property so out of the box it isn&rsquo;t possible to do.
+
+
+			</a>
+			
+			<div>
+			
+				<span class="shadowed category-link">reader question</span>
+			
+				<span class="shadowed category-link">shaders</span>
+			
+			</div>
+		</div>
+	</div>
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/sprite-blink-shader">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/anatomy-of-a-tween-lib">Anatomy of a Tween Library</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
 
-<time class='entry-date' datetime='2015-04-17T18:29:33-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>6:29 pm</span></time>
-        
-      </p>
-    
-  </header>
 
 
-  <div class="entry-content"><p>Every game engine seems to have dozens of tween libs available. In this post we will dive head first into what a tween lib really is and eventually end up with the design decisions that went into GoKit, GoKitLite and the soon to be released ZestKit (yes, that will be the <em>third</em> open source tween lib that I release for Unity. Shoot me).</p>
 
+
+
+<div class="index-container">
+	<div class="row top20 equal">
+		<div class="col-md-2 bg-white">
+			<h1 class="text-center">Apr 17</h1>
+		</div>
+		<div class="col-md-9 bg-primary bg-blue shadowed post-wrapper">
+			<a class="article-link" rel="full-article" href="/anatomy-of-a-tween-lib">
+				<h1>Anatomy of a Tween Library</h1>
+				Every game engine seems to have dozens of tween libs available. In this post we will dive head first into what a tween lib really is and eventually end up with the design decisions that went into GoKit, GoKitLite and the soon to be released ZestKit (yes, that will be the third open source tween lib that I release for Unity. Shoot me).
+
+
+			</a>
+			
+			<div>
+			
+			</div>
+		</div>
+	</div>
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/anatomy-of-a-tween-lib">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/prop-enum-events">PropEnumEvents (Wtf?)</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
 
-<time class='entry-date' datetime='2015-03-27T21:05:54-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:05 pm</span></time>
-        
-      </p>
-    
-  </header>
 
 
-  <div class="entry-content"><p>I often use <a href="https://github.com/prime31/StateKit">StateKit</a> (a simple, object-based finite state machine implementation) for all kinds of state management. It gets used for enemy AI, player controllers, menus and just about everywhere else. In a recent project that was not very well defined (to be honest, it was made almsot completely on the fly) I needed a super flexible way to deal with a hierarchial state machine. The solution presented in this post is what I ended up using and it has been dubbed the PropEnumEvent system.</p>
 
+
+
+<div class="index-container">
+	<div class="row top20 equal">
+		<div class="col-md-2 bg-white">
+			<h1 class="text-center">Mar 27</h1>
+		</div>
+		<div class="col-md-9 bg-primary bg-blue shadowed post-wrapper">
+			<a class="article-link" rel="full-article" href="/prop-enum-events">
+				<h1>PropEnumEvents (wtf?)</h1>
+				I often use StateKit (a simple, object-based finite state machine implementation) for all kinds of state management. It gets used for enemy AI, player controllers, menus and just about everywhere else. In a recent project that was not very well defined (to be honest, it was made almsot completely on the fly) I needed a super flexible way to deal with a hierarchial state machine. The solution presented in this post is what I ended up using and it has been dubbed the PropEnumEvent system.
+
+
+			</a>
+			
+			<div>
+			
+			</div>
+		</div>
+	</div>
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/prop-enum-events">Read on &rarr;</a>
-    </footer>
-  
 
 
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/posts/2">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
+
+
+
+
+<div class="index-container">
+	<div class="col-md-11">
+
+	<a class="btn btn-warning pull-left paginator-link" href="/posts/2">&larr; Older</a>
+
+
+
+	</div>
 </div>
-<aside class="sidebar">
-  
-    
-  
-</aside>
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - Mike Desaro -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
+	<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script src="/js/ripples.min.js"></script>
+<script src="/js/material.min.js"></script>
 
 
+<script>
+	$(document).ready( function()
+	{
+	  	$.material.init();
+	});
+
+	// handle YouTube embeds
+	$( 'iframe[src^="//www.youtube"]' ).wrap( '<div class="video-container"/>' ).addClass( 'video' );
 
 
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-
-
-
-
-
-
+    ga( 'create', 'UA-2991216-11', 'auto' );
+    ga( 'send', 'pageview' );
+</script>
 </body>
 </html>
