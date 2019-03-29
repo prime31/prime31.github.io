@@ -92,15 +92,6 @@ where elapsedTime ticks from 0 to 1. Now that is just a linear interpololation w
 
 <p>Interfaces are also great for adding extensibility to a library. In the case of the Tween class (see the image above) you can see that it houses a TweenTarget. That target is really an <code>ITweenTarget&lt;T&gt;</code> (where T is the value type being tweened: float, Vector2, int, etc). Remember above that one of the goals was to make ZestKit easier to extend than GoKit? The ITweenTarget is the key to all that. With ZestKit all you need to do to be able to tween anything at all is implement the single method in the ITweenTarget interface. Let&rsquo;s say you have a Quaternion property (myQuatProp) that you want to tween in your class (SuperClass). All you have to do to make it ZestKit ready is add the following method to your class:</p>
 
-<pre><code>public class SuperClass : ITweenTarget&lt;Quaternion&gt;
-{
-  public void setTweenedValue( Quaternion value )
-  {
-    myQuatProp = value;
-  }
-}
-</code></pre>
-
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
