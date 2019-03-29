@@ -1,100 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>http://blog.prime31.com/blog-is-moving</loc>
-    <lastmod>2015-10-15T20:28:27-07:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://blog.prime31.com/stencil-buffer-occlusion</loc>
-    <lastmod>2015-10-13T00:19:16-07:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://blog.prime31.com/pixel-perfect-camera</loc>
-    <lastmod>2015-09-18T16:57:31-07:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://blog.prime31.com/SpriteLightKit</loc>
-    <lastmod>2015-09-04T12:43:25-07:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://blog.prime31.com/A-Method-for-Working-with-Shared-Code-with-Unity-and-Git</loc>
-    <lastmod>2015-05-19T12:45:51-07:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://blog.prime31.com/making-xamarin-work-for-you</loc>
-    <lastmod>2015-05-04T11:42:29-07:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://blog.prime31.com/sprite-blink-shader</loc>
-    <lastmod>2015-04-19T14:48:41-07:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://blog.prime31.com/anatomy-of-a-tween-lib</loc>
-    <lastmod>2015-04-17T18:29:33-07:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://blog.prime31.com/prop-enum-events</loc>
-    <lastmod>2015-03-27T21:05:54-07:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://blog.prime31.com/making-playerprefs-sane</loc>
-    <lastmod>2015-02-11T10:24:30-08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://blog.prime31.com/persisting-data-with-json</loc>
-    <lastmod>2015-02-02T10:24:30-08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://blog.prime31.com/simple-value-mapping</loc>
-    <lastmod>2015-01-16T11:53:46-08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://blog.prime31.com/recyclerkit</loc>
-    <lastmod>2015-01-05T17:16:05-08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://blog.prime31.com/grass2d</loc>
-    <lastmod>2014-12-19T14:45:21-08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://blog.prime31.com/constants-generator-kit</loc>
-    <lastmod>2014-12-05T19:12:12-08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://blog.prime31.com/water2d-part2</loc>
-    <lastmod>2014-12-01T22:09:42-08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://blog.prime31.com/water2d-part1</loc>
-    <lastmod>2014-11-28T17:16:05-08:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://blog.prime31.com/blog/archives/</loc>
-    <lastmod>2015-10-15T20:36:46-07:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>http://blog.prime31.com/</loc>
-    <lastmod>2015-10-15T20:36:46-07:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
+<url>
+<loc>http://blog.prime31.com/stencil-buffer-occlusion</loc>
+<lastmod>2015-10-13T00:19:16-07:00</lastmod>
+</url>
+<url>
+<loc>http://blog.prime31.com/pixel-perfect-camera</loc>
+<lastmod>2015-09-18T16:57:31-07:00</lastmod>
+</url>
+<url>
+<loc>http://blog.prime31.com/SpriteLightKit</loc>
+<lastmod>2015-09-04T12:43:25-07:00</lastmod>
+</url>
+<url>
+<loc>http://blog.prime31.com/A-Method-for-Working-with-Shared-Code-with-Unity-and-Git</loc>
+<lastmod>2015-05-19T12:45:51-07:00</lastmod>
+</url>
+<url>
+<loc>http://blog.prime31.com/making-xamarin-work-for-you</loc>
+<lastmod>2015-05-04T11:42:29-07:00</lastmod>
+</url>
+<url>
+<loc>http://blog.prime31.com/sprite-blink-shader</loc>
+<lastmod>2015-04-19T14:48:41-07:00</lastmod>
+</url>
+<url>
+<loc>http://blog.prime31.com/anatomy-of-a-tween-lib</loc>
+<lastmod>2015-04-17T18:29:33-07:00</lastmod>
+</url>
+<url>
+<loc>http://blog.prime31.com/prop-enum-events</loc>
+<lastmod>2015-03-27T21:05:54-07:00</lastmod>
+</url>
+<url>
+<loc>http://blog.prime31.com/making-playerprefs-sane</loc>
+<lastmod>2015-02-11T10:24:30-08:00</lastmod>
+</url>
+<url>
+<loc>http://blog.prime31.com/persisting-data-with-json</loc>
+<lastmod>2015-02-02T10:24:30-08:00</lastmod>
+</url>
+<url>
+<loc>http://blog.prime31.com/simple-value-mapping</loc>
+<lastmod>2015-01-16T11:53:46-08:00</lastmod>
+</url>
+<url>
+<loc>http://blog.prime31.com/recyclerkit</loc>
+<lastmod>2015-01-05T17:16:05-08:00</lastmod>
+</url>
+<url>
+<loc>http://blog.prime31.com/grass2d</loc>
+<lastmod>2014-12-19T14:45:21-08:00</lastmod>
+</url>
+<url>
+<loc>http://blog.prime31.com/constants-generator-kit</loc>
+<lastmod>2014-12-05T19:12:12-08:00</lastmod>
+</url>
+<url>
+<loc>http://blog.prime31.com/water2d-part2</loc>
+<lastmod>2014-12-01T22:09:42-08:00</lastmod>
+</url>
+<url>
+<loc>http://blog.prime31.com/water2d-part1</loc>
+<lastmod>2014-11-28T17:16:05-08:00</lastmod>
+</url>
+<url>
+<loc>http://blog.prime31.com/blog/archives/</loc>
+</url>
+<url>
+<loc>http://blog.prime31.com/</loc>
+</url>
+<url>
+<loc>http://blog.prime31.com/tags/reader-question/</loc>
+</url>
+<url>
+<loc>http://blog.prime31.com/tags/shaders/</loc>
+</url>
+<url>
+<loc>http://blog.prime31.com/posts/2/</loc>
+</url>
 </urlset>
