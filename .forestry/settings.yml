@@ -9,7 +9,7 @@ sections:
   label: Javascript
   create: all
   match: "**/*"
-  new_doc_ext: ".js"
+  new_doc_ext: js
 - type: directory
   path: source/stylesheets
   label: CSS
