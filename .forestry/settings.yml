@@ -5,6 +5,12 @@ admin_path:
 webhook_url: 
 sections:
 - type: directory
+  path: js
+  label: Javascript
+  create: all
+  match: "**/*"
+  new_doc_ext: ".js"
+- type: directory
   path: source/stylesheets
   label: CSS
   create: all
