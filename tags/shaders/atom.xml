@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Shaders | prime[31] blog - Unity tips, tricks and random thoughts]]></title>
-  <link href="http://blog.prime31.com/tags/shaders/atom.xml" rel="self"/>
-  <link href="http://blog.prime31.com/"/>
-  <updated>2019-03-29T17:40:05+00:00</updated>
-  <id>http://blog.prime31.com/</id>
+  <title><![CDATA[Category: Shaders | prime31 blog - Game dev tips, tricks and random thoughts]]></title>
+  <link href="https://prime31.github.io/tags/shaders/atom.xml" rel="self"/>
+  <link href="https://prime31.github.io/"/>
+  <updated>2019-03-29T18:07:50+00:00</updated>
+  <id>https://prime31.github.io/</id>
   <author>
-    <name><![CDATA[Mike Desaro]]></name>
+    <name><![CDATA[Mike]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Making a Sprite Blink]]></title>
-    <link href="http://blog.prime31.com/sprite-blink-shader"/>
+    <link href="https://prime31.github.io/sprite-blink-shader"/>
     <updated>2015-04-19T14:48:41-07:00</updated>
-    <id>http://blog.prime31.com/sprite-blink-shader</id>
+    <id>https://prime31.github.io/sprite-blink-shader</id>
     <content type="html"><![CDATA[<p>This is the first post in response to a reader-suggested topic and probably not the last. If there is a specific topic that you would like to see covered feel free to send over a question/request. Quite often when dealing with sprites you may want to have the sprite blink in a solid color to indicate various different states such as taking damage, build up before attack, etc. Unity&rsquo;s default sprite shader has only a tint color property so out of the box it isn&rsquo;t possible to do.</p>
 
 <!-- more -->
@@ -91,7 +91,7 @@ Directly underneath that add the line below which will handle the blinking.</p>
 </span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
 </span></code></pre></td></tr></table></div></figure></p>
 
-<p>This final code block shows how to use the interpolation we built into the shader. It just does a simple ping-pong of the alpha value so that you can see how the shader works. <a href="http://cl.ly/ai82">Here it is</a> in action. You can get a lot fancier with the final outcome of the blink by varying the alpha value in a non-linear way (using AnimationCurves, a <a href="http://blog.prime31.com/anatomy-of-a-tween-lib/">tween library</a>, easing equations, etc).</p>
+<p>This final code block shows how to use the interpolation we built into the shader. It just does a simple ping-pong of the alpha value so that you can see how the shader works. <a href="http://cl.ly/ai82">Here it is</a> in action. You can get a lot fancier with the final outcome of the blink by varying the alpha value in a non-linear way (using AnimationCurves, a <a href="https://prime31.github.io/anatomy-of-a-tween-lib/">tween library</a>, easing equations, etc).</p>
 
 <p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
