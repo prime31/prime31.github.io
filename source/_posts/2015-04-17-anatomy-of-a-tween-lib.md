@@ -41,14 +41,6 @@ Why use interfaces at all? Interfaces are a great way to separate responsibility
 
 Interfaces are also great for adding extensibility to a library. In the case of the Tween class (see the image above) you can see that it houses a TweenTarget. That target is really an `ITweenTarget<T>` (where T is the value type being tweened: float, Vector2, int, etc). Remember above that one of the goals was to make ZestKit easier to extend than GoKit? The ITweenTarget is the key to all that. With ZestKit all you need to do to be able to tween anything at all is implement the single method in the ITweenTarget interface. Let's say you have a Quaternion property (myQuatProp) that you want to tween in your class (SuperClass). All you have to do to make it ZestKit ready is add the following method to your class:
 
-    public class SuperClass : ITweenTarget<Quaternion>
-    {
-      public void setTweenedValue( Quaternion value )
-      {
-      	myQuatProp = value;
-      }
-    }
-
 {% codeblock lang:csharp %}
 public class SuperClass : ITweenTarget<Quaternion>
 {
