@@ -61,9 +61,9 @@
 <!-- more -->
 
 
-<p>At it&rsquo;s very core, a tween lib is utterly simple. What it boils down to is just the following (position is used for this example but the same exact thing applies to floats, quaternions, vectors, ints, etc): <code>trans.position = from + ( to - from ) * elapsedTime</code>   <br/>
-or even simpler:   <br/>
-<code>trans.position = lerp( from, to, elapsedTime )</code> <br/>
+<p>At it&rsquo;s very core, a tween lib is utterly simple. What it boils down to is just the following (position is used for this example but the same exact thing applies to floats, quaternions, vectors, ints, etc): <code>trans.position = from + ( to - from ) * elapsedTime</code><br/>
+or even simpler:<br/>
+<code>trans.position = lerp( from, to, elapsedTime )</code><br/>
 where elapsedTime ticks from 0 to 1. Now that is just a linear interpololation which is the ugliest, most unnatural way to move an object but adding more interesting easing to this is pretty trivial.</p>
 
 <p>If a tween lib is so simple why are there so many of them? Mainly convenience. The tween lib can cover lots of boilerplate code like managing the tween state, allow pause/resume, syntactic sugar, caching, etc. Before we get into any gory details lets have a look at the two previous tween libs that I have made (you can find them on GitHub).</p>
@@ -101,10 +101,10 @@ where elapsedTime ticks from 0 to 1. Now that is just a linear interpololation w
 <span class='line-number'>7</span>
 </pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">SuperClass</span> <span class="p">:</span> <span class="n">ITweenTarget</span><span class="p">&lt;</span><span class="n">Quaternion</span><span class="p">&gt;</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="k">public</span> <span class="k">void</span> <span class="nf">setTweenedValue</span><span class="p">(</span> <span class="n">Quaternion</span> <span class="k">value</span> <span class="p">)</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="n">myQuatProp</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="k">public</span> <span class="k">void</span> <span class="nf">setTweenedValue</span><span class="p">(</span> <span class="n">Quaternion</span> <span class="k">value</span> <span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="n">myQuatProp</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
