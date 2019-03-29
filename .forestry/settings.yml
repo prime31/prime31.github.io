@@ -4,6 +4,12 @@ auto_deploy: true
 admin_path: 
 webhook_url: 
 sections:
+- type: directory
+  path: source/stylesheets
+  label: CSS
+  create: all
+  match: "**/*"
+  new_doc_ext: ".css"
 - type: jekyll-pages
   label: Pages
   create: all
