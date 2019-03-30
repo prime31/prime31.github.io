@@ -24,6 +24,8 @@ email:
 # ----------------------- #
 #    Jekyll & Plugins     #
 # ----------------------- #
+plugins:
+    - jekyll-include-cache
 
 sass:
     style: :compressed
