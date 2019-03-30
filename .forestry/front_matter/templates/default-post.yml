@@ -15,3 +15,5 @@ fields:
 - type: text
   name: permalink
   label: Permalink
+pages:
+- source/_posts/Legacy Posts/the-great-2d-framework-evaluation-part-3.md
