@@ -17,3 +17,5 @@ group :development do
 end
 
 gem 'sinatra', '~> 1.4.2'
+gem 'jekyll-remote-theme'
+gem 'github-pages', group: :jekyll_plugins
