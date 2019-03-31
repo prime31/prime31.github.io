@@ -27,7 +27,6 @@ email:
 plugins:
   - jekyll-sitemap
   - jekyll-feed
-  - jekyll-remote-theme
   
 sass:
     style: :compressed
