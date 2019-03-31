@@ -24,6 +24,11 @@ email:
 # ----------------------- #
 #    Jekyll & Plugins     #
 # ----------------------- #
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-remote-theme
+  
 sass:
     style: :compressed
 
@@ -105,50 +110,3 @@ google_analytics_tracking_id:
 facebook_like: false
 
 
-
-
-
-
-
-
-# ----------------------- #
-#   prose.io settings     #
-# ----------------------- #
-prose:
-  rooturl: 'source/_posts'
-  siteurl: 'http://blog.github.io/'
-  media: 'source/assets'
-  metadata:
-    _posts:
-      - name: "category"
-        field:
-          element: "hidden"
-          value: "blog"
-      - name: "layout"
-        field:
-          element: "hidden"
-          value: "blog"
-      - name: "title"
-        field:
-          element: "text"
-          label: "Title"
-          value: ""
-      - name: "splash"
-        field:
-          element: "text"
-          label: "Splash image"
-          value: ""
-      - name: "tags"
-        field:
-          element: "multiselect"
-          label: "Add Tags"
-          placeholder: "Choose Tags"
-          options:
-            - name: "Apples"
-              value: "apples"
-            - name: "Bananas"
-              value: "bananas"
-            - name: "Pears"
-              value: "pears"
-            - name: "Mangos"
-              value: "mangos"
