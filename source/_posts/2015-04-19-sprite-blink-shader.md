@@ -21,16 +21,16 @@ We aren't going to go into great detail on the basics of writing a shader in thi
 
 The first thing we are going to need to do is add a property to the shader so that we can specify the blink color. Just add the following line in the Properties section to do so:
 
-{% codeblock lang:csharp %}
+{% highlight csharp %}
 _BlinkColor ("Blink Color", Color) = (1,1,1,1)
-{% endcodeblock %}
+{% endhighlight %}
 
 
 Next up, we need to add the declaration in the shader for the new _BlinkColor property that we just added. This can be done by adding the following line directly under (or above) the `fixed4 _Color;` declaration already present in the shader:
 
-{% codeblock lang:csharp %}
+{% highlight csharp %}
 fixed4 _BlinkColor;
-{% endcodeblock %}
+{% endhighlight %}
 
 
 There are a few different ways we can handle the blinking. A nice, flexible approach for this particular case would be to provide the ability to immediately flash to the blink color but also provide a way to smoothly interpolate from the current color to the blink color. Doing it this way should provide the most flexibility. Locate the line in the shader that looks like this:
@@ -38,9 +38,9 @@ There are a few different ways we can handle the blinking. A nice, flexible appr
 Directly underneath that add the line below which will handle the blinking.
 
 
-{% codeblock lang:csharp %}
+{% highlight csharp %}
 c.rgb = lerp( c.rgb, _BlinkColor.rgb, _BlinkColor.a );
-{% endcodeblock %}
+{% endhighlight %}
 
 
 What we are doing in that line is using the alpha value of the blink color to interpolate the final color from the original sprite color to our blink color. If the blink color has an alpha of 0 then the standard sprite color will be displayed. When the blink color has an alpha of 1 only the blink color will be shown. Any value in between 0 and 1 will interpolate between the two colors.
@@ -51,7 +51,7 @@ What we are doing in that line is using the alpha value of the blink color to in
 Now that we have the shader code all wrapped up we need to make a quick script to manage the blink color. The code block below will do a hard blink (jump from the sprite color directly to the blink color). To see it in action check out <a href="http://cl.ly/ai7N">this short video.</a>
 
 
-{% codeblock lang:csharp %}
+{% highlight csharp %}
 IEnumerator blink( float delayBetweenBlinks, int numberOfBlinks, Color blinkColor )
 {
 	var material = GetComponent<SpriteRenderer>().material;
@@ -68,13 +68,13 @@ IEnumerator blink( float delayBetweenBlinks, int numberOfBlinks, Color blinkColo
 	blinkColor.a = 0f;
 	material.SetColor( "_BlinkColor", blinkColor );
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 
 This final code block shows how to use the interpolation we built into the shader. It just does a simple ping-pong of the alpha value so that you can see how the shader works. <a href="http://cl.ly/ai82">Here it is</a> in action. You can get a lot fancier with the final outcome of the blink by varying the alpha value in a non-linear way (using AnimationCurves, a <a href="/anatomy-of-a-tween-lib/">tween library</a>, easing equations, etc).
 
 
-{% codeblock lang:csharp %}
+{% highlight csharp %}
 IEnumerator blinkSmooth( float timeScale, float duration, Color blinkColor )
 {
 	var material = GetComponent<SpriteRenderer>().material;
@@ -92,4 +92,4 @@ IEnumerator blinkSmooth( float timeScale, float duration, Color blinkColor )
 	blinkColor.a = 0f;
 	material.SetColor( "_BlinkColor", blinkColor );
 }
-{% endcodeblock %}
+{% endhighlight %}

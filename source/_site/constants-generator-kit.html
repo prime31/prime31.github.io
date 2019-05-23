@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>ConstantsGeneratorKit: Killing Naked Strings so You Don't Have To</title>
+  <meta name="description" content="Killing naked strings? What the heck does that even mean? If you have ever worked on a large project with a medium-to-large sized team you will know exactly ...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/constants-generator-kit">
+  <link rel="alternate" type="application/rss+xml" title="" href="http://localhost:4000/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">prime31 blog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/archive/">Archive</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="https://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">ConstantsGeneratorKit: Killing Naked Strings so You Don't Have To</h1>
+    <p class="post-meta"><time datetime="2014-12-05T19:12:12-08:00" itemprop="datePublished">Dec 5, 2014</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>Killing naked strings? What the heck does that even mean? If you have ever worked on a large project with a medium-to-large sized team you will know exactly what I am talking about. How many times have you seen brittle code like this <code class="highlighter-rouge">GameObject.FindWithTag( "SpawnPoint" )</code> or this <code class="highlighter-rouge">someGameObject.tag == "Enemy"</code>? Those strings are naked and afraid and they will come back to haunt you later.</p>
+
+<!-- more -->
+
+<h3 id="the-problems-defined">The Problem(s) Defined</h3>
+<p>For the purposes of this discussion we will define a <em>naked string</em> as any string that is not declared as a constant. That means anytime you start typing a quote (“) in your code you are making a naked string and causing problems for future you or the rest of your team. Let’s say, for example, you are comparing GameObject.tag to naked strings as in the first paragraph. What happens if you want to change the tag from “Enemy” to “Tank”? You then have to search your project and hope that you find all the places where you used the “Enemy” string. The worst part is that bugs like this are <strong>very</strong> hard to track down.</p>
+
+<h3 id="the-dead-simple-solution">The (Dead Simple) Solution</h3>
+<p>There are various ways to solve this problem. The most common is constant string properties/fields in classes. As long as you are diligent and make sure that you always remember to update the strings when you change your tags, all will be well. We all know that isn’t happening though. Either you or somebody else will change something and forget to update the string. Good luck tracking that bug down.</p>
+
+<p>Enter ConstantsGeneratorKit: the solution to naked strings. As an added benefit, it will also solve your naked layer ints, naked scene names and the worst offender of them all: naked resource paths. You can find ConstantsGeneratorKit on <a href="https://github.com/prime31/ConstantsGeneratorKit">GitHub</a>. It’s a single script. Stick it in a folder named Editor somewhere in your project. That’s it. ConstantsGeneratorKit will wait for changes in scenes, layers, tags and resources then generate classes with all the strings and ints setup as <em>const</em>. Yup. That means you get autocomplete for all of them. Just type <code class="highlighter-rouge">k.</code> and bask in the glory (by default ConstantsGeneratorKit stick everything in the “k” namespace for easy access but you can configure that and other options right in the file.) Below are examples of the 4 classes that ConstantsGeneratorKit generates automatically.</p>
+
+<h3 id="tagscs">Tags.cs</h3>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">namespace</span> <span class="nn">k</span>
+<span class="p">{</span>
+	<span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">Tags</span>
+	<span class="p">{</span>
+		<span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">EDITOR_ONLY</span> <span class="p">=</span> <span class="s">"EditorOnly"</span><span class="p">;</span>
+		<span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">MAIN_CAMERA</span> <span class="p">=</span> <span class="s">"MainCamera"</span><span class="p">;</span>
+		<span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">PLAYER</span> <span class="p">=</span> <span class="s">"Player"</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<h3 id="layerscs">Layers.cs</h3>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">namespace</span> <span class="nn">k</span>
+<span class="p">{</span>
+	<span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">Layers</span>
+	<span class="p">{</span>
+		<span class="k">public</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">DEFAULT</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+		<span class="k">public</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">TRANSPARENT_FX</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+		<span class="k">public</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">IGNORE_RAYCAST</span> <span class="p">=</span> <span class="m">2</span><span class="p">;</span>
+		<span class="k">public</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">WATER</span> <span class="p">=</span> <span class="m">4</span><span class="p">;</span>
+		<span class="k">public</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">UI</span> <span class="p">=</span> <span class="m">5</span><span class="p">;</span>
+		<span class="k">public</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">PLAYER</span> <span class="p">=</span> <span class="m">8</span><span class="p">;</span>
+
+
+		<span class="k">public</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">onlyIncluding</span><span class="p">(</span> <span class="k">params</span> <span class="kt">int</span><span class="p">[]</span> <span class="n">layers</span> <span class="p">)</span>
+		<span class="p">{</span>
+			<span class="kt">int</span> <span class="n">mask</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+			<span class="k">for</span><span class="p">(</span> <span class="kt">var</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">layers</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++</span> <span class="p">)</span>
+				<span class="n">mask</span> <span class="p">|=</span> <span class="p">(</span> <span class="m">1</span> <span class="p">&lt;&lt;</span> <span class="n">layers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">);</span>
+
+			<span class="k">return</span> <span class="n">mask</span><span class="p">;</span>
+		<span class="p">}</span>
+
+
+		<span class="k">public</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">everythingBut</span><span class="p">(</span> <span class="k">params</span> <span class="kt">int</span><span class="p">[]</span> <span class="n">layers</span> <span class="p">)</span>
+		<span class="p">{</span>
+			<span class="k">return</span> <span class="p">~</span><span class="nf">onlyIncluding</span><span class="p">(</span> <span class="n">layers</span> <span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<h3 id="scenescs">Scenes.cs</h3>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">namespace</span> <span class="nn">k</span>
+<span class="p">{</span>
+	<span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">Scenes</span>
+	<span class="p">{</span>
+		<span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">LEVEL_ONE</span> <span class="p">=</span> <span class="s">"LevelOne"</span><span class="p">;</span>
+		<span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">LEVEL_TWO</span> <span class="p">=</span> <span class="s">"LevelTwo"</span><span class="p">;</span>
+		<span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">LEVEL_THREE</span> <span class="p">=</span> <span class="s">"LevelThree"</span><span class="p">;</span>
+
+		<span class="k">public</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">TOTAL_SCENES</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span>
+
+
+		<span class="k">public</span> <span class="k">static</span> <span class="kt">int</span> <span class="nf">nextSceneIndex</span><span class="p">()</span>
+		<span class="p">{</span>
+			<span class="k">if</span><span class="p">(</span> <span class="n">UnityEngine</span><span class="p">.</span><span class="n">Application</span><span class="p">.</span><span class="n">loadedLevel</span> <span class="p">+</span> <span class="m">1</span> <span class="p">==</span> <span class="n">TOTAL_SCENES</span> <span class="p">)</span>
+				<span class="k">return</span> <span class="m">0</span><span class="p">;</span>
+			<span class="k">return</span> <span class="n">UnityEngine</span><span class="p">.</span><span class="n">Application</span><span class="p">.</span><span class="n">loadedLevel</span> <span class="p">+</span> <span class="m">1</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<h3 id="resourcescs">Resources.cs</h3>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">namespace</span> <span class="nn">k</span>
+<span class="p">{</span>
+	<span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">Resources</span>
+	<span class="p">{</span>
+		<span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">LAND_POOF</span> <span class="p">=</span> <span class="s">"LandPoof"</span><span class="p">;</span>
+		<span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">BLOOD_BIT</span> <span class="p">=</span> <span class="s">"SubFolder/BloodBit"</span><span class="p">;</span>
+		<span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">EXCLAMATION</span> <span class="p">=</span> <span class="s">"SubFolder/Exclamation"</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li></li>
+          <li><a href="mailto:"></a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Simple Value Mapping</title>
+  <meta name="description" content="This post is a quick one that covers a technique that I use all over the place: mapping a value from one range to a completely different range. Uses include ...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/simple-value-mapping">
+  <link rel="alternate" type="application/rss+xml" title="" href="http://localhost:4000/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">prime31 blog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/archive/">Archive</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="https://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Simple Value Mapping</h1>
+    <p class="post-meta"><time datetime="2015-01-16T11:53:46-08:00" itemprop="datePublished">Jan 16, 2015</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>This post is a quick one that covers a technique that I use all over the place: mapping a value from one range to a completely different range. Uses include everything from a simple health bar to mesh deformation to UI layout to shader vertex mods and tons more.</p>
+
+<!-- more -->
+
+<p>Lets say you want to show health bars for all the enemies or players in your game. The health of each varies from 10 for weaker enemies up to 200 for bosses. Whenever the health changes you want to update the health bar in the UI. This is where value mapping comes in handy. Most UI elements (and many other value-based scenarios) map from 0 to 1. The max health of your entities varies so you need a simple way to map that back to the 0 to 1 range.</p>
+
+<h2 id="mapping-health-value-to-ui-value">Mapping Health Value to UI Value</h2>
+
+<p><img src="/images/posts/valueMapping/health-map.png" alt="" /></p>
+
+<p>Mapping to the 0 to 1 range is pretty simple. The map01 method below shows how to do it. For the case presented in the screenshot the entity health is approximately 70. Running that through the <code class="highlighter-rouge">map01</code> method (code is below) like so <code class="highlighter-rouge">map01( 70f, 0f, 250f )</code> results in a value of 0.28f.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="c1">// Maps a value from some arbitrary range to the 0 to 1 range</span>
+<span class="k">public</span> <span class="k">static</span> <span class="kt">float</span> <span class="nf">map01</span><span class="p">(</span> <span class="kt">float</span> <span class="k">value</span><span class="p">,</span> <span class="kt">float</span> <span class="n">min</span><span class="p">,</span> <span class="kt">float</span> <span class="n">max</span> <span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="p">(</span> <span class="k">value</span> <span class="p">-</span> <span class="n">min</span> <span class="p">)</span> <span class="p">*</span> <span class="m">1f</span> <span class="p">/</span> <span class="p">(</span> <span class="n">max</span> <span class="p">-</span> <span class="n">min</span> <span class="p">);</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The <code class="highlighter-rouge">map01</code> method is just a reduction of a full value mapping method. The <code class="highlighter-rouge">map</code> method below allows you to not only map to the 0 to 1 range but expands the idea to allow mapping to any arbitrary range.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="c1">// Maps a value from ome arbitrary range to another arbitrary range</span>
+<span class="k">public</span> <span class="k">static</span> <span class="kt">float</span> <span class="nf">map</span><span class="p">(</span> <span class="kt">float</span> <span class="k">value</span><span class="p">,</span> <span class="kt">float</span> <span class="n">leftMin</span><span class="p">,</span> <span class="kt">float</span> <span class="n">leftMax</span><span class="p">,</span> <span class="kt">float</span> <span class="n">rightMin</span><span class="p">,</span> <span class="kt">float</span> <span class="n">rightMax</span> <span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">rightMin</span> <span class="p">+</span> <span class="p">(</span> <span class="k">value</span> <span class="p">-</span> <span class="n">leftMin</span> <span class="p">)</span> <span class="p">*</span> <span class="p">(</span> <span class="n">rightMax</span> <span class="p">-</span> <span class="n">rightMin</span> <span class="p">)</span> <span class="p">/</span> <span class="p">(</span> <span class="n">leftMax</span> <span class="p">-</span> <span class="n">leftMin</span> <span class="p">);</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>With the ability to map from one range to any other range you can start to do some interesting things. If you read the <a href="/grass2d/">Interactive 2D Foliage post</a>, you may have noticed it actually used the <code class="highlighter-rouge">map</code> method to handle bending the foliage. In this particular use case we want to know how far our player moved into a trigger collider and then map that to a range of -1 to 1. We use the mapped -1 to 1 value to decide how far we will bend the foliage verts. Here is the relevant code snippet:</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="c1">// figure out how far we have moved into the trigger and then map the offset to -1 to 1.</span>
+<span class="c1">// 0 would be neutral, -1 to the left and +1 to the right.</span>
+<span class="kt">var</span> <span class="n">offset</span> <span class="p">=</span> <span class="n">col</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span> <span class="p">-</span> <span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+<span class="kt">var</span> <span class="n">radius</span> <span class="p">=</span> <span class="n">_colliderHalfWidth</span> <span class="p">+</span> <span class="n">col</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">x</span> <span class="p">*</span> <span class="m">0.5f</span><span class="p">;</span>
+<span class="kt">var</span> <span class="n">mappedOffset</span> <span class="p">=</span> <span class="nf">map</span><span class="p">(</span> <span class="n">offset</span><span class="p">,</span> <span class="p">-</span><span class="n">radius</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="p">-</span><span class="m">1f</span><span class="p">,</span> <span class="m">1f</span> <span class="p">);</span>
+<span class="nf">setVertHorizontalOffset</span><span class="p">(</span> <span class="n">mappedOffset</span> <span class="p">);</span></code></pre></figure>
+
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li></li>
+          <li><a href="mailto:"></a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

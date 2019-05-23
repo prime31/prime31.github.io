@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Pixel Perfect Camera</title>
+  <meta name="description" content="This post is going to be a little bit different. It will mainly consist of a video with a small amount of accompanying text. Hit me up on Twitter (@prime_31)...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/pixel-perfect-camera">
+  <link rel="alternate" type="application/rss+xml" title="" href="http://localhost:4000/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">prime31 blog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/archive/">Archive</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="https://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Pixel Perfect Camera</h1>
+    <p class="post-meta"><time datetime="2015-09-18T16:57:31-07:00" itemprop="datePublished">Sep 18, 2015</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>This post is going to be a little bit different. It will mainly consist of a video with a small amount of accompanying text. Hit me up on Twitter (<a href="https://twitter.com/prime_31">@prime_31</a>) to let me know if you prefer text or video posts. This particular post is very visual seeing as how it is demonstrating a pixel perfect camera.</p>
+
+<!-- more -->
+
+<h2 id="the-technique">The Technique</h2>
+
+<p>Getting things setup is pretty simple. The main camera is setup like any other orthographic camera. The output of the main camera is then rendered to a RenderTexture that has a fixed height (your pixel art design-time height). The width of the RenderTexture is just set to the screen’s width. We only concern ourself with the height using this technique. The output of the RenderTexture is placed on an offscreen quad. The scale of the quad is set to keep everything pixel perfect. Whenver the screen size changes the RenderTexture width is updated and the quad scale is set to match.</p>
+
+<div class="embed-video-container"><iframe src="//www.youtube.com/embed/yI8JrBNTwkc" allowfullscreen=""></iframe></div>
+
+<p>A couple extra enhanced features are also present in the video. The main one being 3 different behaviors for when the screen size changes: None, DisableCrop and SetNearestPerfectFitResolution. DisableCrop just ensures the entire contents of the RenderTexture are always visible no matter what. SetNearestPerfectFitResolution will update the height of the camera to be a multiple of the design-time height mentioned previously.</p>
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li></li>
+          <li><a href="mailto:"></a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

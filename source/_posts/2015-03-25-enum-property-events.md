@@ -18,7 +18,7 @@ I often use [StateKit](https://github.com/prime31/StateKit) (a simple, object-ba
 Let's say you have a game with a main menu and some submenus. Maybe you have no idea how many menus and you need a nice, flexible way to deal with them. We'll start things off by creating an enum that has a value for each menu/state in the game.
 
 
-{% codeblock lang:csharp %}
+{% highlight csharp %}
 public enum GameState
 {
 	MainMenu,
@@ -26,13 +26,13 @@ public enum GameState
 	MultiPlayerMenu,
 	Map
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 
 To add a bit of spice to the discussion, lets add some substates for the GameState.Map value:
 
 
-{% codeblock lang:csharp %}
+{% highlight csharp %}
 public enum MapState
 {
 	Editing,
@@ -42,7 +42,7 @@ public enum MapState
 	PlayerWon,
 	PlayerDied
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 
 If we were to whip up a quick diagram for what we have so far it might look something like this:
@@ -59,7 +59,7 @@ We can only be on one screen at any given time and the Map screen has several di
 I personally hate tightly coupled code. It makes changing things, adding features and refactoring a huge PITA. [MessageKit](https://github.com/prime31/MessageKit) solves a lot of the tight coupling problems and it will be used for the PropEnumEvent system since I always already have it in whatever project I am working on. The meat of the solution is incredibly simple but quite powerful (and quite similar to [INotifyPropertyChanged](https://msdn.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged%28v=vs.110%29.aspx?f=255&MSPPError=-2147217396) or [KVO](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/KeyValueObserving/KeyValueObserving.html)). All we are going to do is wire up a property that when changed uses MessageKit to post a message with the new enum value (note that plain old .NET events would work fine as well for this if you don't use MessageKit). You'll see in the code below the message is posted *before* the value is set. The reason for that is that sometimes the system listening for the message needs to know the previous state (UI for example so that it can do proper transitions). When the message is received the receiver will get the new state and they can access the old state via the *state* property.
 
 
-{% codeblock lang:csharp %}
+{% highlight csharp %}
 static GameState _state;
 public static GameState state
 {
@@ -94,7 +94,7 @@ public static MapState state
 		_state = value;
 	}
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 
 That's it. Nothing more to it. In that little snippet of code we end up with a powerful, decoupled system to control our games. Adding new enum values as the game grows in complexity is no problem. Code can set the enum and trigger the message at any time easily. Some example message listeners from the project this was used in are HUD (activates/deactivates features based on state), canvas (hides/shows menus with animations based on state), player (enables/disables self, jumps to spawn point, increments death count).

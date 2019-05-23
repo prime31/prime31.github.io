@@ -21,19 +21,19 @@ The full shaders are available below. At first glance they might seem really dau
 
 First, the occluder sprites. Below is all of the code that actually matters for the stencil buffer. All it is doing is saying for every pixel we write to the color buffer lets replace the stencil buffer value with 4. So, in essence, anywhere there is an occluder pixel it will write 4 to the stencil buffer. Important side note: in the example the tree is not a solid sprite. It has lots of alpha = 0 portions (like most non-rectangle/square sprites) so in the shader we discard any pixels that are less than alpha 0.1. If you have a solid sprite that is not necessary.
 
-{% codeblock lang:csharp %}
+{% highlight csharp %}
 Stencil
 {
 	Ref 4
 	Comp Always
 	Pass Replace
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 
 Occluded sprites need two passes (once for rendering the silhouette and one for rendering the non-occluded portation) so we will have two different stencil sections for them. The first pass is going to render wherever the stencil buffer value is *not equal* to 4. So, anywhere that there is not an occluder the first pass will render. The second pass is exactly the opposite: wherever the stencil buffer value *is equal* to 4 it will render. When it renders it multiplies the output by a dark color to make a silhouette. That's all there is to it.
 
-{% codeblock lang:csharp %}
+{% highlight csharp %}
 // first pass
 Stencil
 {
@@ -47,12 +47,12 @@ Stencil
 	Ref 4
 	Comp Equal
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 
 Below is the full shader to be used for any occluder sprites.
 
-{% codeblock lang:csharp %}
+{% highlight csharp %}
 Shader "Sprites/Occluder"
 {
 	Properties
@@ -145,12 +145,12 @@ Shader "Sprites/Occluder"
 		}
 	}
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 
 Below is the full shader to be used for any occluded sprites.
 
-{% codeblock lang:csharp %}
+{% highlight csharp %}
 Shader "Sprites/Occluded"
 {
 	Properties
@@ -270,4 +270,4 @@ ENDCG
 		}
 	}
 }
-{% endcodeblock %}
+{% endhighlight %}

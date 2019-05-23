@@ -26,14 +26,14 @@ To illustrate the process that I have been using we'll use the [StateKit](https:
 
 Now that we are all on the same page and we have a Git repo rolling lets get to adding StateKit to our project in a sustainable fashion. You can use the Git application of your choice but for this kind of thing it's actually easier to just use the scary command line. First things first, open a terminal and cd into your Unity project's root folder and make a subdirectory to hold our shared code submodules.
 
-{% codeblock lang:javascript %}
+{% highlight javascript %}
 // get ourselves to the root folder of the Unity project
 cd folder/otherfolder/Unity Project Root
 // make a folder to organize our shared code submodules
 mkdir submodules
 // move into the subfolder
 cd submodules
-{% endcodeblock %}
+{% endhighlight %}
 
 
 Your Unity project folder should look something like this:
@@ -44,10 +44,10 @@ Your Unity project folder should look something like this:
 Now we are going to add the submodule. We should already be in the `submodules` directory so the command to add the StateKit repo as a submodule is the following:
 
 
-{% codeblock lang:scala %}
+{% highlight scala %}
 // tell git we want to add a submodule into the StateKit folder
 git submodule add https://github.com/prime31/StateKit StateKit
-{% endcodeblock %}
+{% endhighlight %}
 
 
 I personally like to have all my shared code in the Plugins folder in Unity but you can add it wherever you want in your project. The main reasons I stick it in the Plugins folder are for organizational purposes and because everything in the Plugins folder gets compiled into it's own DLL by Unity. That means the only time Unity needs to recompile the code in the Plugins folder is when you specifically change something in it. Less work for Unity since we will be doing a large amount of our work in our project's code as opposed to with the shared code.
@@ -61,12 +61,12 @@ The final step in the process is to make a symlink from the Plugins folder (or w
 The folder we are interested in is the `StateKit/Assets/StateKit` folder so that is what we are going to symlink into our project. We want the symlink to originate at the Plugins folder so we will first `cd` back to that folder then create the symlink.
 
 
-{% codeblock lang:javascript %}
+{% highlight javascript %}
 // move ourselves back to the folder in our Unity project that we want the shared code to end up
 cd ../Assets/Plugins
 // make a symlink from the current folder to the folder in the shared code submodule that we want in our project
 ln -s ../../submodules/StateKit/Assets/StateKit StateKit
-{% endcodeblock %}
+{% endhighlight %}
 
 
 Looking at our Unity project you can see we now have our shared code in place right where we want it:

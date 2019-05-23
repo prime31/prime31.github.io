@@ -26,7 +26,7 @@ Enter ConstantsGeneratorKit: the solution to naked strings. As an added benefit,
 
 
 ### Tags.cs
-{% codeblock lang:csharp %}
+{% highlight csharp %}
 namespace k
 {
 	public static class Tags
@@ -36,11 +36,11 @@ namespace k
 		public const string PLAYER = "Player";
 	}
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 
 ### Layers.cs
-{% codeblock lang:csharp %}
+{% highlight csharp %}
 namespace k
 {
 	public static class Layers
@@ -69,11 +69,11 @@ namespace k
 		}
 	}
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 
 ### Scenes.cs
-{% codeblock lang:csharp %}
+{% highlight csharp %}
 namespace k
 {
 	public static class Scenes
@@ -93,11 +93,11 @@ namespace k
 		}
 	}
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 
 ### Resources.cs
-{% codeblock lang:csharp %}
+{% highlight csharp %}
 namespace k
 {
 	public static class Resources
@@ -107,4 +107,4 @@ namespace k
 		public const string EXCLAMATION = "SubFolder/Exclamation";
 	}
 }
-{% endcodeblock %}
+{% endhighlight %}

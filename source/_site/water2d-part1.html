@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Modeling 2D Water with Springs: Part 1</title>
+  <meta name="description" content="Water is one of those things in the world of game development that can range anywhere from incredibly simple to insanely complex. Your first attempt at makin...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/water2d-part1">
+  <link rel="alternate" type="application/rss+xml" title="" href="http://localhost:4000/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">prime31 blog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/archive/">Archive</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="https://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Modeling 2D Water with Springs: Part 1</h1>
+    <p class="post-meta"><time datetime="2014-11-28T17:16:05-08:00" itemprop="datePublished">Nov 28, 2014</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>Water is one of those things in the world of game development that can range anywhere from incredibly simple to insanely complex. Your first attempt at making water might not be anything more than a transparent quad. Compare a solution like that with something like the water as seen in <a href="https://www.google.com/search?q=Assassin%27s+Creed+IV:+Black+Flag+water&amp;tbm=isch">Assassin’s Creed IV: Black Flag</a> or <a href="https://www.google.com/search?q=bioshock+water&amp;tbm=isch">Bioshock</a> to get an idea of how far it can be taken.</p>
+
+<!-- more -->
+
+<p>Even with something like 2D water there are tons of different ways to model it. For the project this water was made for (which is for mobile and desktop) I chose to model the water with springs. This provides a fun looking water that is easy to configure at runtime keeping it performant on mobile and pretty on desktop. Before we get into any details lets have a look at what the water looks like for low end mobile devices.</p>
+
+<div>
+<iframe src="//gfycat.com/ifr/HelpfulThickGopher" frameborder="0" scrolling="no" width="846" height="476" style="-webkit-backface-visibility: hidden;"></iframe>
+</div>
+
+<p>The plan is to utilize our good friend from back in grade school: Hooke’s Law. If we layout a series of springs all in a vertical direction we can use them to simulate the oscillating water surface that you see above. <img src="/images/posts/water2d/verts.png" alt="" /> We will of course need a mesh to go along with our invisible springs so we will use the spring’s position as our top vert. What we end up with is a line of verts each with a spring to simulate the water surface. With that in place, making the mesh is simple: we just stick a vert below each spring (off the bottom of the image on the left) and we break up each square into two triangles. To provide a visual when working in the editor a BoxCollider2D is used. This also has the added benefit of giving us its Bounds property so we know exactly where the top, bottom, left and right verts will be. We will need it at runtime to detect stuff falling into the water as well.</p>
+
+<p>I mentioned previously that this method of making water can easily scale from mobile to desktop. This is done by making the number of springs that are used configurable. A lower number isn’t as pretty but it is a lot cheaper and faster. At runtime the Mesh created in Awake and the number of springs is set based on the current device. Here are some screenshots from the editor with a gizmo drawn at each spring position:</p>
+
+<h3 id="20-springs-40-springs-and-100-springs">20 Springs, 40 Springs and 100 Springs</h3>
+<p><img src="/images/posts/water2d/water20.png" alt="" />
+<img src="/images/posts/water2d/water40.png" alt="" />
+<img src="/images/posts/water2d/water100.png" alt="" /></p>
+
+<p>The WaterColumn struct below is used to keep things organized. It handles calculating a simplified Hooke’s Law in its update method and it also stores the index into the Mesh.vertices array where it is located. After running the simulation, the vertexIndex lets us get right to the vert that we need to update.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">struct</span> <span class="nc">WaterColumn</span>
+<span class="p">{</span>
+	<span class="k">public</span> <span class="kt">float</span> <span class="n">currentHeight</span><span class="p">;</span>
+	<span class="k">public</span> <span class="kt">float</span> <span class="n">baseHeight</span><span class="p">;</span>
+	<span class="k">public</span> <span class="kt">float</span> <span class="n">velocity</span><span class="p">;</span>
+	<span class="k">public</span> <span class="kt">float</span> <span class="n">xPosition</span><span class="p">;</span>
+	<span class="k">public</span> <span class="kt">int</span> <span class="n">vertexIndex</span><span class="p">;</span>
+
+	<span class="k">public</span> <span class="k">void</span> <span class="nf">update</span><span class="p">(</span> <span class="kt">float</span> <span class="n">dampening</span><span class="p">,</span> <span class="kt">float</span> <span class="n">tension</span> <span class="p">)</span>
+	<span class="p">{</span>
+		<span class="kt">var</span> <span class="n">heightOffset</span> <span class="p">=</span> <span class="n">baseHeight</span> <span class="p">-</span> <span class="n">currentHeight</span><span class="p">;</span>
+		<span class="n">velocity</span> <span class="p">+=</span> <span class="n">tension</span> <span class="p">*</span> <span class="n">heightOffset</span> <span class="p">-</span> <span class="n">velocity</span> <span class="p">*</span> <span class="n">dampening</span><span class="p">;</span>
+		<span class="n">currentHeight</span> <span class="p">+=</span> <span class="n">velocity</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>In the next post we will go over the rest of the simulation details and we will get the water actually moving and interactive.</p>
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li></li>
+          <li><a href="mailto:"></a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

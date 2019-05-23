@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Garbage Collection and How to Avoid It</title>
+  <meta name="description" content="Managed languages (like C#) have often been touted as the panacea of programming. We no longer need to be concerned with memory management. Memory leaks are ...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/recyclerkit">
+  <link rel="alternate" type="application/rss+xml" title="" href="http://localhost:4000/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">prime31 blog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/archive/">Archive</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="https://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Garbage Collection and How to Avoid It</h1>
+    <p class="post-meta"><time datetime="2015-01-05T17:16:05-08:00" itemprop="datePublished">Jan 5, 2015</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>Managed languages (like C#) have often been touted as the panacea of programming. We no longer need to be concerned with memory management. Memory leaks are a thing of the past. Retain/release/delete is banashed to the bowels of hell. The garbage collector (GC from here on out) will take care of all the ugly details of memory management for us.</p>
+
+<!-- more -->
+
+<p>The reality of the situtation is that we almost need to be <em>even more careful</em> in a managed environment. All control of memory management is now out of our hands and we have no choice but to deal with the GC and its madness. To make matters even worse, Unity ships with an <strong>absolutely ancient</strong> GC. If you are making a mobile game it will undoubtedly end up being a battle with the GC.</p>
+
+<h2 id="so-what-actually-happens-at-runtime">So, What Actually Happens at Runtime?</h2>
+
+<p>In simplified terms, as you allocate more and more memory eventually the GC gets to its limit and it kicks in a collection. While the GC is collecting everything freezes until it is complete. On desktop platforms it isn’t terrible as long as you have a couple milliseconds per frame to spare. On mobile and most consoles it is a guaranteed frame rate stutter. If you continue to allocate every frame you end up with endless stutters.</p>
+
+<h2 id="what-causes-allocations">What Causes Allocations?</h2>
+
+<p>From all of the code I have seen, the main culprits are calling Instantiate at runtime and senseless string usage. There are plenty of other sources but these are the two biggest offenders. Conveniently, these happen to also be completely under our own control. We already touched on strings with the <a href="/constants-generator-kit/">ConstantsGeneratorKit post</a> so give that a look if you haven’t seen it yet. Abolishing Instantiate calls requires a bit more foresight and some discipline. It is just too easy to stick calls to Instantiate in our code sometimes. What we need is a solution that is just as simple as Instantiate/Destroy.</p>
+
+<h2 id="enter-object-pools">Enter Object Pools</h2>
+
+<p>What is an object pool (as defined by <a href="http://stackoverflow.com/users/37213/duffymo">duffymo</a>)?</p>
+<blockquote>
+  <p>“An object pool is a collection of a particular object that an application will create and keep on hand for those situations where creating each instance is expensive.”</p>
+</blockquote>
+
+<p>What this boils down to for a Unity game is that we do all of our Instantiate calls at level load time. Object pools are the tool that we use to do this. There are plenty of tutorials and sample code including a great video right on the <a href="http://unity3d.com/learn/tutorials/modules/beginner/live-training-archive/object-pooling">Unity Learn website</a>. As is the case with all of the core feature tools we also have an open source object pool available in our *Kit family.</p>
+
+<h2 id="recyclerkit">RecyclerKit</h2>
+
+<p><img src="/images/posts/garbageCollector/RecyclerKitInspector.png" alt="" /> <a href="https://github.com/prime31/RecyclerKit">RecyclerKit</a> aims to take the pain out of using an object pool. It includes a simple inspector that lets you drag-and-drop any prefab or GameObject in your scene to create an object pool. From there, you just replace your Instantiate calls with <code class="highlighter-rouge">TrashMan.spawn</code> and replace your Destroy calls with <code class="highlighter-rouge">TrashMan.despawn/despawnAfterDelay</code>. Of course, not everyone wants to use the inspector and sometimes you don’t know what you want to stick in an object pool until runtime so you can create your recycle bins anytime. Below is a snippet showing how to create and use a recycle bin at runtime:</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="c1">// create a new recycle bin</span>
+<span class="kt">var</span> <span class="n">recycleBin</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">TrashManRecycleBin</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">prefab</span> <span class="p">=</span> <span class="n">somePrefabOrGameObjectReference</span>
+    <span class="c1">// any other options can be placed here</span>
+<span class="p">};</span>
+<span class="n">TrashMan</span><span class="p">.</span><span class="nf">manageRecycleBin</span><span class="p">(</span> <span class="n">recycleBin</span> <span class="p">);</span>
+
+<span class="c1">// usage is the same as with a recycle bin created with the inspector</span>
+<span class="kt">var</span> <span class="n">newObj</span> <span class="p">=</span> <span class="n">TrashMan</span><span class="p">.</span><span class="nf">spawn</span><span class="p">(</span> <span class="n">somePrefabOrGameObjectReference</span> <span class="p">);</span>
+<span class="n">TrashMan</span><span class="p">.</span><span class="nf">despawnAfterDelay</span><span class="p">(</span> <span class="n">newObj</span><span class="p">,</span> <span class="m">5f</span> <span class="p">);</span></code></pre></figure>
+
+<p>All the options we have ever needed over the last couple years have been added so RecyclerKit should cover just about all use cases. Options include the total number of objects to preallocate, total objects to create if we hit the recycle bin limit, automatically recycle ParticleSystems (based on system.duration + system.startLifetime), use a hard limit (do not allocate any objects once the recycle bin is empty) and automatic culling (destroy instances above a certain amount). Go grab a copy and avoid the GC monster in your games!</p>
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li></li>
+          <li><a href="mailto:"></a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>A Method for Working with Shared Code with Unity and Git</title>
+  <meta name="description" content="Out of the box Unity doesn’t provide any good way to have a shared codebase that is used amongst multiple Unity projects. Any code that you drag into a Unity...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/A-Method-for-Working-with-Shared-Code-with-Unity-and-Git">
+  <link rel="alternate" type="application/rss+xml" title="" href="http://localhost:4000/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">prime31 blog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/archive/">Archive</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="https://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">A Method for Working with Shared Code with Unity and Git</h1>
+    <p class="post-meta"><time datetime="2015-05-19T12:45:51-07:00" itemprop="datePublished">May 19, 2015</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>Out of the box Unity doesn’t provide any good way to have a shared codebase that is used amongst multiple Unity projects. Any code that you drag into a Unity project is automatically copied into it. If you make changes to your shared code you have to remember to change it in every project that uses it. This is obviously not a sustainable approach.</p>
+
+<!-- more -->
+
+<h3 id="enter-git-submodules">Enter Git Submodules</h3>
+
+<p>Submodules allow you to keep a Git repository as a subdirectory of another Git repository. On it’s own this isn’t quite enough. Often times, Git repositories have unit tests, demo scenes and full Unity projects in them. Of course you can just make your shared code repositories a naked subdirectory with just code and use submodules directly. Sometimes you don’t have control over the repository (open source projects for example) and frankely I prefer to keep Git repos with full Unity projects in tow. This makes isolating the code super easy and lets you just fire up the project and make changes directly.</p>
+
+<p>To illustrate the process that I have been using we’ll use the <a href="https://github.com/prime31/StateKit">StateKit</a> repository which is one of the first things I import into any new projects. We’ll assume you have the Git repo for your Unity project initialized and ready to go. If you aren’t using Git (or some other version control system) it’s time for you to start. With the advent of the <a href="https://mac.github.com/">GitHub.app</a> (which works with or without a github.com account) using Git is something anyone can and should be doing even for simple throwaway projects. Simply drag a folder into the GitHub.app and it magically sets up a repo for you. Couldn’t be much easier.</p>
+
+<h3 id="step-by-step-guide">Step-by-Step Guide</h3>
+
+<p>Now that we are all on the same page and we have a Git repo rolling lets get to adding StateKit to our project in a sustainable fashion. You can use the Git application of your choice but for this kind of thing it’s actually easier to just use the scary command line. First things first, open a terminal and cd into your Unity project’s root folder and make a subdirectory to hold our shared code submodules.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// get ourselves to the root folder of the Unity project</span>
+<span class="nx">cd</span> <span class="nx">folder</span><span class="o">/</span><span class="nx">otherfolder</span><span class="o">/</span><span class="nx">Unity</span> <span class="nx">Project</span> <span class="nx">Root</span>
+<span class="c1">// make a folder to organize our shared code submodules</span>
+<span class="nx">mkdir</span> <span class="nx">submodules</span>
+<span class="c1">// move into the subfolder</span>
+<span class="nx">cd</span> <span class="nx">submodules</span></code></pre></figure>
+
+<p>Your Unity project folder should look something like this:</p>
+
+<p><img src="/images/posts/submodules/initialFolder.png" alt="" /></p>
+
+<p>Now we are going to add the submodule. We should already be in the <code class="highlighter-rouge">submodules</code> directory so the command to add the StateKit repo as a submodule is the following:</p>
+
+<figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="c1">// tell git we want to add a submodule into the StateKit folder
+</span><span class="n">git</span> <span class="n">submodule</span> <span class="n">add</span> <span class="n">https</span><span class="o">://</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">prime31</span><span class="o">/</span><span class="nc">StateKit</span> <span class="nc">StateKit</span></code></pre></figure>
+
+<p>I personally like to have all my shared code in the Plugins folder in Unity but you can add it wherever you want in your project. The main reasons I stick it in the Plugins folder are for organizational purposes and because everything in the Plugins folder gets compiled into it’s own DLL by Unity. That means the only time Unity needs to recompile the code in the Plugins folder is when you specifically change something in it. Less work for Unity since we will be doing a large amount of our work in our project’s code as opposed to with the shared code.</p>
+
+<p>The final step in the process is to make a symlink from the Plugins folder (or wherever you choose to have the shared code reside) to the folder in the submodule that we want in our project. The StateKit repo folder structure looks like this:</p>
+
+<p><img src="/images/posts/submodules/stateKitFolder.png" alt="" /></p>
+
+<p>The folder we are interested in is the <code class="highlighter-rouge">StateKit/Assets/StateKit</code> folder so that is what we are going to symlink into our project. We want the symlink to originate at the Plugins folder so we will first <code class="highlighter-rouge">cd</code> back to that folder then create the symlink.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// move ourselves back to the folder in our Unity project that we want the shared code to end up</span>
+<span class="nx">cd</span> <span class="p">..</span><span class="o">/</span><span class="nx">Assets</span><span class="o">/</span><span class="nx">Plugins</span>
+<span class="c1">// make a symlink from the current folder to the folder in the shared code submodule that we want in our project</span>
+<span class="nx">ln</span> <span class="o">-</span><span class="nx">s</span> <span class="p">..</span><span class="o">/</span><span class="p">..</span><span class="o">/</span><span class="nx">submodules</span><span class="o">/</span><span class="nx">StateKit</span><span class="o">/</span><span class="nx">Assets</span><span class="o">/</span><span class="nx">StateKit</span> <span class="nx">StateKit</span></code></pre></figure>
+
+<p>Looking at our Unity project you can see we now have our shared code in place right where we want it:</p>
+
+<p><img src="/images/posts/submodules/unityProject.png" alt="" /></p>
+
+<p>It should be noted that Unity will get angry at you for creating the symlink. It will display a warning in the console just once to let you know of its anger that looks like this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Assets/Plugins/StateKit is a symbolic link. Using symlinks in Unity projects may cause your project
+to become corrupted if you create multiple references to the same asset, use recursive symlinks or
+use symlinks to share assets between projects used with different versions of Unity. Make sure you
+know what you are doing.
+</code></pre></div></div>
+
+<p>Luckily, we know what we are doing here so clear the console and ignore it just like you do when your significant other tells you to clean the bathroom.</p>
+
+<h3 id="wrapping-up">Wrapping Up</h3>
+
+<p>We now have a workable solution to share code between multiple Unity projects. By doing things this way, when we change the shared code it will be propogated to every project that uses it. We even still retain the ability to open up and modify any Unity projects in the submodules. In this particular example we can still open the <code class="highlighter-rouge">submodules/StateKit</code> Unity project and go to town making changes. Those changes can then be pushed to the Git remote repo and shared throughout all of your projects easily.</p>
+
+<h3 id="one-more-thing">One More Thing</h3>
+
+<p>If you are an Alfred user you can find a handy workflow that automates everything in this post <a href="https://mega.co.nz/#!JV1QWKbJ!HmLBN7efh_5_bd4TXC7hx2QNgL3DzHO0QEvInBzYUDo">here</a>. Usage is simple and works in two different ways: 1. using the <code class="highlighter-rouge">unitysubmoduleadder</code> keyword which will then provide a folder filter for you to choose your Unity project. 2. Place a single folder in the folder buffer (option + up) then use the Unity Git Submodule Adder action (option + right arrow).</p>
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li></li>
+          <li><a href="mailto:"></a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

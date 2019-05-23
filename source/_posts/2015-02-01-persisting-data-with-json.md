@@ -28,7 +28,7 @@ There are many, many ways to persist data. Some of the most popular include XML,
 In the example that follows, we are going to take a mock GameData class (which would represent all the data that you may want to store for your game) and persist it to disk. In an effort to not make this example to simple or too complex the GameData class will contain a single List of LevelStats as well. The LevelStats class represents the score and grade that a player got on that particular level. It uses an Enum for the grade. This hierarchy of classes is complex enough to be real world but easy enough to follow along with. Without further ado here are the two classes:
 
 
-{% codeblock lang:csharp %}
+{% highlight csharp %}
 public class GameData
 {
 	public string playerName;
@@ -51,13 +51,13 @@ public class LevelStats
 	public float levelScore;
 	public LevelStats.LevelStatsGrade levelGrade;
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 
 In this scenario, GameData is the main point of entry for the persistant data. We want to keep things organinized, logical and simple to use so we will add two new methods to the GameData class to handle saving and loading data from disk. Each method will take in a filename so that we can store multiple GameData classes to disk. This is useful for games with more than one "save slot". If your game is single player with no notion of save slots feel free to hardcode the filename. The code is pretty basic but there is one bit that I want to draw your attention to. When calling `Json.decode<>` you have to tell the JSON library which class you want to deserialize the data back into. In this case it is the GameData class.
 
 
-{% codeblock lang:csharp %}
+{% highlight csharp %}
 public void saveToFile( string filename )
 {
 	var json = Json.encode( this );
@@ -69,12 +69,12 @@ public static GameData createGameDataFromFile( string filename )
 	var json = File.ReadAllText( Path.Combine( Application.persistentDataPath, filename ) );
 	return Json.decode<GameData>( json );
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 
 That's all there is to it. Now all you have to do is call `gameData.saveToFile( "game-data.json" )` where appropriate to persist the data (perhaps after each level and in OnApplicationPause/Quit). When you want to fetch the data at startup you just call `gameData = GameData.createGameDataFromFile( "game-data.json" )`. An example of what the data in the game-data.json file looks like after saving is below. You can see that it is easily readable and you can hand-edit it as well if needed. Tip: to pretty-print the JSON (like the example below) or any other object you can use the `Prime31.Utils.logObject` method.
 
-{% codeblock lang:javascript %}
+{% highlight javascript %}
 {
 	"playerName": "Hello Kitty",
 	"totalScore": 12.4,
@@ -95,4 +95,4 @@ That's all there is to it. Now all you have to do is call `gameData.saveToFile( 
 			"levelGrade": 4
 		}]
 }
-{% endcodeblock %}
+{% endhighlight %}

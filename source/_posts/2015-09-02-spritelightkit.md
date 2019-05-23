@@ -58,28 +58,28 @@ Unity describes the stencil buffer in the following way: *The stencil buffer can
 SpriteLightKit uses the stencil buffer to provide a way to specify parts of your scene that you don't want to take part in the mock lighting system. For any piece of your main scene to be able to be self illuminated (like the aforementioned clock tower and street light) you just have to apply the SpriteLightEmissiveSpriteMaterial or SpriteLightEmissiveMeshMaterial to the object that should be self illuminated. Lets take a look at the stencil section of the shader used in both materials.
 
 
-{% codeblock lang:csharp %}
+{% highlight csharp %}
 Stencil
 {
 	Ref 2
 	Comp Always
 	Pass Replace
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 
 We are only going to touch on a few of the stencil operations. For full list of all the available stencil operations be sure to check the [Unity docs](http://docs.unity3d.com/Manual/SL-Stencil.html). Lets talk through the stencil block above in English. Hopefully it will be pretty clear what each line does after it is explained. The value 2 will *always* *replace* the current value in the stencil buffer. *Ref* is the value, *Comp* is the comparison function and *Pass* is what should be done if the comparison function passes (it is *Always* so it always passes).
 
 Below we have the stencil block from the image effect that SpriteLightKit uses. In English, it checks to see if the current value in the stencil buffer is *NotEqual* to 2. If the test fails (as it will if our self illuminated material wrote 2 to the stencil buffer) then it will do nothing for that pixel. If it succeeds (everywhere there is not a self illuminated pixel) it will continue to render and blend the RenderTexture with the main camera output.
 
-{% codeblock lang:csharp %}
+{% highlight csharp %}
 // all emissives write 2 to the stencil buffer. We want to render everything except those pixels
 Stencil
 {
 	Ref 2
 	Comp NotEqual
 }
-{% endcodeblock %}
+{% endhighlight %}
 
 
 ![](//f.cl.ly/items/2N43273s1b1w3r2M1W2b/fez.png) The stencil buffer can be used for all kinds of trickery such as portals (as popularized by the game Portal), masks, shadows and anything else you can come up with. They are super efficient and since they occur _before_ pixel shading they can be used to discard pixels that don't need to be processed. As a homework assignment, see if you can use the stencil buffer to replicate the screenshot from Fez. Hint: your sprite will need a 2 pass shader to pull this off. In a future blog post we will go over how to pull off the effect and provide the shaders to do so.
