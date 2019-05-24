@@ -1,0 +1,396 @@
+.row img, .container p img {
+	margin: 10px 20px 20px 0px;
+	float: left;
+}
+
+
+::selection {
+  background: #000;
+  color: #fff;
+}
+
+
+blockquote {
+	border-left: none;
+	padding: 10px 40px;
+	margin: 0 0 30px 0;
+}
+
+
+@media (max-width: 992px) {
+	.row img {
+		width: 100%;
+		height: auto;
+		float: none;
+		margin: 10px 10px 20px 0px !important;
+	}
+	.row {
+		margin-right: 0;
+		margin-left: 0;
+	}
+	h1, .h1 { font-size: 24px; }
+	/* make our container full width once we get this small */
+	.container { width: 100%; }
+}
+
+
+/* this gets the date column the same height as the paragraph adjacent to it */
+@media (min-width: 992px) {
+	.equal, .equal > div[class*='col-md-2'] {
+		padding-bottom: 10px;
+	}
+
+	.equal h1, .equal .h1 {
+		width: 100%;
+		font-size: 32px;
+	}
+
+	.row img, .container p img {
+		max-width: 665px;
+	}
+}
+
+
+.clearfix {
+	clear: both;
+}
+
+
+.full-width {
+	width: 100%;
+}
+
+a, a:visited {
+	color: #4285f4;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+.index-page a:hover {
+	background-color: transparent;
+}
+
+
+
+/* prep for moving headers outside of the containers */
+h1.floating, h2.floating, h3.floating {
+	background-color: #fff;
+	display: inline-block;
+	padding: 5px 10px;
+	margin-bottom: -5px;
+	z-index: 10;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+@media (min-width: 992px) {
+	h1.floating, h2.floating, h3.floating {
+		margin-left: 16%;
+	}
+}
+
+
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 20px;
+  background-color: #E5E5E5;
+  font-size: 18px;
+  font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+  font-weight: 300;
+
+}
+
+
+nav, .navbar, .navbar-default {
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+	background-color: #ff4900;
+}
+
+
+nav .navbar-brand {
+	background-color: rgba(255, 255, 255, 0.95);
+}
+
+
+pre {
+	background: transparent !important;
+	border: 0 !important;
+	margin-bottom: 0 !important;
+	word-wrap: normal !important;
+}
+
+code {
+	white-space: pre !important;
+	overflow-x: scroll;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+}
+
+
+.shadowed {
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+	padding: 20px;
+	z-index: -5;
+}
+
+.index-page .shadowed {
+	z-index: 1;
+}
+
+
+div.post-wrapper {
+	transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+	-webkit-transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+a:active div.post-wrapper {
+	background-color: #03a9f4;
+}
+
+.index-page div.post-wrapper:hover {
+	box-shadow: rgba(0, 0, 0, 0.227451) 0px 6px 10px, rgba(0, 0, 0, 0.188235) 0px 10px 30px;
+}
+
+.shadowed h1, .shadowed h2 {
+	margin-top: 0;
+}
+
+.bg-white {
+	background-color: #fff;
+}
+
+
+.bg-blue {
+	background-color: #2196F3;
+}
+
+
+.code-embed {
+	padding: 0 !important;
+}
+
+
+a.article-link {
+	color: #fff;
+	text-decoration: none;
+}
+
+a.article-link h1.text-center {
+	color: #000;
+}
+
+.read_more_container {
+	display: none;
+}
+
+
+.video-container {
+	position: relative;
+	height: 0;
+	margin: -20px;
+	padding-bottom: 60%; /* This should be changed to match the aspect ratio of your video */
+}
+
+
+.video {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+
+.top5 { margin-top: 5px; }
+.top10 { margin-top: 10px; }
+.top15 { margin-top: 15px; }
+.top20 { margin-top: 20px; }
+.top30 { margin-top: 30px; }
+
+
+
+
+iframe[src^="//gfycat.com"], iframe[src^="http://gfycat.com"] {
+	display: block;
+	margin: 0 auto 30px auto;
+}
+
+@media (max-width: 992px) {
+	iframe[src^="//gfycat.com"], iframe[src^="http://gfycat.com"] {
+		max-width: 100%;
+		max-height: 30%;
+	}
+}
+
+
+
+/* TEST FOR SIMPLE SITE */
+.index-container {
+	padding-right: 5px;
+	padding-left: 5px;
+	margin: 0 auto 45px auto;
+}
+
+.index-container:first-of-type {
+	margin-top: 50px;
+}
+
+.category-link {
+	padding: 3px 15px;
+	background-color: #fff;
+	margin-top: 10px;
+	margin-left: 25px;
+	display: inline-block;
+	float: right;
+	color: #333;
+}
+
+@media (min-width: 1200px) {
+	.index-container { width: 1170px; }
+	.row img, .container p img {
+		max-width: 815px;
+	}
+}
+@media (min-width: 992px) {
+	.index-container { width: 970px; }
+}
+@media (max-width: 992px) {
+	.index-container:first-of-type { margin-top: 0px; }
+	.index-container { width: 100%; margin-bottom: 20px; }
+	.index-page .shadowed { padding: 10px; }
+	.index-page h1 { line-height: 34px; }
+	.navbar-header::before, .navbar-header::after { display: none; }
+}
+
+.container h1, .container h2, .container h3 {
+	margin-top: 0px;
+	margin-left: 15%;
+	margin-bottom: -5px;
+	background-color: #fff;
+	display: inline-block;
+	padding: 5px 10px;
+	z-index: 10;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+.container p:first-of-type {
+	background-color: #2196F3;
+	color: #fff;
+}
+
+.container p:first-of-type a, .container p:first-of-type a:visited {
+	color: #000;
+}
+
+.container h1:first-of-type {
+	margin-top: 30px;
+	margin-bottom: -5px;
+	background-color: #2196F3;
+	color: #fff;
+	display: inline-block;
+	padding: 5px 10px;
+	z-index: 10;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+.container p::after, .container p::before {
+	display: table;
+	content: '';
+	clear: both;
+}
+
+/* command base values for any cards */
+.container p, .video-container, figure {
+	margin-bottom: 30px;
+	margin-left: 16%;
+	width: 66%;
+	background-color: #fff;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+	z-index: 0;
+}
+
+.container p {
+	padding: 20px;
+}
+
+
+.video-container {
+	margin-top: 0;
+	height: 0;
+	padding-bottom: 50%;
+}
+
+
+
+@media (min-width: 992px) {
+	.container p, .video-container, figure {
+		width: 75%;
+		margin-left: 12%;
+	}
+
+	.container h1, .container h2, .container h3 {
+		margin-left: 11%;
+	}
+}
+
+@media (max-width: 992px) {
+	.container {
+		padding-right: 5px;
+		padding-left: 5px;
+	}
+
+	.container h1, .container h1:first-of-type, .container h2, .container h3 {
+		margin-left: 0%;
+		margin-bottom: 0;
+		display: block;
+		margin-bottom: 5px;
+		text-align: center;
+	}
+
+	.container p, .video-container, figure {
+		margin-left: 0%;
+		width: 100%;
+	}
+
+	.container p, figure {
+		padding: 10px;
+	}
+
+	.container p img {
+		width: 100%;
+		height: auto;
+		float: none;
+		margin: 10px 10px 20px 0px !important;
+	}
+}
+
+@media (max-width: 1200px) {
+	.container h1:first-of-type {
+		margin-top: 10px;
+	}
+}
+
+@media (min-width: 992px) {
+	.container h1:first-of-type {
+		margin-right: 160px;
+	}
+}
+
+@media (min-width: 1200px) {
+	.container h1:first-of-type {
+		margin-right: 200px;
+	}
+}
+
+.paginator-link {
+	color: #fff !important;
+}

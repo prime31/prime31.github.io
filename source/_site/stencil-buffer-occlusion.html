@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Using the Stencil Buffer for Sprite Occlusion</title>
+  <meta name="description" content="Back in the post on SpriteLightKit, we talked about the stencil buffer and we left things off with a homework assignment. I also did the homework assignment ...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/stencil-buffer-occlusion">
+  <link rel="alternate" type="application/rss+xml" title="" href="http://localhost:4000/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">prime31 blog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/archive/">Archive</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="https://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Using the Stencil Buffer for Sprite Occlusion</h1>
+    <p class="post-meta"><time datetime="2015-10-13T00:19:16-07:00" itemprop="datePublished">Oct 13, 2015</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>Back in <a href="/SpriteLightKit/">the post</a> on SpriteLightKit, we talked about the stencil buffer and we left things off with a homework assignment. I also did the homework assignment and will be sharing the result that I came up with.</p>
+
+<!-- more -->
+
+<p>First, let’s have a look at what the resulting shaders look like in action. We have one shader for the trees (occluders) and one for the player (occluded).</p>
+
+<iframe src="http://gfycat.com/ifr/AdoredIndolentAmphiuma" frameborder="0" scrolling="no" width="790" height="405" style="-webkit-backface-visibility: hidden;-webkit-transform: scale(1);"></iframe>
+
+<p>The full shaders are available below. At first glance they might seem really daunting but in reality they are super, duper simple. For some reason, Unity makes us use shaders for accessing the stencil buffer so because of that we have a lot more code than is really required (in “real life” stencil buffer access has nothing to do with a shader). Basically, all there is in these shaders below is a near copy of the standard sprite shader once for the occluder and twice for the occluded sprites and then our tiny stencil section on each. Lets ignore the sprite shader portion (since its so similar to the Unity default sprite shader) and have a look at the actual stencil portions.</p>
+
+<p>First, the occluder sprites. Below is all of the code that actually matters for the stencil buffer. All it is doing is saying for every pixel we write to the color buffer lets replace the stencil buffer value with 4. So, in essence, anywhere there is an occluder pixel it will write 4 to the stencil buffer. Important side note: in the example the tree is not a solid sprite. It has lots of alpha = 0 portions (like most non-rectangle/square sprites) so in the shader we discard any pixels that are less than alpha 0.1. If you have a solid sprite that is not necessary.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="n">Stencil</span>
+<span class="p">{</span>
+	<span class="n">Ref</span> <span class="m">4</span>
+	<span class="n">Comp</span> <span class="n">Always</span>
+	<span class="n">Pass</span> <span class="n">Replace</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Occluded sprites need two passes (once for rendering the silhouette and one for rendering the non-occluded portation) so we will have two different stencil sections for them. The first pass is going to render wherever the stencil buffer value is <em>not equal</em> to 4. So, anywhere that there is not an occluder the first pass will render. The second pass is exactly the opposite: wherever the stencil buffer value <em>is equal</em> to 4 it will render. When it renders it multiplies the output by a dark color to make a silhouette. That’s all there is to it.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="c1">// first pass</span>
+<span class="n">Stencil</span>
+<span class="p">{</span>
+	<span class="n">Ref</span> <span class="m">4</span>
+	<span class="n">Comp</span> <span class="n">NotEqual</span>
+<span class="p">}</span>
+
+<span class="c1">// second pass</span>
+<span class="n">Stencil</span>
+<span class="p">{</span>
+	<span class="n">Ref</span> <span class="m">4</span>
+	<span class="n">Comp</span> <span class="n">Equal</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Below is the full shader to be used for any occluder sprites.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="n">Shader</span> <span class="s">"Sprites/Occluder"</span>
+<span class="p">{</span>
+	<span class="n">Properties</span>
+	<span class="p">{</span>
+		<span class="p">[</span><span class="n">PerRendererData</span><span class="p">]</span> <span class="nf">_MainTex</span> <span class="p">(</span> <span class="s">"Sprite Texture"</span><span class="p">,</span> <span class="m">2D</span> <span class="p">)</span> <span class="p">=</span> <span class="s">"white"</span> <span class="p">{}</span>
+		<span class="nf">_Color</span> <span class="p">(</span> <span class="s">"Tint"</span><span class="p">,</span> <span class="n">Color</span> <span class="p">)</span> <span class="p">=</span> <span class="p">(</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span> <span class="p">)</span>
+		<span class="p">[</span><span class="n">MaterialToggle</span><span class="p">]</span> <span class="nf">PixelSnap</span> <span class="p">(</span> <span class="s">"Pixel snap"</span><span class="p">,</span> <span class="n">Float</span> <span class="p">)</span> <span class="p">=</span> <span class="m">0</span>
+		<span class="nf">_AlphaCutoff</span> <span class="p">(</span> <span class="s">"Alpha Cutoff"</span><span class="p">,</span> <span class="nf">Range</span><span class="p">(</span> <span class="m">0.01</span><span class="p">,</span> <span class="m">1.0</span> <span class="p">)</span> <span class="p">)</span> <span class="p">=</span> <span class="m">0.1</span>
+	<span class="p">}</span>
+
+
+	<span class="n">SubShader</span>
+	<span class="p">{</span>
+		<span class="n">Tags</span>
+		<span class="p">{</span>
+			<span class="s">"Queue"</span> <span class="p">=</span> <span class="s">"Transparent"</span>
+			<span class="s">"IgnoreProjector"</span> <span class="p">=</span> <span class="s">"True"</span>
+			<span class="s">"RenderType"</span> <span class="p">=</span> <span class="s">"TransparentCutout"</span>
+			<span class="s">"PreviewType"</span> <span class="p">=</span> <span class="s">"Plane"</span>
+			<span class="s">"CanUseSpriteAtlas"</span> <span class="p">=</span> <span class="s">"True"</span>
+		<span class="p">}</span>
+
+		<span class="n">Cull</span> <span class="n">Off</span>
+		<span class="n">Lighting</span> <span class="n">Off</span>
+		<span class="n">ZWrite</span> <span class="n">Off</span>
+		<span class="n">Blend</span> <span class="n">One</span> <span class="n">OneMinusSrcAlpha</span>
+
+		<span class="n">Pass</span>
+		<span class="p">{</span>
+			<span class="n">Stencil</span>
+			<span class="p">{</span>
+				<span class="n">Ref</span> <span class="m">4</span>
+				<span class="n">Comp</span> <span class="n">Always</span>
+				<span class="n">Pass</span> <span class="n">Replace</span>
+			<span class="p">}</span>
+
+		<span class="n">CGPROGRAM</span>
+			<span class="err">#</span><span class="n">pragma</span> <span class="n">vertex</span> <span class="n">vert</span>
+			<span class="err">#</span><span class="n">pragma</span> <span class="n">fragment</span> <span class="n">frag</span>
+			<span class="err">#</span><span class="n">pragma</span> <span class="n">multi_compile</span> <span class="n">_</span> <span class="n">PIXELSNAP_ON</span>
+			<span class="err">#</span><span class="n">include</span> <span class="s">"UnityCG.cginc"</span>
+
+			<span class="k">struct</span> <span class="nc">appdata_t</span>
+			<span class="p">{</span>
+				<span class="n">float4</span> <span class="n">vertex</span>   <span class="p">:</span> <span class="n">POSITION</span><span class="p">;</span>
+				<span class="n">float4</span> <span class="n">color</span>    <span class="p">:</span> <span class="n">COLOR</span><span class="p">;</span>
+				<span class="n">float2</span> <span class="n">texcoord</span> <span class="p">:</span> <span class="n">TEXCOORD0</span><span class="p">;</span>
+			<span class="p">};</span>
+
+			<span class="k">struct</span> <span class="nc">v2f</span>
+			<span class="p">{</span>
+				<span class="n">float4</span> <span class="n">vertex</span>   <span class="p">:</span> <span class="n">SV_POSITION</span><span class="p">;</span>
+				<span class="n">fixed4</span> <span class="n">color</span>    <span class="p">:</span> <span class="n">COLOR</span><span class="p">;</span>
+				<span class="n">half2</span> <span class="n">texcoord</span>  <span class="p">:</span> <span class="n">TEXCOORD0</span><span class="p">;</span>
+			<span class="p">};</span>
+
+			<span class="n">fixed4</span> <span class="n">_Color</span><span class="p">;</span>
+			<span class="k">fixed</span> <span class="n">_AlphaCutoff</span><span class="p">;</span>
+
+			<span class="n">v2f</span> <span class="nf">vert</span><span class="p">(</span> <span class="n">appdata_t</span> <span class="n">IN</span> <span class="p">)</span>
+			<span class="p">{</span>
+				<span class="n">v2f</span> <span class="n">OUT</span><span class="p">;</span>
+				<span class="n">OUT</span><span class="p">.</span><span class="n">vertex</span> <span class="p">=</span> <span class="nf">mul</span><span class="p">(</span> <span class="n">UNITY_MATRIX_MVP</span><span class="p">,</span> <span class="n">IN</span><span class="p">.</span><span class="n">vertex</span> <span class="p">);</span>
+				<span class="n">OUT</span><span class="p">.</span><span class="n">texcoord</span> <span class="p">=</span> <span class="n">IN</span><span class="p">.</span><span class="n">texcoord</span><span class="p">;</span>
+				<span class="n">OUT</span><span class="p">.</span><span class="n">color</span> <span class="p">=</span> <span class="n">IN</span><span class="p">.</span><span class="n">color</span> <span class="p">*</span> <span class="n">_Color</span><span class="p">;</span>
+				<span class="err">#</span><span class="n">ifdef</span> <span class="n">PIXELSNAP_ON</span>
+				<span class="n">OUT</span><span class="p">.</span><span class="n">vertex</span> <span class="p">=</span> <span class="nf">UnityPixelSnap</span><span class="p">(</span> <span class="n">OUT</span><span class="p">.</span><span class="n">vertex</span> <span class="p">);</span>
+				<span class="err">#</span><span class="n">endif</span>
+
+				<span class="k">return</span> <span class="n">OUT</span><span class="p">;</span>
+			<span class="p">}</span>
+
+			<span class="n">sampler2D</span> <span class="n">_MainTex</span><span class="p">;</span>
+			<span class="n">sampler2D</span> <span class="n">_AlphaTex</span><span class="p">;</span>
+
+
+			<span class="n">fixed4</span> <span class="nf">frag</span><span class="p">(</span> <span class="n">v2f</span> <span class="n">IN</span> <span class="p">)</span> <span class="p">:</span> <span class="n">SV_Target</span>
+			<span class="p">{</span>
+				<span class="n">fixed4</span> <span class="n">c</span> <span class="p">=</span> <span class="nf">tex2D</span><span class="p">(</span> <span class="n">_MainTex</span><span class="p">,</span> <span class="n">IN</span><span class="p">.</span><span class="n">texcoord</span> <span class="p">)</span> <span class="p">*</span> <span class="n">IN</span><span class="p">.</span><span class="n">color</span><span class="p">;</span>
+				<span class="n">c</span><span class="p">.</span><span class="n">rgb</span> <span class="p">*=</span> <span class="n">c</span><span class="p">.</span><span class="n">a</span><span class="p">;</span>
+
+				<span class="c1">// here we discard pixels below our _AlphaCutoff so the stencil buffer only gets written to</span>
+				<span class="c1">// where there are actual pixels returned. If the occluders are all tight meshes (such as solid rectangles)</span>
+				<span class="c1">// this is not necessary and a non-transparent shader would be a better fit.</span>
+				<span class="nf">clip</span><span class="p">(</span> <span class="n">c</span><span class="p">.</span><span class="n">a</span> <span class="p">-</span> <span class="n">_AlphaCutoff</span> <span class="p">);</span>
+
+				<span class="k">return</span> <span class="n">c</span><span class="p">;</span>
+			<span class="p">}</span>
+		<span class="n">ENDCG</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Below is the full shader to be used for any occluded sprites.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="n">Shader</span> <span class="s">"Sprites/Occluded"</span>
+<span class="p">{</span>
+	<span class="n">Properties</span>
+	<span class="p">{</span>
+		<span class="p">[</span><span class="n">PerRendererData</span><span class="p">]</span> <span class="nf">_MainTex</span> <span class="p">(</span> <span class="s">"Sprite Texture"</span><span class="p">,</span> <span class="m">2D</span> <span class="p">)</span> <span class="p">=</span> <span class="s">"white"</span> <span class="p">{}</span>
+		<span class="nf">_Color</span> <span class="p">(</span> <span class="s">"Tint"</span><span class="p">,</span> <span class="n">Color</span> <span class="p">)</span> <span class="p">=</span> <span class="p">(</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span> <span class="p">)</span>
+		<span class="p">[</span><span class="n">MaterialToggle</span><span class="p">]</span> <span class="nf">PixelSnap</span> <span class="p">(</span> <span class="s">"Pixel snap"</span><span class="p">,</span> <span class="n">Float</span> <span class="p">)</span> <span class="p">=</span> <span class="m">0</span>
+		<span class="nf">_OccludedColor</span> <span class="p">(</span> <span class="s">"Occluded Tint"</span><span class="p">,</span> <span class="n">Color</span> <span class="p">)</span> <span class="p">=</span> <span class="p">(</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0.5</span> <span class="p">)</span>
+	<span class="p">}</span>
+
+
+<span class="n">CGINCLUDE</span>
+
+<span class="c1">// shared structs and vert program used in both the vert and frag programs</span>
+<span class="k">struct</span> <span class="nc">appdata_t</span>
+<span class="p">{</span>
+	<span class="n">float4</span> <span class="n">vertex</span>   <span class="p">:</span> <span class="n">POSITION</span><span class="p">;</span>
+	<span class="n">float4</span> <span class="n">color</span>    <span class="p">:</span> <span class="n">COLOR</span><span class="p">;</span>
+	<span class="n">float2</span> <span class="n">texcoord</span> <span class="p">:</span> <span class="n">TEXCOORD0</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="nc">v2f</span>
+<span class="p">{</span>
+	<span class="n">float4</span> <span class="n">vertex</span>   <span class="p">:</span> <span class="n">SV_POSITION</span><span class="p">;</span>
+	<span class="n">fixed4</span> <span class="n">color</span>    <span class="p">:</span> <span class="n">COLOR</span><span class="p">;</span>
+	<span class="n">half2</span> <span class="n">texcoord</span>  <span class="p">:</span> <span class="n">TEXCOORD0</span><span class="p">;</span>
+<span class="p">};</span>
+
+
+<span class="n">fixed4</span> <span class="n">_Color</span><span class="p">;</span>
+<span class="n">sampler2D</span> <span class="n">_MainTex</span><span class="p">;</span>
+
+
+<span class="n">v2f</span> <span class="nf">vert</span><span class="p">(</span> <span class="n">appdata_t</span> <span class="n">IN</span> <span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">v2f</span> <span class="n">OUT</span><span class="p">;</span>
+	<span class="n">OUT</span><span class="p">.</span><span class="n">vertex</span> <span class="p">=</span> <span class="nf">mul</span><span class="p">(</span> <span class="n">UNITY_MATRIX_MVP</span><span class="p">,</span> <span class="n">IN</span><span class="p">.</span><span class="n">vertex</span> <span class="p">);</span>
+	<span class="n">OUT</span><span class="p">.</span><span class="n">texcoord</span> <span class="p">=</span> <span class="n">IN</span><span class="p">.</span><span class="n">texcoord</span><span class="p">;</span>
+	<span class="n">OUT</span><span class="p">.</span><span class="n">color</span> <span class="p">=</span> <span class="n">IN</span><span class="p">.</span><span class="n">color</span> <span class="p">*</span> <span class="n">_Color</span><span class="p">;</span>
+	<span class="err">#</span><span class="n">ifdef</span> <span class="n">PIXELSNAP_ON</span>
+	<span class="n">OUT</span><span class="p">.</span><span class="n">vertex</span> <span class="p">=</span> <span class="nf">UnityPixelSnap</span><span class="p">(</span> <span class="n">OUT</span><span class="p">.</span><span class="n">vertex</span> <span class="p">);</span>
+	<span class="err">#</span><span class="n">endif</span>
+
+	<span class="k">return</span> <span class="n">OUT</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">ENDCG</span>
+
+
+
+	<span class="n">SubShader</span>
+	<span class="p">{</span>
+		<span class="n">Tags</span>
+		<span class="p">{</span>
+			<span class="s">"Queue"</span> <span class="p">=</span> <span class="s">"Transparent"</span>
+			<span class="s">"IgnoreProjector"</span> <span class="p">=</span> <span class="s">"True"</span>
+			<span class="s">"RenderType"</span> <span class="p">=</span> <span class="s">"Transparent"</span>
+			<span class="s">"PreviewType"</span> <span class="p">=</span> <span class="s">"Plane"</span>
+			<span class="s">"CanUseSpriteAtlas"</span> <span class="p">=</span> <span class="s">"True"</span>
+		<span class="p">}</span>
+
+		<span class="n">Cull</span> <span class="n">Off</span>
+		<span class="n">Lighting</span> <span class="n">Off</span>
+		<span class="n">ZWrite</span> <span class="n">Off</span>
+		<span class="n">Blend</span> <span class="n">One</span> <span class="n">OneMinusSrcAlpha</span>
+
+		<span class="n">Pass</span>
+		<span class="p">{</span>
+			<span class="n">Stencil</span>
+			<span class="p">{</span>
+				<span class="n">Ref</span> <span class="m">4</span>
+				<span class="n">Comp</span> <span class="n">NotEqual</span>
+			<span class="p">}</span>
+
+
+		<span class="n">CGPROGRAM</span>
+			<span class="err">#</span><span class="n">pragma</span> <span class="n">vertex</span> <span class="n">vert</span>
+			<span class="err">#</span><span class="n">pragma</span> <span class="n">fragment</span> <span class="n">frag</span>
+			<span class="err">#</span><span class="n">pragma</span> <span class="n">multi_compile</span> <span class="n">_</span> <span class="n">PIXELSNAP_ON</span>
+			<span class="err">#</span><span class="n">include</span> <span class="s">"UnityCG.cginc"</span>
+
+
+			<span class="n">fixed4</span> <span class="nf">frag</span><span class="p">(</span> <span class="n">v2f</span> <span class="n">IN</span> <span class="p">)</span> <span class="p">:</span> <span class="n">SV_Target</span>
+			<span class="p">{</span>
+				<span class="n">fixed4</span> <span class="n">c</span> <span class="p">=</span> <span class="nf">tex2D</span><span class="p">(</span> <span class="n">_MainTex</span><span class="p">,</span> <span class="n">IN</span><span class="p">.</span><span class="n">texcoord</span> <span class="p">)</span> <span class="p">*</span> <span class="n">IN</span><span class="p">.</span><span class="n">color</span><span class="p">;</span>
+				<span class="n">c</span><span class="p">.</span><span class="n">rgb</span> <span class="p">*=</span> <span class="n">c</span><span class="p">.</span><span class="n">a</span><span class="p">;</span>
+				<span class="k">return</span> <span class="n">c</span><span class="p">;</span>
+			<span class="p">}</span>
+		<span class="n">ENDCG</span>
+		<span class="p">}</span>
+
+
+		<span class="c1">// occluded pixel pass. Anything rendered here is behind an occluder</span>
+		<span class="n">Pass</span>
+		<span class="p">{</span>
+			<span class="n">Stencil</span>
+			<span class="p">{</span>
+				<span class="n">Ref</span> <span class="m">4</span>
+				<span class="n">Comp</span> <span class="n">Equal</span>
+			<span class="p">}</span>
+
+		<span class="n">CGPROGRAM</span>
+			<span class="err">#</span><span class="n">pragma</span> <span class="n">vertex</span> <span class="n">vert</span>
+			<span class="err">#</span><span class="n">pragma</span> <span class="n">fragment</span> <span class="n">frag</span>
+			<span class="err">#</span><span class="n">pragma</span> <span class="n">multi_compile</span> <span class="n">_</span> <span class="n">PIXELSNAP_ON</span>
+			<span class="err">#</span><span class="n">include</span> <span class="s">"UnityCG.cginc"</span>
+
+			<span class="n">fixed4</span> <span class="n">_OccludedColor</span><span class="p">;</span>
+
+
+			<span class="n">fixed4</span> <span class="nf">frag</span><span class="p">(</span> <span class="n">v2f</span> <span class="n">IN</span> <span class="p">)</span> <span class="p">:</span> <span class="n">SV_Target</span>
+			<span class="p">{</span>
+				<span class="n">fixed4</span> <span class="n">c</span> <span class="p">=</span> <span class="nf">tex2D</span><span class="p">(</span> <span class="n">_MainTex</span><span class="p">,</span> <span class="n">IN</span><span class="p">.</span><span class="n">texcoord</span> <span class="p">);</span>
+				<span class="k">return</span> <span class="n">_OccludedColor</span> <span class="p">*</span> <span class="n">c</span><span class="p">.</span><span class="n">a</span><span class="p">;</span>
+			<span class="p">}</span>
+		<span class="n">ENDCG</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li></li>
+          <li><a href="mailto:"></a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

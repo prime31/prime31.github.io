@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>SpriteLightKit and Stencil Buffer Introduction</title>
+  <meta name="description" content="SpriteLightKit brings back the old two buffered blend trick to get pseudo lighting with just sprites. It handles the setup process of getting that second buf...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/SpriteLightKit">
+  <link rel="alternate" type="application/rss+xml" title="" href="http://localhost:4000/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">prime31 blog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/archive/">Archive</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="https://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">SpriteLightKit and Stencil Buffer Introduction</h1>
+    <p class="post-meta"><time datetime="2015-09-04T12:43:25-07:00" itemprop="datePublished">Sep 4, 2015</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>SpriteLightKit brings back the old two buffered blend trick to get pseudo lighting with just sprites. It handles the setup process of getting that second buffer blended with your normal scene. This post will delve into how it works and along the way it will explain the shader techniques used to pull it off.</p>
+
+<!-- more -->
+
+<p>First off, you can find SpriteLightKit in the usual location on <a href="https://github.com/prime31/SpriteLightKit">GitHub</a>. The README has instructions on how to setup SpriteLightKit in your own game and the repo includes a demo scene so that you can see it in action and play around with it. This post won’t touch on the setup procedures so be sure to checkout the README for that information. Do note that the ambient light of the scene is setup by just changing the SpriteLightKit camera’s background color. A dark grey is usually a good place to start for your ambient light.</p>
+
+<p>Below is what the demo scene included with SpriteLightKit looks like. There are six sprite lights in the scene with 2 of them animated. You can see that the clock tower and the street light are always fully bright. Take note of this for now and we will come back to it later.</p>
+
+<iframe src="http://gfycat.com/DecisiveGregariousAlbacoretuna" frameborder="0" scrolling="no" width="796" height="448" style="-webkit-backface-visibility: hidden;-webkit-transform: scale(1);"></iframe>
+
+<p>This next gif shows what the scene looks like when taking the ambient light (the camera background color) from yellow to full black.</p>
+
+<iframe src="http://gfycat.com/DaringTallCrane" frameborder="0" scrolling="no" width="640" height="360" style="-webkit-backface-visibility: hidden;-webkit-transform: scale(1);"></iframe>
+
+<h3 id="lights-that-arent-actually-lights">Lights that aren’t actually lights</h3>
+
+<p>What SpriteLightKit does is really simple: it renders the output of a camera that can only see your lights and then blends it on top of your normal game view. Simple and very cheap. The performance cost of a sprite light is nowhere near what a regular light costs. You can have tons of sprite lights all over your scene with a negligible performance cost. It works a little bit like deferred lighting in that the total amount of lights in your scene doesn’t really matter.</p>
+
+<p>So, if a sprite light isn’t a light what is it? It is just a plain old Unity Sprite with the SpriteLightMaterial applied. The SpriteLightMaterial lets you choose the blend mode of the sprite light. Where alpha is zero the light will have no effect and where alpha is 1 the light will be fully bright. Besides that it is identical to the default Unity sprite shader. Generally, a sprite light will have a simple texture with an alpha gradient of some sort that fades out to zero alpha. That will create a soft edged light but don’t let that stop you from making hard edged lights or any other crazy ideas you want to try. Hard edged cookies can have a really neat effect.</p>
+
+<p>SpriteLightColorCycler is a script included with SpriteLightKit that lets you animate your lights really easily. Just stick it on any sprite light and play around with the inspector properties. You can create lights that flicker on and off, cycle through different colors or just affect a single color channel (red/green/blue).</p>
+
+<h3 id="so-how-does-it-work">So, how does it work?</h3>
+
+<p>At it’s core it is a pretty simple kit but it is an interesting one due to all the different Unity and shader features it employs. All the sprite lights are rendered using a 2nd camera that outputs to a RenderTexture. An image effect on the main camera then blends the RenderTexture with the normal camera’s output. If you are new to RenderTextures and image effects, SprightLightKit’s code is a great way to get your feet wet due to it being about as simple as you will ever see.</p>
+
+<h2 id="introducing-the-big-scary-stencil-buffer">Introducing, the big scary stencil buffer</h2>
+
+<p>Unity describes the stencil buffer in the following way: <em>The stencil buffer can be used as a general purpose per pixel mask for saving or discarding pixels.</em> That is really all there is to it. The stencil buffer is basically an integer that a shader can write to or read from. It can be incremented or decremented as well. All this doesn’t sound too interesting at first glance but it is very useful in action.</p>
+
+<h3 id="emissive-features-that-arent-really-emissive-more-like-self-illuminated">Emissive features that aren’t really emissive (more like self illuminated)</h3>
+
+<p>SpriteLightKit uses the stencil buffer to provide a way to specify parts of your scene that you don’t want to take part in the mock lighting system. For any piece of your main scene to be able to be self illuminated (like the aforementioned clock tower and street light) you just have to apply the SpriteLightEmissiveSpriteMaterial or SpriteLightEmissiveMeshMaterial to the object that should be self illuminated. Lets take a look at the stencil section of the shader used in both materials.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="n">Stencil</span>
+<span class="p">{</span>
+	<span class="n">Ref</span> <span class="m">2</span>
+	<span class="n">Comp</span> <span class="n">Always</span>
+	<span class="n">Pass</span> <span class="n">Replace</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We are only going to touch on a few of the stencil operations. For full list of all the available stencil operations be sure to check the <a href="http://docs.unity3d.com/Manual/SL-Stencil.html">Unity docs</a>. Lets talk through the stencil block above in English. Hopefully it will be pretty clear what each line does after it is explained. The value 2 will <em>always</em> <em>replace</em> the current value in the stencil buffer. <em>Ref</em> is the value, <em>Comp</em> is the comparison function and <em>Pass</em> is what should be done if the comparison function passes (it is <em>Always</em> so it always passes).</p>
+
+<p>Below we have the stencil block from the image effect that SpriteLightKit uses. In English, it checks to see if the current value in the stencil buffer is <em>NotEqual</em> to 2. If the test fails (as it will if our self illuminated material wrote 2 to the stencil buffer) then it will do nothing for that pixel. If it succeeds (everywhere there is not a self illuminated pixel) it will continue to render and blend the RenderTexture with the main camera output.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="c1">// all emissives write 2 to the stencil buffer. We want to render everything except those pixels</span>
+<span class="n">Stencil</span>
+<span class="p">{</span>
+	<span class="n">Ref</span> <span class="m">2</span>
+	<span class="n">Comp</span> <span class="n">NotEqual</span>
+<span class="p">}</span></code></pre></figure>
+
+<p><img src="//f.cl.ly/items/2N43273s1b1w3r2M1W2b/fez.png" alt="" /> The stencil buffer can be used for all kinds of trickery such as portals (as popularized by the game Portal), masks, shadows and anything else you can come up with. They are super efficient and since they occur <em>before</em> pixel shading they can be used to discard pixels that don’t need to be processed. As a homework assignment, see if you can use the stencil buffer to replicate the screenshot from Fez. Hint: your sprite will need a 2 pass shader to pull this off. In a future blog post we will go over how to pull off the effect and provide the shaders to do so.</p>
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li></li>
+          <li><a href="mailto:"></a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

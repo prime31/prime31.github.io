@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Interactive 2D Foliage</title>
+  <meta name="description" content="Having interactive foliage in your game helps bring some life to your environment. It makes everything feel more alive. There are lots of different ways to h...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/grass2d">
+  <link rel="alternate" type="application/rss+xml" title="" href="http://localhost:4000/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">prime31 blog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/archive/">Archive</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="https://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Interactive 2D Foliage</h1>
+    <p class="post-meta"><time datetime="2014-12-19T14:45:21-08:00" itemprop="datePublished">Dec 19, 2014</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>Having interactive foliage in your game helps bring some life to your environment. It makes everything feel more alive. There are lots of different ways to handle interactive foliage. The easiest way is to stick a trigger collider on your GameObject. When the player hits the trigger just move it back and forth on the x-axis. In this post we will go over how to kick that up a notch.</p>
+
+<!-- more -->
+
+<p>If you read the <a href="/water2d-part1">Modeling 2D Water with Springs</a> posts, you will know that I love springs. For that reason we are going to model our grass with a spring. The first approach I took when making interactive foliage was to handle all the animation in the vertex shader. With Unity that will break batching so I had to fall back to the method detailed in this post.</p>
+
+<h2 id="handling-collision">Handling Collision</h2>
+<p>The first thing we need is a trigger collider. You can use a BoxCollider2D or a CircleCollider2D. When the player enters the collider we take note of the <em>_enterOffset</em> which is just the distance between the player collider and the foliage collider. We need the <em>_enterOffset</em> so that we don’t start bending the foliage until the player has passed the midpoint of the foliage. Things don’t start bending until you are dragging them past their resting position. That’s just how the world works.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">void</span> <span class="nf">OnTriggerEnter2D</span><span class="p">(</span> <span class="n">Collider2D</span> <span class="n">col</span> <span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span> <span class="n">col</span><span class="p">.</span><span class="n">gameObject</span><span class="p">.</span><span class="n">layer</span> <span class="p">==</span> <span class="n">k</span><span class="p">.</span><span class="n">Layers</span><span class="p">.</span><span class="n">PLAYER</span> <span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">_enterOffset</span> <span class="p">=</span> <span class="n">col</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span> <span class="p">-</span> <span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We will use OnTriggerStay2D to keep track of the player + foliage interaction. Once the player has moved past the midpoint (offset and _enterOffset will have opposite signs) we set some flags and start to bend the foliage. Bending the foliage is done by just sliding the top 2 verts of the foliage quad back and forth. At this point, the foliage bend is entirely based on the position of the player.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">void</span> <span class="nf">OnTriggerStay2D</span><span class="p">(</span> <span class="n">Collider2D</span> <span class="n">col</span> <span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span> <span class="n">col</span><span class="p">.</span><span class="n">gameObject</span><span class="p">.</span><span class="n">layer</span> <span class="p">==</span> <span class="n">k</span><span class="p">.</span><span class="n">Layers</span><span class="p">.</span><span class="n">PLAYER</span> <span class="p">)</span>
+	<span class="p">{</span>
+		<span class="kt">var</span> <span class="n">offset</span> <span class="p">=</span> <span class="n">col</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span> <span class="p">-</span> <span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+
+		<span class="k">if</span><span class="p">(</span> <span class="n">_isBending</span> <span class="p">||</span> <span class="n">Mathf</span><span class="p">.</span><span class="nf">Sign</span><span class="p">(</span> <span class="n">_enterOffset</span> <span class="p">)</span> <span class="p">!=</span> <span class="n">Mathf</span><span class="p">.</span><span class="nf">Sign</span><span class="p">(</span> <span class="n">offset</span> <span class="p">)</span> <span class="p">)</span>
+		<span class="p">{</span>
+			<span class="n">_isRebounding</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+			<span class="n">_isBending</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+
+			<span class="c1">// figure out how far we have moved into the trigger and then map the offset to -1 to 1.</span>
+			<span class="c1">// 0 would be neutral, -1 to the left and +1 to the right.</span>
+			<span class="kt">var</span> <span class="n">radius</span> <span class="p">=</span> <span class="n">_colliderHalfWidth</span> <span class="p">+</span> <span class="n">col</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">x</span> <span class="p">*</span> <span class="m">0.5f</span><span class="p">;</span>
+			<span class="n">_exitOffset</span> <span class="p">=</span> <span class="nf">map</span><span class="p">(</span> <span class="n">offset</span><span class="p">,</span> <span class="p">-</span><span class="n">radius</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="p">-</span><span class="m">1f</span><span class="p">,</span> <span class="m">1f</span> <span class="p">);</span>
+			<span class="nf">setVertHorizontalOffset</span><span class="p">(</span> <span class="n">_exitOffset</span> <span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="c1">// simple method to offset the top 2 verts of a quad based on the offset and BEND_FACTOR constant</span>
+<span class="k">void</span> <span class="nf">setVertHorizontalOffset</span><span class="p">(</span> <span class="kt">float</span> <span class="n">offset</span> <span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">var</span> <span class="n">verts</span> <span class="p">=</span> <span class="n">_meshFilter</span><span class="p">.</span><span class="n">mesh</span><span class="p">.</span><span class="n">vertices</span><span class="p">;</span>
+
+	<span class="n">verts</span><span class="p">[</span><span class="m">1</span><span class="p">].</span><span class="n">x</span> <span class="p">=</span> <span class="m">0.5f</span> <span class="p">+</span> <span class="n">offset</span> <span class="p">*</span> <span class="n">BEND_FACTOR</span> <span class="p">/</span> <span class="n">transform</span><span class="p">.</span><span class="n">localScale</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+	<span class="n">verts</span><span class="p">[</span><span class="m">3</span><span class="p">].</span><span class="n">x</span> <span class="p">=</span> <span class="p">-</span><span class="m">0.5f</span> <span class="p">+</span> <span class="n">offset</span> <span class="p">*</span> <span class="n">BEND_FACTOR</span> <span class="p">/</span> <span class="n">transform</span><span class="p">.</span><span class="n">localScale</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+
+	<span class="n">_meshFilter</span><span class="p">.</span><span class="n">mesh</span><span class="p">.</span><span class="n">vertices</span> <span class="p">=</span> <span class="n">verts</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<h2 id="bounceback-oscillation">Bounceback Oscillation</h2>
+<p>Once the player exits the trigger the spring takes over and it will handle simulating the foliage oscillation (springs are the best!). We apply a force to the spring and let it do its thing. Here the <em>_isRebounding</em> flag is set which lets the spring know to take over (that is all handled in the Update method). When the spring acceleration dies down the oscillation is stopped. This is done as an optimization. There is no reason to continously update the mesh vertices for movements too small to see. You can the result in the video below the code block.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">void</span> <span class="nf">OnTriggerExit2D</span><span class="p">(</span> <span class="n">Collider2D</span> <span class="n">col</span> <span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span> <span class="n">col</span><span class="p">.</span><span class="n">gameObject</span><span class="p">.</span><span class="n">layer</span> <span class="p">==</span> <span class="n">k</span><span class="p">.</span><span class="n">Layers</span><span class="p">.</span><span class="n">PLAYER</span> <span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">if</span><span class="p">(</span> <span class="n">_isBending</span> <span class="p">)</span>
+		<span class="p">{</span>
+			<span class="c1">// apply a force in the opposite direction that we are currently bending</span>
+			<span class="n">_spring</span><span class="p">.</span><span class="nf">applyForceStartingAtPosition</span><span class="p">(</span> <span class="n">BEND_FORCE_ON_EXIT</span> <span class="p">*</span> <span class="n">Mathf</span><span class="p">.</span><span class="nf">Sign</span><span class="p">(</span> <span class="n">_exitOffset</span> <span class="p">),</span> <span class="n">_exitOffset</span> <span class="p">);</span>
+		<span class="p">}</span>
+
+		<span class="n">_isBending</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+		<span class="n">_isRebounding</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="k">void</span> <span class="nf">Update</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span> <span class="n">_isRebounding</span> <span class="p">)</span>
+	<span class="p">{</span>
+		<span class="nf">setVertHorizontalOffset</span><span class="p">(</span> <span class="n">_spring</span><span class="p">.</span><span class="nf">simulate</span><span class="p">()</span> <span class="p">);</span>
+
+		<span class="c1">// apply the spring until its acceleration dies down</span>
+		<span class="k">if</span><span class="p">(</span> <span class="n">Mathf</span><span class="p">.</span><span class="nf">Abs</span><span class="p">(</span> <span class="n">_spring</span><span class="p">.</span><span class="n">acceleration</span> <span class="p">)</span> <span class="p">&lt;</span> <span class="m">0.00005f</span> <span class="p">)</span>
+		<span class="p">{</span>
+			<span class="c1">// reset to 0 which is neutral</span>
+			<span class="nf">setVertHorizontalOffset</span><span class="p">(</span> <span class="m">0f</span> <span class="p">);</span>
+			<span class="n">_isRebounding</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<iframe src="http://gfycat.com/ifr/JampackedForcefulAphid" frameborder="0" scrolling="no" width="752" height="302" style="-webkit-backface-visibility: hidden;-webkit-transform: scale(1);"></iframe>
+
+<h2 id="adding-wind">Adding Wind</h2>
+<p>What we have now is a firm base: interactive foliage and a configurable spring system to give it some life. Adding something like a wind force is super easy. All we have to do is use a sin wave to vary the wind and apply the force to the spring.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="c1">// addition to the Update method to add a wind force</span>
+<span class="k">if</span><span class="p">(</span> <span class="n">isWindEnabled</span> <span class="p">&amp;&amp;</span> <span class="p">!</span><span class="n">_isBending</span> <span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">var</span> <span class="n">windForce</span> <span class="p">=</span> <span class="n">baseWindForce</span> <span class="p">+</span> <span class="n">Mathf</span><span class="p">.</span><span class="nf">Pow</span><span class="p">(</span> <span class="n">Mathf</span><span class="p">.</span><span class="nf">Sin</span><span class="p">(</span> <span class="n">Time</span><span class="p">.</span><span class="n">time</span> <span class="p">*</span> <span class="n">windPeriod</span> <span class="p">+</span> <span class="n">_windOffset</span> <span class="p">)</span> <span class="p">*</span> <span class="m">0.7f</span> <span class="p">+</span> <span class="m">0.05f</span><span class="p">,</span> <span class="m">4</span> <span class="p">)</span> <span class="p">*</span> <span class="m">0.05f</span> <span class="p">*</span> <span class="n">windForceMultiplier</span><span class="p">;</span>
+	<span class="n">_spring</span><span class="p">.</span><span class="nf">applyAdditiveForce</span><span class="p">(</span> <span class="n">windForce</span> <span class="p">);</span>
+
+	<span class="c1">// we only simulate if we are not rebounding. While rebounding the simulation will occur in the next block</span>
+	<span class="k">if</span><span class="p">(</span> <span class="p">!</span><span class="n">_isRebounding</span> <span class="p">)</span>
+		<span class="nf">setVertHorizontalOffset</span><span class="p">(</span> <span class="n">_spring</span><span class="p">.</span><span class="nf">simulate</span><span class="p">()</span> <span class="p">);</span>
+<span class="p">}</span></code></pre></figure>
+
+<iframe src="http://gfycat.com/ifr/SelfassuredJitteryKinkajou" frameborder="0" scrolling="no" width="752" height="302" style="-webkit-backface-visibility: hidden;-webkit-transform: scale(1);"></iframe>
+
+<h2 id="jumping-interactions">Jumping Interactions</h2>
+<p>The last piece of extra polish we can add is to make our foliage part when we jump. This is also a simple addition due to the solid base we have already set. We just need to detect when the player jumps into the foliage and apply a force to the spring. We use the positions of the player and foliage to see if we should apply the force to the left or right. Nice and simple.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="c1">// addition to the OnTriggerEnter2D method to handle jumping into the foliage</span>
+<span class="k">if</span><span class="p">(</span> <span class="n">col</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">Player</span><span class="p">&gt;().</span><span class="n">velocity</span><span class="p">.</span><span class="n">y</span> <span class="p">&lt;</span> <span class="p">-</span><span class="m">3f</span> <span class="p">)</span>
+<span class="p">{</span>
+	<span class="c1">// apply a force in the proper direction based on where we impacted</span>
+	<span class="k">if</span><span class="p">(</span> <span class="n">col</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span> <span class="p">&lt;</span> <span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span> <span class="p">)</span>
+		<span class="n">_spring</span><span class="p">.</span><span class="nf">applyAdditiveForce</span><span class="p">(</span> <span class="n">BEND_FORCE_ON_EXIT</span> <span class="p">);</span>
+	<span class="k">else</span>
+		<span class="n">_spring</span><span class="p">.</span><span class="nf">applyAdditiveForce</span><span class="p">(</span> <span class="p">-</span><span class="n">BEND_FORCE_ON_EXIT</span> <span class="p">);</span>
+	<span class="n">_isRebounding</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<iframe src="http://gfycat.com/ifr/MetallicRichDunnart" frameborder="0" scrolling="no" width="752" height="302" style="-webkit-backface-visibility: hidden;-webkit-transform: scale(1);"></iframe>
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li></li>
+          <li><a href="mailto:"></a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

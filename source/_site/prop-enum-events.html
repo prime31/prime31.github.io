@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>PropEnumEvents (wtf?)</title>
+  <meta name="description" content="I often use StateKit (a simple, object-based finite state machine implementation) for all kinds of state management. It gets used for enemy AI, player contro...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/prop-enum-events">
+  <link rel="alternate" type="application/rss+xml" title="" href="http://localhost:4000/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">prime31 blog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/archive/">Archive</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="https://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">PropEnumEvents (wtf?)</h1>
+    <p class="post-meta"><time datetime="2015-03-27T21:05:54-07:00" itemprop="datePublished">Mar 27, 2015</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>I often use <a href="https://github.com/prime31/StateKit">StateKit</a> (a simple, object-based finite state machine implementation) for all kinds of state management. It gets used for enemy AI, player controllers, menus and just about everywhere else. In a recent project that was not very well defined (to be honest, it was made almsot completely on the fly) I needed a super flexible way to deal with a hierarchial state machine. The solution presented in this post is what I ended up using and it has been dubbed the PropEnumEvent system.</p>
+
+<!-- more -->
+
+<h2 id="defining-the-problem">Defining the Problem</h2>
+
+<p>Let’s say you have a game with a main menu and some submenus. Maybe you have no idea how many menus and you need a nice, flexible way to deal with them. We’ll start things off by creating an enum that has a value for each menu/state in the game.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">public</span> <span class="k">enum</span> <span class="n">GameState</span>
+<span class="p">{</span>
+	<span class="n">MainMenu</span><span class="p">,</span>
+	<span class="n">LevelSelectMenu</span><span class="p">,</span>
+	<span class="n">MultiPlayerMenu</span><span class="p">,</span>
+	<span class="n">Map</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>To add a bit of spice to the discussion, lets add some substates for the GameState.Map value:</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">public</span> <span class="k">enum</span> <span class="n">MapState</span>
+<span class="p">{</span>
+	<span class="n">Editing</span><span class="p">,</span>
+	<span class="n">PrePlay</span><span class="p">,</span>
+	<span class="n">Playing</span><span class="p">,</span>
+	<span class="n">Paused</span><span class="p">,</span>
+	<span class="n">PlayerWon</span><span class="p">,</span>
+	<span class="n">PlayerDied</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>If we were to whip up a quick diagram for what we have so far it might look something like this:</p>
+
+<p><img src="/images/posts/propEnumEvents/state-flow.png" alt="" /></p>
+
+<p>We can only be on one screen at any given time and the Map screen has several different sub states. Nothing groundbreaking here so far. We want to use these enums to drive the entire state of the game from launch until completion. We are going to need to show/hide UI, HUD elements, control enemy AI state etc. There is no limit to how far you can take it.</p>
+
+<h2 id="decouple-the-pieces">Decouple the Pieces!</h2>
+
+<p>I personally hate tightly coupled code. It makes changing things, adding features and refactoring a huge PITA. <a href="https://github.com/prime31/MessageKit">MessageKit</a> solves a lot of the tight coupling problems and it will be used for the PropEnumEvent system since I always already have it in whatever project I am working on. The meat of the solution is incredibly simple but quite powerful (and quite similar to <a href="https://msdn.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged%28v=vs.110%29.aspx?f=255&amp;MSPPError=-2147217396">INotifyPropertyChanged</a> or <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/KeyValueObserving/KeyValueObserving.html">KVO</a>). All we are going to do is wire up a property that when changed uses MessageKit to post a message with the new enum value (note that plain old .NET events would work fine as well for this if you don’t use MessageKit). You’ll see in the code below the message is posted <em>before</em> the value is set. The reason for that is that sometimes the system listening for the message needs to know the previous state (UI for example so that it can do proper transitions). When the message is received the receiver will get the new state and they can access the old state via the <em>state</em> property.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">static</span> <span class="n">GameState</span> <span class="n">_state</span><span class="p">;</span>
+<span class="k">public</span> <span class="k">static</span> <span class="n">GameState</span> <span class="n">state</span>
+<span class="p">{</span>
+	<span class="k">get</span>
+	<span class="p">{</span>
+		<span class="k">return</span> <span class="n">_state</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">set</span>
+	<span class="p">{</span>
+		<span class="k">if</span><span class="p">(</span> <span class="n">_state</span> <span class="p">==</span> <span class="k">value</span> <span class="p">)</span>
+			<span class="k">return</span><span class="p">;</span>
+
+		<span class="n">MessageKit</span><span class="p">&lt;</span><span class="n">GameState</span><span class="p">&gt;.</span><span class="nf">post</span><span class="p">(</span> <span class="n">Messages</span><span class="p">.</span><span class="n">gameStateChanged</span><span class="p">,</span> <span class="k">value</span> <span class="p">);</span>
+		<span class="n">_state</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="k">static</span> <span class="n">MapState</span> <span class="n">_state</span><span class="p">;</span>
+<span class="k">public</span> <span class="k">static</span> <span class="n">MapState</span> <span class="n">state</span>
+<span class="p">{</span>
+	<span class="k">get</span>
+	<span class="p">{</span>
+		<span class="k">return</span> <span class="n">_state</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">set</span>
+	<span class="p">{</span>
+		<span class="k">if</span><span class="p">(</span> <span class="n">_state</span> <span class="p">==</span> <span class="k">value</span> <span class="p">)</span>
+			<span class="k">return</span><span class="p">;</span>
+
+		<span class="n">MessageKit</span><span class="p">&lt;</span><span class="n">GameState</span><span class="p">&gt;.</span><span class="nf">post</span><span class="p">(</span> <span class="n">Messages</span><span class="p">.</span><span class="n">mapStateChanged</span><span class="p">,</span> <span class="k">value</span> <span class="p">);</span>
+		<span class="n">_state</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>That’s it. Nothing more to it. In that little snippet of code we end up with a powerful, decoupled system to control our games. Adding new enum values as the game grows in complexity is no problem. Code can set the enum and trigger the message at any time easily. Some example message listeners from the project this was used in are HUD (activates/deactivates features based on state), canvas (hides/shows menus with animations based on state), player (enables/disables self, jumps to spawn point, increments death count).</p>
+
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li></li>
+          <li><a href="mailto:"></a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

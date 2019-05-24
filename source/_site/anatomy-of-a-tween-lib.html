@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Anatomy of a Tween Library</title>
+  <meta name="description" content="Every game engine seems to have dozens of tween libs available. In this post we will dive head first into what a tween lib really is and eventually end up wi...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/anatomy-of-a-tween-lib">
+  <link rel="alternate" type="application/rss+xml" title="" href="http://localhost:4000/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">prime31 blog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/archive/">Archive</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="https://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Anatomy of a Tween Library</h1>
+    <p class="post-meta"><time datetime="2015-04-17T18:29:33-07:00" itemprop="datePublished">Apr 17, 2015</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>Every game engine seems to have dozens of tween libs available. In this post we will dive head first into what a tween lib really is and eventually end up with the design decisions that went into GoKit, GoKitLite and the soon to be released ZestKit (yes, that will be the <em>third</em> open source tween lib that I release for Unity. Shoot me).</p>
+
+<!-- more -->
+
+<p>At it’s very core, a tween lib is utterly simple. What it boils down to is just the following (position is used for this example but the same exact thing applies to floats, quaternions, vectors, ints, etc): <code class="highlighter-rouge">trans.position = from + ( to - from ) * elapsedTime</code><br />
+or even simpler:<br />
+<code class="highlighter-rouge">trans.position = lerp( from, to, elapsedTime )</code><br />
+where elapsedTime ticks from 0 to 1. Now that is just a linear interpololation which is the ugliest, most unnatural way to move an object but adding more interesting easing to this is pretty trivial.</p>
+
+<p>If a tween lib is so simple why are there so many of them? Mainly convenience. The tween lib can cover lots of boilerplate code like managing the tween state, allow pause/resume, syntactic sugar, caching, etc. Before we get into any gory details lets have a look at the two previous tween libs that I have made (you can find them on GitHub).</p>
+
+<h3 id="gokit-breakdown">GoKit Breakdown</h3>
+
+<p><a href="https://github.com/prime31/GoKit">GoKit</a> uses an object oriented approach to tweening. It is extremely flexible, extensible and quite comprehensive. It was designed around the idea of configuring a tween (what to tween, duration, delay, etc) and reusing the configuration object. It was also intended that folks would subclass the various tween types to make their own. In reality 99.8% of people just used GoKit directly without making any of their own tweens.</p>
+
+<h3 id="gokitlite-breakdown">GoKitLite Breakdown</h3>
+
+<p><a href="https://github.com/prime31/GoKitLite">GoKitLite</a> is the antithesis of GoKit. It is not extensible at all. GoKitLite was made for raw speed. It doesn’t allocate anything at runtime and it can tween all the most common items (mainly Transform and Material properties). GoKitLite was designed to be stuck in a DLL and used as is. Because of that when it is used in source form (as it is almost always) there are gobs of internal state that are exposed to callers. That is mainly due to the liberal use if the <code class="highlighter-rouge">internal</code> keyword which does nothing at all if the code isn’t packaged up in a DLL.</p>
+
+<h3 id="now-we-are-wiser-introducing-zestkit">Now We Are Wiser. Introducing ZestKit</h3>
+
+<p>I decided to have one more go armed with the knowledge of the past. The goals were simple: it has to be as fast as GoKitLite and as extensible as (and easier to extend than) GoKit. The public API should be simple and foolproof and it needs to be able to tween anything.</p>
+
+<p>The image below has a breakdown of the major parts involved in ZestKit. The breakdown of responsibilies allows for a nice separation of duties.</p>
+
+<p><img src="/images/posts/tweenLib/ZestKit.png" alt="" /></p>
+
+<p>The <strong>ZestKit</strong> class is the only MonoBehaviour subclass. It manages a list of Tweens and that is all it does. The <strong>Tween</strong> class manages it’s own state: paused, playing, elapsed time, looping, etc. The <strong>TweenTarget</strong> class doesn’t do anything at all besides setting the actual property on the object. The static <strong>Zest</strong> class is the mathematician. It knows about easing and lerping and all that jazz. Being a static class it can be used independently of the rest of ZestKit.</p>
+
+<h2 id="interfaces-everywhere">Interfaces Everywhere!</h2>
+
+<p>Why use interfaces at all? Interfaces are a great way to separate responsibility. I know that a tween needs to be able to be ticked before I even write a single line of code. The ZestKit class doesn’t need to know anything more about a Tween besides this fact. Stick <em>tick</em> in an interface and we can wire up the entire ZestKit class. It will only ever know that it is dealing with objects that have a tick method. This gives us some great flexibility. Since all we need is a tick method we can add objects that implement that tick method but are not necessarily tweens themselves. Maybe we want to be able to chain a bunch of tweens together and run them one after the other. Implementing a class that does that and can be managed by ZestKit is possible because of interfaces.</p>
+
+<p>Interfaces are also great for adding extensibility to a library. In the case of the Tween class (see the image above) you can see that it houses a TweenTarget. That target is really an <code class="highlighter-rouge">ITweenTarget&lt;T&gt;</code> (where T is the value type being tweened: float, Vector2, int, etc). Remember above that one of the goals was to make ZestKit easier to extend than GoKit? The ITweenTarget is the key to all that. With ZestKit all you need to do to be able to tween anything at all is implement the single method in the ITweenTarget interface. Let’s say you have a Quaternion property (myQuatProp) that you want to tween in your class (SuperClass). All you have to do to make it ZestKit ready is add the following method to your class:</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp">    <span class="k">public</span> <span class="k">class</span> <span class="nc">SuperClass</span> <span class="p">:</span> <span class="n">ITweenTarget</span><span class="p">&lt;</span><span class="n">Quaternion</span><span class="p">&gt;</span>
+    <span class="p">{</span>
+      	<span class="k">public</span> <span class="k">void</span> <span class="nf">setTweenedValue</span><span class="p">(</span> <span class="n">Quaternion</span> <span class="k">value</span> <span class="p">)</span>
+      	<span class="p">{</span>
+      		<span class="n">myQuatProp</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span>
+      	<span class="p">}</span>
+    <span class="p">}</span></code></pre></figure>
+
+<p>Interfaces can also be used as a means to make a succinct public API. All of the tween creation methods in ZestKit do just that. They only ever return an <code class="highlighter-rouge">ITween&lt;T&gt;</code>. This lets anyone calling the ZestKit methods have an object with a nice, concise interface applied. No extra cruft shows up when autocompleting a method in your IDE. You see only the relevant Tween-specific methods.</p>
+
+<p>If you made it this far, congratulations! ZestKit is being developed alongside a game (someone has to dogfood this stuff!) and should be commented up and ready for release real soon. Watch out for it on GitHub.</p>
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li></li>
+          <li><a href="mailto:"></a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

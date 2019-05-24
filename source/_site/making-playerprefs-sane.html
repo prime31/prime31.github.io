@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Making PlayerPrefs Sane</title>
+  <meta name="description" content="In past posts (mainly this one), we talked about reducing or removing all “naked strings”. We do this to reduce coding errors and maintain sanity as projects...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/making-playerprefs-sane">
+  <link rel="alternate" type="application/rss+xml" title="" href="http://localhost:4000/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">prime31 blog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/archive/">Archive</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="https://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Making PlayerPrefs Sane</h1>
+    <p class="post-meta"><time datetime="2015-02-11T10:24:30-08:00" itemprop="datePublished">Feb 11, 2015</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>In past posts (mainly <a href="/constants-generator-kit">this one</a>), we talked about reducing or removing all “naked strings”. We do this to reduce coding errors and maintain sanity as projects grow in size. The post provided a solution for tags, layers, scenes and resources. It did not, however, help clean up the much used-and-abused PlayerPrefs.</p>
+
+<!-- more -->
+
+<p>First off, let’s just get this out of the way: if you are storing any large amounts of data in PlayerPrefs stop doing that immediately. PlayerPrefs is a simple key/value store. If you need to store more data then use the proper medium: files. The previous post on <a href="http://blog.prime31.com/persisting-data-with-json">Persisting Strongly Typed Data With JSON</a> would be a good solution. I have seen some horrendous code where people were storing all their persistant data in PlayerPrefs and then they were surprised when certain operating systems were truncating and/or removing that data because it exceed the key/value size. The moral of the story is don’t be that guy. It’s a very hard bug to track down. Save yourself the pain.</p>
+
+<h2 id="make-them-sane">Make Them Sane!</h2>
+
+<p>Now that we got all that out of the way let’s get down to business. Our goal here is to make safe, simple access to PlayerPrefs and to hide all the ugly strings used for the keys. By doing this, we also get to add some oddly missing features to PlayerPrefs such as support for bools. Lets start by adding a new class and putting in a property to access an int, in this case it will be the last level that was played. We want to remove all the naked strings so we make a <code class="highlighter-rouge">const string</code> to hold the key name and a property to access the data. Nice, simple and most importantly fool-proof.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">SanePrefs</span>
+<span class="p">{</span>
+	<span class="k">private</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">LAST_PLAYED_LEVEL</span> <span class="p">=</span> <span class="s">"lastPlayedLevel"</span><span class="p">;</span>
+
+
+	<span class="k">public</span> <span class="k">static</span> <span class="kt">int</span> <span class="n">lastPlayedLevel</span>
+	<span class="p">{</span>
+		<span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">PlayerPrefs</span><span class="p">.</span><span class="nf">GetInt</span><span class="p">(</span> <span class="n">LAST_PLAYED_LEVEL</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span> <span class="p">);</span> <span class="p">}</span>
+		<span class="k">set</span> <span class="p">{</span> <span class="n">PlayerPrefs</span><span class="p">.</span><span class="nf">SetInt</span><span class="p">(</span> <span class="n">LAST_PLAYED_LEVEL</span><span class="p">,</span> <span class="k">value</span> <span class="p">);</span> <span class="p">}</span>
+	<span class="p">}</span>
+
+
+	<span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="nf">save</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="n">PlayerPrefs</span><span class="p">.</span><span class="nf">Save</span><span class="p">();</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Accessing our int is now a simple call to <code class="highlighter-rouge">SanePrefs.lastPlayedLevel</code>. Setting the last played level is equally is simple: <code class="highlighter-rouge">SanePrefs.lastPlayedLevel = 3</code>. Whenever we need a new pref we just add it to this class. The below example adds a string and a bool. Now PlayerPrefs doesn’t have bools so we use the isFirstPlay property to handle a transition from int to bool behind the scenes. The playerName example also illustrates one additional feature we can add: it auto saves the PlayerPrefs when it is set. This is something you will only want to do for prefs that aren’t set often. You can’t be guaranteed that the save call is going to be performant and there is no reason to be writing to disk after every set. playerName is only ever set once so it is a good candidate to auto save.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">SanePrefs</span>
+<span class="p">{</span>
+	<span class="k">private</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">IS_FIRST_PLAY</span> <span class="p">=</span> <span class="s">"isFirstPlay"</span><span class="p">;</span>
+	<span class="k">private</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">LAST_PLAYED_LEVEL</span> <span class="p">=</span> <span class="s">"lastPlayedLevel"</span><span class="p">;</span>
+	<span class="k">private</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">PLAYER_NAME</span> <span class="p">=</span> <span class="s">"playerName"</span><span class="p">;</span>
+
+
+	<span class="k">public</span> <span class="k">static</span> <span class="kt">bool</span> <span class="n">isFirstPlay</span>
+	<span class="p">{</span>
+		<span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">PlayerPrefs</span><span class="p">.</span><span class="nf">GetInt</span><span class="p">(</span> <span class="n">IS_FIRST_PLAY</span> <span class="p">)</span> <span class="p">==</span> <span class="m">1</span><span class="p">;</span> <span class="p">}</span>
+		<span class="k">set</span> <span class="p">{</span> <span class="n">PlayerPrefs</span><span class="p">.</span><span class="nf">SetInt</span><span class="p">(</span> <span class="n">IS_FIRST_PLAY</span><span class="p">,</span> <span class="k">value</span> <span class="p">?</span> <span class="m">1</span> <span class="p">:</span> <span class="m">0</span> <span class="p">);</span> <span class="p">}</span>
+	<span class="p">}</span>
+
+
+	<span class="k">public</span> <span class="k">static</span> <span class="kt">int</span> <span class="n">lastPlayedLevel</span>
+	<span class="p">{</span>
+		<span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">PlayerPrefs</span><span class="p">.</span><span class="nf">GetInt</span><span class="p">(</span> <span class="n">LAST_PLAYED_LEVEL</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span> <span class="p">);</span> <span class="p">}</span>
+		<span class="k">set</span> <span class="p">{</span> <span class="n">PlayerPrefs</span><span class="p">.</span><span class="nf">SetInt</span><span class="p">(</span> <span class="n">LAST_PLAYED_LEVEL</span><span class="p">,</span> <span class="k">value</span> <span class="p">);</span> <span class="p">}</span>
+	<span class="p">}</span>
+
+
+	<span class="k">public</span> <span class="k">static</span> <span class="kt">string</span> <span class="n">playerName</span>
+	<span class="p">{</span>
+		<span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">PlayerPrefs</span><span class="p">.</span><span class="nf">GetString</span><span class="p">(</span> <span class="n">PLAYER_NAME</span><span class="p">,</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span> <span class="p">);</span> <span class="p">}</span>
+		<span class="k">set</span>
+		<span class="p">{</span>
+			<span class="n">PlayerPrefs</span><span class="p">.</span><span class="nf">SetString</span><span class="p">(</span> <span class="n">PLAYER_NAME</span><span class="p">,</span> <span class="k">value</span> <span class="p">);</span>
+			<span class="n">PlayerPrefs</span><span class="p">.</span><span class="nf">Save</span><span class="p">();</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+
+	<span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="nf">save</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="n">PlayerPrefs</span><span class="p">.</span><span class="nf">Save</span><span class="p">();</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>That’s all there is to it. Nothing magical here, just wrapping up a naked string based API and making it easier to use. One last little note to make here is that by wrapping our prefs up in a class like this if at some point in the future we no longer want to be using PlayerPrefs we only ever have to change the code in this class to make the backing store anything we want. For example, on iOS perhaps we want to persist this data to iCloud so that is available across multiple devices. All we need to do is swap out the PlayerPrefs calls for iCloud equivalents.</p>
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li></li>
+          <li><a href="mailto:"></a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
