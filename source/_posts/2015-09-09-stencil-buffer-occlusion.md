@@ -14,7 +14,7 @@ Back in <a href="/SpriteLightKit/">the post</a> on SpriteLightKit, we talked abo
 
 First, let's have a look at what the resulting shaders look like in action. We have one shader for the trees (occluders) and one for the player (occluded).
 
-<iframe src="http://gfycat.com/ifr/AdoredIndolentAmphiuma" frameborder="0" scrolling="no" width="790" height="405" style="-webkit-backface-visibility: hidden;-webkit-transform: scale(1);" ></iframe>
+<iframe src="https://gfycat.com/ifr/AdoredIndolentAmphiuma" frameborder="0" scrolling="no" width="790" height="405" style="-webkit-backface-visibility: hidden;-webkit-transform: scale(1);" ></iframe>
 
 
 The full shaders are available below. At first glance they might seem really daunting but in reality they are super, duper simple. For some reason, Unity makes us use shaders for accessing the stencil buffer so because of that we have a lot more code than is really required (in "real life" stencil buffer access has nothing to do with a shader). Basically, all there is in these shaders below is a near copy of the standard sprite shader once for the occluder and twice for the occluded sprites and then our tiny stencil section on each. Lets ignore the sprite shader portion (since its so similar to the Unity default sprite shader) and have a look at the actual stencil portions.
